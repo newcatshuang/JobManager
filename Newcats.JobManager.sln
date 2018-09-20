@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newcats.JobManager.Host", "src\Newcats.JobManager.Host\Newcats.JobManager.Host.csproj", "{55C41036-AF85-4CAC-9FBD-F785D8707A24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newcats.JobManager.Api", "src\Newcats.JobManager.Api\Newcats.JobManager.Api.csproj", "{FC2FAD71-1824-44B1-B136-F5F1531475F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{55C41036-AF85-4CAC-9FBD-F785D8707A24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55C41036-AF85-4CAC-9FBD-F785D8707A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55C41036-AF85-4CAC-9FBD-F785D8707A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55C41036-AF85-4CAC-9FBD-F785D8707A24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC2FAD71-1824-44B1-B136-F5F1531475F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC2FAD71-1824-44B1-B136-F5F1531475F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC2FAD71-1824-44B1-B136-F5F1531475F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC2FAD71-1824-44B1-B136-F5F1531475F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {352728B4-FB83-4298-9081-29661890F991}
+	EndGlobalSection
+EndGlobal
