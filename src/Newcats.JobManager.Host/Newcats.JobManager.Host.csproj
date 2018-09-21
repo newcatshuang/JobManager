@@ -66,10 +66,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Entity\FireState.cs" />
     <Compile Include="Domain\Entity\JobInfo.cs" />
     <Compile Include="Domain\Entity\JobLog.cs" />
     <Compile Include="Domain\Entity\JobState.cs" />
-    <Compile Include="Domain\Entity\JobType.cs" />
+    <Compile Include="Domain\Entity\JobLevel.cs" />
     <Compile Include="Domain\Repository\DbHelper.cs" />
     <Compile Include="Domain\Repository\DbParameter.cs" />
     <Compile Include="Domain\Repository\IEntity.cs" />

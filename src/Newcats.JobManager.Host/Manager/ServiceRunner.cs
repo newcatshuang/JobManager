@@ -38,7 +38,7 @@ namespace Newcats.JobManager.Host.Manager
             {
                 _scheduler.ListenerManager.AddJobListener(new SchedulerJobListener(), GroupMatcher<JobKey>.AnyGroup());
                 _scheduler.Start();
-                new QuartzManager().JobScheduler(_scheduler);
+                QuartzManager.ManagerScheduler(_scheduler);
             }
             catch (Exception e)
             {

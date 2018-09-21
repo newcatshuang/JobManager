@@ -30,7 +30,7 @@ namespace Newcats.JobManager.Host.Domain.Service
         {
             List<DbUpdate<JobInfoEntity>> dbUpdates = new List<DbUpdate<JobInfoEntity>>
             {
-                new DbUpdate<JobInfoEntity>(j => j.JobType, jobInfo.JobType),
+                new DbUpdate<JobInfoEntity>(j => j.JobLevel, jobInfo.JobLevel),
                 new DbUpdate<JobInfoEntity>(j => j.Name, jobInfo.Name),
                 new DbUpdate<JobInfoEntity>(j => j.AssemblyName, jobInfo.AssemblyName),
                 new DbUpdate<JobInfoEntity>(j => j.ClassName, jobInfo.ClassName),
@@ -102,31 +102,31 @@ namespace Newcats.JobManager.Host.Domain.Service
             return _jobRepository.Update(jobId, new List<DbUpdate<JobInfoEntity>> { new DbUpdate<JobInfoEntity>(j => j.State, jobState) }) > 0;
         }
 
-        public static bool UpdateJobStatus(long jobId, DateTime lastRunTime, DateTime NextRunTime)
+        public static bool UpdateJobStatus(long jobId, DateTime lastFireTime, DateTime NextFireTime)
         {
             JobInfoEntity job = _jobRepository.Get(jobId);
             List<DbUpdate<JobInfoEntity>> dbUpdates = new List<DbUpdate<JobInfoEntity>>
             {
-                new DbUpdate<JobInfoEntity>(j => j.LastRunTime, lastRunTime),
-                new DbUpdate<JobInfoEntity>(j => j.NextRunTime, NextRunTime),
-                new DbUpdate<JobInfoEntity>(j => j.RunCount, job.RunCount + 1)
+                new DbUpdate<JobInfoEntity>(j => j.LastFireTime, lastFireTime),
+                new DbUpdate<JobInfoEntity>(j => j.NextFireTime, NextFireTime),
+                new DbUpdate<JobInfoEntity>(j => j.FireCount, job.FireCount + 1)
             };
             return _jobRepository.Update(jobId, dbUpdates) > 0;
         }
 
-        public static bool UpdateJobStatus(long jobId, DateTime lastRunTime, DateTime nextRunTime, double executionDuration, string runLog)
+        public static bool UpdateJobStatus(long jobId, DateTime lastFireTime, DateTime nextFireTime, double executionDuration, string content)
         {
             bool isSuccess = false;
             using (TransactionScope trans = new TransactionScope())
             {
-                isSuccess = UpdateJobStatus(jobId, lastRunTime, nextRunTime);
+                isSuccess = UpdateJobStatus(jobId, lastFireTime, nextFireTime);
                 JobLogEntity log = new JobLogEntity
                 {
                     JobId = jobId,
                     CreateTime = DateTime.Now,
-                    ExecutionDuration = executionDuration,
-                    ExecutionTime = lastRunTime,
-                    RunLog = runLog
+                    FireDuration = executionDuration,
+                    FireTime = lastFireTime,
+                    Content = content
                 };
                 isSuccess = AddLog(log);
                 if (isSuccess)
@@ -135,15 +135,15 @@ namespace Newcats.JobManager.Host.Domain.Service
             return isSuccess;
         }
 
-        public static bool AddLog(long jobId, DateTime executionTime, string runLog)
+        public static bool AddLog(long jobId, DateTime executionTime, string contnet)
         {
             return AddLog(new JobLogEntity
             {
                 JobId = jobId,
                 CreateTime = DateTime.Now,
-                ExecutionTime = executionTime,
-                ExecutionDuration = 0,
-                RunLog = runLog
+                FireTime = executionTime,
+                FireDuration = 0,
+                Content = contnet
             });
         }
 

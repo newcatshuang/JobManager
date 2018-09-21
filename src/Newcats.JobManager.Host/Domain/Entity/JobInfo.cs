@@ -3,6 +3,9 @@ using Newcats.JobManager.Host.Domain.Repository;
 
 namespace Newcats.JobManager.Host.Domain.Entity
 {
+    /// <summary>
+    /// Job信息
+    /// </summary>
     [TableName("JobInfo")]
     public class JobInfoEntity : IEntity
     {
@@ -14,9 +17,9 @@ namespace Newcats.JobManager.Host.Domain.Entity
         public long Id { get; set; }
 
         /// <summary>
-        /// Job类型(0.业务，1.测试，2.系统)
+        /// Job等级(0.业务，1.测试，2.系统)
         /// </summary>
-        public JobType JobType { get; set; }
+        public JobLevel JobLevel { get; set; }
 
         /// <summary>
         /// Job名称
@@ -24,7 +27,7 @@ namespace Newcats.JobManager.Host.Domain.Entity
         public string Name { get; set; }
 
         /// <summary>
-        /// 描述
+        /// Job描述
         /// </summary>				
         public string Description { get; set; }
 
@@ -54,29 +57,24 @@ namespace Newcats.JobManager.Host.Domain.Entity
         public string CronExpressionDescription { get; set; }
 
         /// <summary>
-        /// 最后运行时间
+        /// 上次运行时间
         /// </summary>				
-        public DateTime? LastRunTime { get; set; }
+        public DateTime? LastFireTime { get; set; }
 
         /// <summary>
         /// 下次运行时间
         /// </summary>				
-        public DateTime? NextRunTime { get; set; }
+        public DateTime? NextFireTime { get; set; }
 
         /// <summary>
         /// 运行次数
         /// </summary>
-        public int RunCount { get; set; }
+        public int FireCount { get; set; }
 
         /// <summary>
         /// 状态(0.停止，1.运行，3.启动中，5.停止中)
         /// </summary>
         public JobState State { get; set; }
-
-        /// <summary>
-        /// 排序
-        /// </summary>				
-        public int SortId { get; set; }
 
         /// <summary>
         /// 创建人ID

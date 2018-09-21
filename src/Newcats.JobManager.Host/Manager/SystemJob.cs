@@ -15,7 +15,7 @@ namespace Newcats.JobManager.Host.Manager
             _logger.InfoFormat("ManagerJob Execute begin Ver." + Ver.ToString());
             try
             {
-                new QuartzManager().JobScheduler(context.Scheduler);
+                QuartzManager.ManagerScheduler(context.Scheduler);
                 _logger.InfoFormat("ManagerJob Executing ...");
             }
             catch (Exception ex)

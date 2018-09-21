@@ -1,20 +1,23 @@
 ﻿namespace Newcats.JobManager.Host.Domain.Entity
 {
-    public enum JobType
+    /// <summary>
+    /// Job执行结果
+    /// </summary>
+    public enum FireState
     {
         /// <summary>
-        /// 业务
+        /// 成功
         /// </summary>
-        Business = 0,
+        Success = 0,
 
         /// <summary>
-        /// 测试
+        /// 失败
         /// </summary>
-        Test = 1,
+        Failed = 1,
 
         /// <summary>
-        /// 系统
+        /// 异常
         /// </summary>
-        System = 2
+        Error = 2
     }
 }
