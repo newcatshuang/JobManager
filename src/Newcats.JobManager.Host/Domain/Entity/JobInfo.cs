@@ -107,8 +107,8 @@ namespace Newcats.JobManager.Host.Domain.Entity
         public DateTime? UpdateTime { get; set; }
 
         /// <summary>
-        /// 是否删除
+        /// 是否禁用
         /// </summary>				
-        public bool IsDelete { get; set; }
+        public bool Disabled { get; set; }
     }
 }

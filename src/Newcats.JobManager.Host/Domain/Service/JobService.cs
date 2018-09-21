@@ -50,7 +50,7 @@ namespace Newcats.JobManager.Host.Domain.Service
         {
             List<DbUpdate<JobInfoEntity>> dbUpdates = new List<DbUpdate<JobInfoEntity>>
             {
-                new DbUpdate<JobInfoEntity>(j => j.IsDelete, true),
+                new DbUpdate<JobInfoEntity>(j => j.Disabled, true),
                 new DbUpdate<JobInfoEntity>(j => j.UpdateTime, DateTime.Now)
             };
             return _jobRepository.Update(jobId, dbUpdates) > 0;
@@ -63,7 +63,7 @@ namespace Newcats.JobManager.Host.Domain.Service
             {
                 List<DbUpdate<JobInfoEntity>> dbUpdates = new List<DbUpdate<JobInfoEntity>>
                 {
-                    new DbUpdate<JobInfoEntity>(j => j.IsDelete, true),
+                    new DbUpdate<JobInfoEntity>(j => j.Disabled, true),
                     new DbUpdate<JobInfoEntity>(j => j.UpdateTime, DateTime.Now)
                 };
 
@@ -91,7 +91,7 @@ namespace Newcats.JobManager.Host.Domain.Service
         {
             List<DbWhere<JobInfoEntity>> dbWheres = new List<DbWhere<JobInfoEntity>>
             {
-                new DbWhere<JobInfoEntity>(j => j.IsDelete, false),
+                new DbWhere<JobInfoEntity>(j => j.Disabled, false),
                 new DbWhere<JobInfoEntity>(j => j.State, JobState.Stop, OperateType.NotEqual)
             };
             return _jobRepository.GetAll(dbWheres, null, new DbOrderBy<JobInfoEntity>(j => j.CreateTime, SortType.DESC));

@@ -68,10 +68,10 @@ namespace Newcats.JobManager.Host.Manager
 
 
         /// <summary>
-        /// Job调度
+        /// 把新加的Job添加到调度器
         /// </summary>
-        /// <param name="scheduler"></param>
-        /// <param name="jobInfo"></param>
+        /// <param name="scheduler">调度器</param>
+        /// <param name="jobInfo">Job信息</param>
         private static async void ManagerJob(IScheduler scheduler, JobInfoEntity jobInfo)
         {
             if (CronExpression.IsValidExpression(jobInfo.CronExpression))
@@ -85,12 +85,15 @@ namespace Newcats.JobManager.Host.Manager
                         job.JobDataMap.Add("Parameters", jobInfo.JobArgs);
                         job.JobDataMap.Add("JobName", jobInfo.Name);
 
-                        CronTriggerImpl trigger = new CronTriggerImpl();
-                        trigger.CronExpressionString = jobInfo.CronExpression;
-                        trigger.Name = jobInfo.Id.ToString();
-                        trigger.Description = jobInfo.Description;
-                        trigger.StartTimeUtc = DateTime.UtcNow;
-                        trigger.Group = jobInfo.Id + "TriggerGroup";
+                        CronTriggerImpl trigger = new CronTriggerImpl
+                        {
+                            CronExpressionString = jobInfo.CronExpression,
+                            Name = jobInfo.Id.ToString(),
+                            Group = $"{jobInfo.Id}TriggerGroup",
+                            Description = jobInfo.Description,
+                            TimeZone = TimeZoneInfo.Local,
+                        };
+
                         await scheduler.ScheduleJob(job, trigger);
                     }
                     catch (Exception e)
