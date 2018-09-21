@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newcats.JobManager.Host.Domain.Service;
@@ -7,7 +6,10 @@ using Quartz;
 
 namespace Newcats.JobManager.Host.Manager
 {
-    class SchedulerJobListener : IJobListener
+    /// <summary>
+    /// 监听器,写Job运行日志
+    /// </summary>
+    class JobListener : IJobListener
     {
         public string Name => "SchedulerJobListener";
 

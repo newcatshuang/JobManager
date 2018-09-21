@@ -78,7 +78,7 @@
     <Compile Include="Domain\Repository\Repository.cs" />
     <Compile Include="Domain\Service\JobService.cs" />
     <Compile Include="Manager\QuartzManager.cs" />
-    <Compile Include="Manager\SchedulerJobListener.cs" />
+    <Compile Include="Manager\JobListener.cs" />
     <Compile Include="Manager\ServiceRunner.cs" />
     <Compile Include="Manager\SystemJob.cs" />
     <Compile Include="Program.cs" />
