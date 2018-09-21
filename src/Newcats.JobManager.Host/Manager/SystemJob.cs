@@ -5,6 +5,9 @@ using Quartz;
 
 namespace Newcats.JobManager.Host.Manager
 {
+    /// <summary>
+    /// 系统Job，负责管理所有其他Job，不能停止/禁用/删除
+    /// </summary>
     [DisallowConcurrentExecution]
     public class SystemJob : IJob
     {
@@ -12,11 +15,11 @@ namespace Newcats.JobManager.Host.Manager
         public Task Execute(IJobExecutionContext context)
         {
             Version Ver = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            _logger.InfoFormat("ManagerJob Execute begin Ver." + Ver.ToString());
+            _logger.InfoFormat("SystemJob Execute begin Ver." + Ver.ToString());
             try
             {
                 QuartzManager.ManagerScheduler(context.Scheduler);
-                _logger.InfoFormat("ManagerJob Executing ...");
+                _logger.InfoFormat("SystemJob Executing ...");
             }
             catch (Exception ex)
             {
@@ -27,7 +30,7 @@ namespace Newcats.JobManager.Host.Manager
             }
             finally
             {
-                _logger.InfoFormat("ManagerJob Execute end ");
+                _logger.InfoFormat("SystemJob Execute end. ");
             }
             //Console.WriteLine($"hello system job at {DateTime.Now}");
             return Task.CompletedTask;

@@ -137,7 +137,7 @@ namespace Newcats.JobManager.Host.Manager
         }
 
         /// <summary>
-        /// Job状态管控
+        /// Job调度
         /// </summary>
         /// <param name="Scheduler"></param>
         public static async void ManagerScheduler(IScheduler Scheduler)
