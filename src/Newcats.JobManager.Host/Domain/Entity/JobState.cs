@@ -5,10 +5,10 @@
         /// <summary>
         /// 停止
         /// </summary>
-        Stop = 0,
+        Stopped = 0,
 
         /// <summary>
-        /// 运行
+        /// 运行中
         /// </summary>
         Running = 1,
 

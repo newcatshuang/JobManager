@@ -66,7 +66,6 @@ namespace Newcats.JobManager.Host.Manager
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativePath);
         }
 
-
         /// <summary>
         /// 把新加的Job添加到调度器
         /// </summary>
@@ -137,7 +136,6 @@ namespace Newcats.JobManager.Host.Manager
             }
         }
 
-
         /// <summary>
         /// Job状态管控
         /// </summary>
@@ -150,31 +148,27 @@ namespace Newcats.JobManager.Host.Manager
                 foreach (JobInfoEntity jobInfo in list)
                 {
                     JobKey jobKey = new JobKey(jobInfo.Id.ToString(), jobInfo.Id.ToString() + "Group");
-                    if (await Scheduler.CheckExists(jobKey) == false)
+                    if (await Scheduler.CheckExists(jobKey) == false)//不存在调度器中，添加
                     {
                         if (jobInfo.State == JobState.Running || jobInfo.State == JobState.Starting)
                         {
-                            ManagerJob(Scheduler, jobInfo);
-                            if (await Scheduler.CheckExists(jobKey) == false)
-                            {
-                                JobService.UpdateJobState(jobInfo.Id, JobState.Stop);
-                            }
+                            ManagerJob(Scheduler, jobInfo);//添加job到调度器
+                            if (await Scheduler.CheckExists(jobKey) == false)//添加失败
+                                JobService.UpdateJobState(jobInfo.Id, JobState.Stopped);
                             else
-                            {
                                 JobService.UpdateJobState(jobInfo.Id, JobState.Running);
-                            }
                         }
                         else if (jobInfo.State == JobState.Stopping)
                         {
-                            JobService.UpdateJobState(jobInfo.Id, JobState.Stop);
+                            JobService.UpdateJobState(jobInfo.Id, JobState.Stopped);
                         }
                     }
-                    else
+                    else//job已存在调度器中，停止或启动调度
                     {
                         if (jobInfo.State == JobState.Stopping)
                         {
                             await Scheduler.DeleteJob(jobKey);
-                            JobService.UpdateJobState(jobInfo.Id, JobState.Stop);
+                            JobService.UpdateJobState(jobInfo.Id, JobState.Stopped);
                         }
                         else if (jobInfo.State == JobState.Starting)
                         {

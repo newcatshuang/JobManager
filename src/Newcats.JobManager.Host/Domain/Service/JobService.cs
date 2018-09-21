@@ -69,7 +69,7 @@ namespace Newcats.JobManager.Host.Domain.Service
 
                 List<DbWhere<JobInfoEntity>> dbWheres = new List<DbWhere<JobInfoEntity>>
                 {
-                    new DbWhere<JobInfoEntity>(j => j.State, JobState.Stop),
+                    new DbWhere<JobInfoEntity>(j => j.State, JobState.Stopped),
                     new DbWhere<JobInfoEntity>(j => j.Id, jobIds, OperateType.In)
                 };
                 i = _jobRepository.Update(dbWheres, dbUpdates);
@@ -92,7 +92,7 @@ namespace Newcats.JobManager.Host.Domain.Service
             List<DbWhere<JobInfoEntity>> dbWheres = new List<DbWhere<JobInfoEntity>>
             {
                 new DbWhere<JobInfoEntity>(j => j.Disabled, false),
-                new DbWhere<JobInfoEntity>(j => j.State, JobState.Stop, OperateType.NotEqual)
+                new DbWhere<JobInfoEntity>(j => j.State, JobState.Stopped, OperateType.NotEqual)
             };
             return _jobRepository.GetAll(dbWheres, null, new DbOrderBy<JobInfoEntity>(j => j.CreateTime, SortType.DESC));
         }
