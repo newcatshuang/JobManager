@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using log4net;
 using Newcats.JobManager.Host.Domain.Entity;
 using Newcats.JobManager.Host.Domain.Service;
@@ -97,7 +98,7 @@ namespace Newcats.JobManager.Host.Manager
                     }
                     catch (Exception e)
                     {
-                        await JobService.InsertLogAsync(new JobLogEntity
+                        JobService.InsertLog(new JobLogEntity
                         {
                             JobId = jobInfo.Id,
                             FireTime = DateTime.Now,
@@ -111,7 +112,7 @@ namespace Newcats.JobManager.Host.Manager
                 }
                 else
                 {
-                    await JobService.InsertLogAsync(new JobLogEntity
+                    JobService.InsertLog(new JobLogEntity
                     {
                         JobId = jobInfo.Id,
                         FireTime = DateTime.Now,
@@ -124,7 +125,7 @@ namespace Newcats.JobManager.Host.Manager
             }
             else
             {
-                await JobService.InsertLogAsync(new JobLogEntity
+                JobService.InsertLog(new JobLogEntity
                 {
                     JobId = jobInfo.Id,
                     FireTime = DateTime.Now,
@@ -142,7 +143,7 @@ namespace Newcats.JobManager.Host.Manager
         /// <param name="Scheduler"></param>
         public static async void ManagerScheduler(IScheduler Scheduler)
         {
-            IEnumerable<JobInfoEntity> list = await JobService.GetAllowScheduleJobsAsync();
+            IEnumerable<JobInfoEntity> list = JobService.GetAllowScheduleJobs();
             if (list != null && list.Any())
             {
                 foreach (JobInfoEntity jobInfo in list)
@@ -154,21 +155,21 @@ namespace Newcats.JobManager.Host.Manager
                         {
                             ManagerJob(Scheduler, jobInfo);//添加job到调度器
                             if (await Scheduler.CheckExists(jobKey) == false)//添加失败
-                                await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Stopped);
+                                JobService.UpdateJobState(jobInfo.Id, JobState.Stopped);
                             else
-                                await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Running);
+                                JobService.UpdateJobState(jobInfo.Id, JobState.Running);
                         }
                         else if (jobInfo.State == JobState.Stopping)
                         {
-                            await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Stopped);
+                            JobService.UpdateJobState(jobInfo.Id, JobState.Stopped);
                         }
                         else if (jobInfo.State == JobState.Updating)
                         {
                             ManagerJob(Scheduler, jobInfo);//添加job到调度器
                             if (await Scheduler.CheckExists(jobKey) == false)//添加失败
-                                await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Stopped);
+                                JobService.UpdateJobState(jobInfo.Id, JobState.Stopped);
                             else
-                                await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Running);
+                                JobService.UpdateJobState(jobInfo.Id, JobState.Running);
                         }
                     }
                     else//job已存在调度器中，停止或启动调度
@@ -176,25 +177,25 @@ namespace Newcats.JobManager.Host.Manager
                         if (jobInfo.State == JobState.Stopping)
                         {
                             await Scheduler.DeleteJob(jobKey);
-                            await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Stopped);
+                            JobService.UpdateJobState(jobInfo.Id, JobState.Stopped);
                         }
                         else if (jobInfo.State == JobState.Starting)
                         {
-                            await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Running);
+                            JobService.UpdateJobState(jobInfo.Id, JobState.Running);
                         }
                         else if (jobInfo.State == JobState.Updating)
                         {
                             await Scheduler.DeleteJob(jobKey);
                             ManagerJob(Scheduler, jobInfo);//添加job到调度器
                             if (await Scheduler.CheckExists(jobKey) == false)//添加失败
-                                await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Stopped);
+                                JobService.UpdateJobState(jobInfo.Id, JobState.Stopped);
                             else
-                                await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Running);
+                                JobService.UpdateJobState(jobInfo.Id, JobState.Running);
                         }
                         else if (jobInfo.State == JobState.FireNow)
                         {
                             await Scheduler.TriggerJob(jobKey);
-                            await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Running);
+                            JobService.UpdateJobState(jobInfo.Id, JobState.Running);
                         }
                     }
                 }

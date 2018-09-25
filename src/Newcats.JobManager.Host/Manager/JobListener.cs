@@ -24,7 +24,7 @@ namespace Newcats.JobManager.Host.Manager
             return Task.CompletedTask;
         }
 
-        public async Task JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException, CancellationToken cancellationToken = default(CancellationToken))
+        public Task JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -46,9 +46,10 @@ namespace Newcats.JobManager.Host.Manager
                     logEntity.Content = "success";
                 }
                 logEntity.CreateTime = DateTime.Now;
-                await JobService.UpdateJobFireResultAsync(nextFireTime, logEntity);
+                JobService.UpdateJobFireResult(nextFireTime, logEntity);
             }
             catch { }
+            return Task.CompletedTask;
         }
     }
 }
