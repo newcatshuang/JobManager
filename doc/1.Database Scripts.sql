@@ -8,7 +8,8 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [dbo].[JobInfo](
+CREATE TABLE [dbo].[JobInfo]
+(
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[JobLevel] [int] NULL,
 	[Name] [nvarchar](256) NULL,
@@ -29,7 +30,7 @@ CREATE TABLE [dbo].[JobInfo](
 	[UpdateId] [bigint] NULL,
 	[UpdateName] [nvarchar](64) NULL,
 	[UpdateTime] [datetime] NULL,
- CONSTRAINT [PK_JobInfo] PRIMARY KEY NONCLUSTERED 
+	CONSTRAINT [PK_JobInfo] PRIMARY KEY NONCLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -48,10 +49,10 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'描述' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobInfo', @level2type=N'COLUMN',@level2name=N'Description'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'程序集名称(所属程序集)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobInfo', @level2type=N'COLUMN',@level2name=N'AssemblyName'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'程序集名称(所属程序集)(例:Newcats.JobManager.Host.exe)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobInfo', @level2type=N'COLUMN',@level2name=N'AssemblyName'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'类名(完整命名空间的类名)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobInfo', @level2type=N'COLUMN',@level2name=N'ClassName'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'类名(完整命名空间的类名)(例:Newcats.JobManager.Host.Manager.SystemJob)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobInfo', @level2type=N'COLUMN',@level2name=N'ClassName'
 GO
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'参数' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobInfo', @level2type=N'COLUMN',@level2name=N'JobArgs'
@@ -72,7 +73,7 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'运行次数' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobInfo', @level2type=N'COLUMN',@level2name=N'FireCount'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'状态(0.停止，1.运行，3.启动中，5.停止中)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobInfo', @level2type=N'COLUMN',@level2name=N'State'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'状态(0.停止，1.运行中，3.启动中，5.停止中，7.等待更新，9.等待立即执行一次)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobInfo', @level2type=N'COLUMN',@level2name=N'State'
 GO
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'是否禁用' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobInfo', @level2type=N'COLUMN',@level2name=N'Disabled'
@@ -110,7 +111,8 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [dbo].[JobLog](
+CREATE TABLE [dbo].[JobLog]
+(
 	[Id] [bigint] IDENTITY(1,1) NOT NULL,
 	[JobId] [int] NOT NULL,
 	[FireTime] [datetime] NULL,
@@ -118,7 +120,7 @@ CREATE TABLE [dbo].[JobLog](
 	[FireState] [int] NOT NULL,
 	[Content] [nvarchar](1024) NULL,
 	[CreateTime] [datetime] NULL,
- CONSTRAINT [PK_JobLog] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_JobLog] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -153,25 +155,25 @@ USE [NewcatsDB20170627]
 GO
 
 INSERT INTO [dbo].[JobInfo]
-           ([JobLevel]
-           ,[Name]
-           ,[Description]
-           ,[AssemblyName]
-           ,[ClassName]
-           ,[CronExpression]
-           ,[CronExpressionDescription]
-           ,[FireCount]
-           ,[State]
-           ,[Disabled])
-     VALUES
-           (2
-           ,'系统作业'
-           ,'负责调度其他作业的系统作业，不能删除/停止/禁用'
-           ,'Newcats.JobManager.Host.exe'
-           ,'Newcats.JobManager.Host.Manager.SystemJob'
-           ,'0/15 * * * * ?'
-           ,'每15秒执行一次'
-           ,0
-           ,3
-           ,0)
+	([JobLevel]
+	,[Name]
+	,[Description]
+	,[AssemblyName]
+	,[ClassName]
+	,[CronExpression]
+	,[CronExpressionDescription]
+	,[FireCount]
+	,[State]
+	,[Disabled])
+VALUES
+	(2
+           , '系统作业'
+           , '负责调度其他作业的系统作业，不能删除/停止/禁用'
+           , 'Newcats.JobManager.Host.exe'
+           , 'Newcats.JobManager.Host.Manager.SystemJob'
+           , '0/15 * * * * ?'
+           , '每15秒执行一次'
+           , 0
+           , 3
+           , 0)
 GO
