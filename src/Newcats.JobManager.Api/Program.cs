@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Newcats.JobManager.Api
@@ -19,6 +13,12 @@ namespace Newcats.JobManager.Api
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            .ConfigureLogging((hostingContext, logging) =>
+            {
+                logging.AddFilter("System", LogLevel.Warning);
+                logging.AddFilter("Microsoft", LogLevel.Warning);
+                logging.AddLog4Net();//自动记录全局的异常日志（不需要自己写全局异常过滤器记录）
+            })
+            .UseStartup<Startup>();
     }
 }
