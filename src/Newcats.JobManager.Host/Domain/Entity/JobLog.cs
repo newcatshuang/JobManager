@@ -32,7 +32,7 @@ namespace Newcats.JobManager.Host.Domain.Entity
         public double? FireDuration { get; set; }
 
         /// <summary>
-        /// 执行结果
+        /// 执行结果(0.成功，1.失败，2.异常)
         /// </summary>
         public FireState FireState { get; set; }
 
