@@ -32,12 +32,12 @@ namespace Newcats.JobManager.Host.Domain.Entity
         public string Description { get; set; }
 
         /// <summary>
-        /// 程序集名称(所属程序集)
+        /// 程序集名称(所属程序集)(例:Newcats.JobManager.Host.exe)
         /// </summary>				
         public string AssemblyName { get; set; }
 
         /// <summary>
-        /// 类名(完整命名空间的类名)
+        /// 类名(完整命名空间的类名)(例:Newcats.JobManager.Host.Manager.SystemJob)
         /// </summary>				
         public string ClassName { get; set; }
 
@@ -72,7 +72,7 @@ namespace Newcats.JobManager.Host.Domain.Entity
         public int FireCount { get; set; }
 
         /// <summary>
-        /// 状态(0.停止，1.运行，3.启动中，5.停止中)
+        /// 状态(0.停止，1.运行中，3.启动中，5.停止中，7.等待更新，9.等待立即执行一次)
         /// </summary>
         public JobState State { get; set; }
 

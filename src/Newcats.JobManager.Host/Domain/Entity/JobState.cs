@@ -23,12 +23,12 @@
         Stopping = 5,
 
         /// <summary>
-        /// 待更新
+        /// 等待更新
         /// </summary>
         Updating = 7,
 
         /// <summary>
-        /// 立即执行一次
+        /// 等待立即执行一次
         /// </summary>
         FireNow = 9
     }
