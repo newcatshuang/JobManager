@@ -162,6 +162,14 @@ namespace Newcats.JobManager.Host.Manager
                         {
                             await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Stopped);
                         }
+                        else if (jobInfo.State == JobState.Updating)
+                        {
+                            ManagerJob(Scheduler, jobInfo);//添加job到调度器
+                            if (await Scheduler.CheckExists(jobKey) == false)//添加失败
+                                await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Stopped);
+                            else
+                                await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Running);
+                        }
                     }
                     else//job已存在调度器中，停止或启动调度
                     {
@@ -172,6 +180,20 @@ namespace Newcats.JobManager.Host.Manager
                         }
                         else if (jobInfo.State == JobState.Starting)
                         {
+                            await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Running);
+                        }
+                        else if (jobInfo.State == JobState.Updating)
+                        {
+                            await Scheduler.DeleteJob(jobKey);
+                            ManagerJob(Scheduler, jobInfo);//添加job到调度器
+                            if (await Scheduler.CheckExists(jobKey) == false)//添加失败
+                                await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Stopped);
+                            else
+                                await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Running);
+                        }
+                        else if (jobInfo.State == JobState.FireNow)
+                        {
+                            await Scheduler.TriggerJob(jobKey);
                             await JobService.UpdateJobStateAsync(jobInfo.Id, JobState.Running);
                         }
                     }
