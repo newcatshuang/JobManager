@@ -77,6 +77,11 @@ namespace Newcats.JobManager.Host.Domain.Entity
         public JobState State { get; set; }
 
         /// <summary>
+        /// 是否禁用
+        /// </summary>				
+        public bool Disabled { get; set; }
+
+        /// <summary>
         /// 创建人ID
         /// </summary>				
         public long? CreateId { get; set; }
@@ -105,10 +110,5 @@ namespace Newcats.JobManager.Host.Domain.Entity
         /// 最后更新时间
         /// </summary>
         public DateTime? UpdateTime { get; set; }
-
-        /// <summary>
-        /// 是否禁用
-        /// </summary>				
-        public bool Disabled { get; set; }
     }
 }

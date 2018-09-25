@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Newcats.JobManager.Host.Domain.Entity;
 using Newcats.JobManager.Host.Domain.Service;
 using Quartz;
 
@@ -23,17 +24,31 @@ namespace Newcats.JobManager.Host.Manager
             return Task.CompletedTask;
         }
 
-        public Task JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException, CancellationToken cancellationToken = default(CancellationToken))
         {
-            long jobId = Convert.ToInt64(context.JobDetail.Key.Name);
-            DateTime nextFireTime = TimeZoneInfo.ConvertTimeFromUtc(context.NextFireTimeUtc.Value.DateTime, TimeZoneInfo.Local);
-            DateTime lastFireTime = TimeZoneInfo.ConvertTimeFromUtc(context.FireTimeUtc.DateTime, TimeZoneInfo.Local);
-            double TotalSeconds = context.JobRunTime.TotalSeconds;
-            string logContent = string.Empty;
-            if (jobException != null)
-                logContent = $"Job执行异常，异常信息:{jobException.Message}";
-            JobService.UpdateJobStatus(jobId, lastFireTime, nextFireTime, TotalSeconds, logContent);
-            return Task.CompletedTask;
+            try
+            {
+                DateTime nextFireTime = TimeZoneInfo.ConvertTimeFromUtc(context.NextFireTimeUtc.HasValue ? context.NextFireTimeUtc.Value.UtcDateTime : default(DateTime), TimeZoneInfo.Local);
+                JobLogEntity logEntity = new JobLogEntity
+                {
+                    JobId = Convert.ToInt64(context.JobDetail.Key.Name),
+                    FireTime = TimeZoneInfo.ConvertTimeFromUtc(context.FireTimeUtc.UtcDateTime, TimeZoneInfo.Local),
+                    FireDuration = context.JobRunTime.TotalSeconds
+                };
+                if (jobException != null)
+                {
+                    logEntity.FireState = FireState.Error;
+                    logEntity.Content = $"Job执行异常，异常信息:{jobException.Message}";
+                }
+                else
+                {
+                    logEntity.FireState = FireState.Success;
+                    logEntity.Content = "success";
+                }
+                logEntity.CreateTime = DateTime.Now;
+                await JobService.UpdateJobFireResultAsync(nextFireTime, logEntity);
+            }
+            catch { }
         }
     }
 }

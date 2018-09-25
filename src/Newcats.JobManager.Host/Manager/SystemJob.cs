@@ -32,7 +32,6 @@ namespace Newcats.JobManager.Host.Manager
             {
                 _logger.InfoFormat("SystemJob Execute end. ");
             }
-            //Console.WriteLine($"hello system job at {DateTime.Now}");
             return Task.CompletedTask;
         }
     }
