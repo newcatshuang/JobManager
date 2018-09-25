@@ -10,7 +10,7 @@ namespace Newcats.JobManager.Host.Domain.Service
 {
     public class JobService
     {
-        private static readonly Repository<JobInfoEntity, long> _jobRepository;
+        private static readonly Repository<JobInfoEntity, int> _jobRepository;
 
         private static readonly Repository<JobLogEntity, long> _logRepository;
 
@@ -31,7 +31,7 @@ namespace Newcats.JobManager.Host.Domain.Service
             return await _jobRepository.GetAllAsync(dbWheres, null, new DbOrderBy<JobInfoEntity>(j => j.CreateTime, SortType.ASC));
         }
 
-        public static async Task<bool> UpdateJobStateAsync(long jobId, JobState jobState)
+        public static async Task<bool> UpdateJobStateAsync(int jobId, JobState jobState)
         {
             return await _jobRepository.UpdateAsync(jobId, new List<DbUpdate<JobInfoEntity>> { new DbUpdate<JobInfoEntity>(j => j.State, jobState) }) > 0;
         }
@@ -71,7 +71,7 @@ namespace Newcats.JobManager.Host.Domain.Service
             return _jobRepository.GetAll(dbWheres, null, new DbOrderBy<JobInfoEntity>(j => j.CreateTime, SortType.ASC));
         }
 
-        public static bool UpdateJobState(long jobId, JobState jobState)
+        public static bool UpdateJobState(int jobId, JobState jobState)
         {
             return _jobRepository.Update(jobId, new List<DbUpdate<JobInfoEntity>> { new DbUpdate<JobInfoEntity>(j => j.State, jobState) }) > 0;
         }
