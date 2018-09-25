@@ -31,7 +31,7 @@ namespace Newcats.JobManager.Host.Manager
                 DateTime nextFireTime = TimeZoneInfo.ConvertTimeFromUtc(context.NextFireTimeUtc.HasValue ? context.NextFireTimeUtc.Value.UtcDateTime : default(DateTime), TimeZoneInfo.Local);
                 JobLogEntity logEntity = new JobLogEntity
                 {
-                    JobId = Convert.ToInt64(context.JobDetail.Key.Name),
+                    JobId = Convert.ToInt32(context.JobDetail.Key.Name),
                     FireTime = TimeZoneInfo.ConvertTimeFromUtc(context.FireTimeUtc.UtcDateTime, TimeZoneInfo.Local),
                     FireDuration = context.JobRunTime.TotalSeconds
                 };

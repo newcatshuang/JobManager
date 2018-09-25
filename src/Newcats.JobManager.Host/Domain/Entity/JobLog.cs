@@ -19,7 +19,7 @@ namespace Newcats.JobManager.Host.Domain.Entity
         /// <summary>
         /// JobId(表JobInfo.Id)
         /// </summary>
-        public long JobId { get; set; }
+        public int JobId { get; set; }
 
         /// <summary>
         /// 执行时间

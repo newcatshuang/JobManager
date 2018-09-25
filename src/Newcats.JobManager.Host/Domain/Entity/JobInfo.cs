@@ -14,7 +14,7 @@ namespace Newcats.JobManager.Host.Domain.Entity
         /// </summary>				
         [PrimaryKey]
         [AutoIncrement]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Job等级(0.业务，1.测试，2.系统)

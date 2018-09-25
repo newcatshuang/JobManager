@@ -25,7 +25,7 @@ namespace Newcats.JobManager.Host.Domain.Service
             List<DbWhere<JobInfoEntity>> dbWheres = new List<DbWhere<JobInfoEntity>>
             {
                 new DbWhere<JobInfoEntity>(j => j.Disabled, false),
-                new DbWhere<JobInfoEntity>(j=>j.State,new JobState[]{ JobState.Starting,JobState.Stopping}, OperateType.In)
+                new DbWhere<JobInfoEntity>(j=>j.State,new int[]{Convert.ToInt32(JobState.Starting),Convert.ToInt32(JobState.Stopping)}, OperateType.In)
             };
             return await _jobRepository.GetAllAsync(dbWheres, null, new DbOrderBy<JobInfoEntity>(j => j.CreateTime, SortType.ASC));
         }
