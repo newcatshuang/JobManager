@@ -16,7 +16,7 @@ namespace Newcats.JobManager.Host.Domain.Service
 
         static JobService()
         {
-            _jobRepository = new Repository<JobInfoEntity, long>();
+            _jobRepository = new Repository<JobInfoEntity, int>();
             _logRepository = new Repository<JobLogEntity, long>();
         }
 
