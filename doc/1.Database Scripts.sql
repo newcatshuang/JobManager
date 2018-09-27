@@ -147,33 +147,3 @@ GO
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'创建时间' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobLog', @level2type=N'COLUMN',@level2name=N'CreateTime'
 GO
-
-
-
-
-USE [NewcatsDB20170627]
-GO
-
-INSERT INTO [dbo].[JobInfo]
-	([JobLevel]
-	,[Name]
-	,[Description]
-	,[AssemblyName]
-	,[ClassName]
-	,[CronExpression]
-	,[CronExpressionDescription]
-	,[FireCount]
-	,[State]
-	,[Disabled])
-VALUES
-	(2
-           , '系统作业'
-           , '负责调度其他作业的系统作业，不能删除/停止/禁用'
-           , 'Newcats.JobManager.Host.exe'
-           , 'Newcats.JobManager.Host.Manager.SystemJob'
-           , '0/15 * * * * ?'
-           , '每15秒执行一次'
-           , 0
-           , 3
-           , 0)
-GO

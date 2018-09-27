@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Transactions;
 using Newcats.JobManager.Host.Domain.Entity;
@@ -98,6 +98,34 @@ namespace Newcats.JobManager.Host.Domain.Service
                     trans.Complete();
             }
             return r >= 2;
+        }
+
+        public static JobInfoEntity GetSystemJob()
+        {
+            List<DbWhere<JobInfoEntity>> dbWheres = new List<DbWhere<JobInfoEntity>>
+            {
+                new DbWhere<JobInfoEntity>(j => j.JobLevel, JobLevel.System),
+                new DbWhere<JobInfoEntity>(j => j.AssemblyName, Assembly.GetExecutingAssembly().ManifestModule.Name),//Newcats.JobManager.Host.exe
+                new DbWhere<JobInfoEntity>(j => j.ClassName, typeof(Manager.SystemJob).FullName)//Newcats.JobManager.Host.Manager.SystemJob
+            };
+
+            return _jobRepository.Get(dbWheres, dbOrderBy: new DbOrderBy<JobInfoEntity>(j => j.Id));
+        }
+
+        public static int InsertJob(JobInfoEntity jobInfoEntity)
+        {
+            return _jobRepository.Insert(jobInfoEntity);
+        }
+
+        public static bool SetSystemJobAvailable(int systemJobId)
+        {
+            List<DbUpdate<JobInfoEntity>> dbUpdates = new List<DbUpdate<JobInfoEntity>>
+            {
+                new DbUpdate<JobInfoEntity>(j => j.State, JobState.Starting),
+                new DbUpdate<JobInfoEntity>(j => j.Disabled, false)
+            };
+
+            return _jobRepository.Update(systemJobId, dbUpdates) > 0;
         }
     }
 }
