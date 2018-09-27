@@ -14,6 +14,6 @@ namespace Newcats.JobManager.Api.Domain.IService
 
         Task<(IEnumerable<JobInfoEntity> list, int totalCount)> GetJobsAsync(int pageIndex, int pageSize, IEnumerable<DbWhere<JobInfoEntity>> dbWheres = null, int? commandTimeout = null, params DbOrderBy<JobInfoEntity>[] dbOrderBy);
 
-
+        Task<JobInfoEntity> GetJobAsync(int jobId);
     }
 }

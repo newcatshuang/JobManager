@@ -532,7 +532,7 @@ namespace Newcats.JobManager.Api.Infrastructure.Text.Encrypt
         /// <summary>
         /// DES密钥,24位字符串
         /// </summary>
-        public static string DESKey = "AU5f6ImsFb,3@6z57j%Y_g7&";
+        public static string DESKey = "EFU5f6ImFb,3@6z57j%Y_g7&";
 
         /// <summary>
         /// DES加密

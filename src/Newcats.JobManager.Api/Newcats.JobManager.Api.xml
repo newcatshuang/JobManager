@@ -4,6 +4,81 @@
         <name>Newcats.JobManager.Api</name>
     </assembly>
     <members>
+        <member name="T:Newcats.JobManager.Api.AppData.ApiControllerBase">
+            <summary>
+            Api控制器基类
+            </summary>
+        </member>
+        <member name="M:Newcats.JobManager.Api.AppData.ApiControllerBase.ToSuccessResult">
+            <summary>
+            返回成功Json结果(默认数据为:res.Code=0,res.Message="success",res.Data=null)
+            </summary>
+            <returns>Json结果</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.AppData.ApiControllerBase.ToSuccessResult(System.String)">
+            <summary>
+            返回成功Json结果(默认数据为:res.Code=0,res.Message=message,res.Data=null)
+            </summary>
+            <param name="message">提示消息</param>
+            <returns>Json结果</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.AppData.ApiControllerBase.ToSuccessResult(System.Object)">
+            <summary>
+            返回成功Json结果(默认数据为:res.Code=0,res.Message="success",res.Data=data)
+            </summary>
+            <param name="data">数据</param>
+            <returns>Json结果</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.AppData.ApiControllerBase.ToSuccessResult(System.String,System.Object)">
+            <summary>
+            返回成功Json结果(默认数据为:res.Code=0,res.Message=message,res.Data=data)
+            </summary>
+            <param name="message">提示消息</param>
+            <param name="data">数据</param>
+            <returns>Json结果</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.AppData.ApiControllerBase.ToFailResult">
+            <summary>
+            返回失败Json结果(默认数据为:res.Code=-1,res.Message="failed",res.Data=null)
+            </summary>
+            <returns>Json结果</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.AppData.ApiControllerBase.ToFailResult(System.String)">
+            <summary>
+            返回失败Json结果(默认数据为:res.Code=-1,res.Message=message,res.Data=null)
+            </summary>
+            <param name="message">提示消息</param>
+            <returns>Json结果</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.AppData.ApiControllerBase.ToFailResult(System.Int32,System.String)">
+            <summary>
+            返回失败Json结果(默认数据为:res.Code=code,res.Message=message,res.Data=null)
+            </summary>
+            <param name="code">代码，一般code=0表示成功</param>
+            <param name="message">提示消息</param>
+            <returns>Json结果</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.AppData.ApiControllerBase.ToBaseResult(System.Int32,System.String,System.Object)">
+            <summary>
+            返回Json结果基本返回类型,结果分别为:res.Code,res.Message,res.Data
+            </summary>
+            <param name="code">代码，一般code=0表示成功</param>
+            <param name="message">提示消息</param>
+            <param name="data">数据</param>
+            <returns>Json结果</returns>
+        </member>
+        <member name="T:Newcats.JobManager.Api.Controllers.JobController">
+            <summary>
+            Job管理控制器
+            </summary>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.GetJob(System.Int32)">
+            <summary>
+            根据主键Id,获取一个JobInfo实体
+            </summary>
+            <param name="id">主键Id</param>
+            <returns>JobInfo实体</returns>
+        </member>
         <member name="T:Newcats.JobManager.Api.Domain.Entity.FireState">
             <summary>
             Job执行结果

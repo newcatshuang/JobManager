@@ -33,5 +33,10 @@ namespace Newcats.JobManager.Api.Domain.Service
         {
             return await _jobRepository.GetPageAsync(pageIndex, pageSize, dbWheres, commandTimeout, dbOrderBy);
         }
+
+        public async Task<JobInfoEntity> GetJobAsync(int jobId)
+        {
+            return await _jobRepository.GetAsync(jobId);
+        }
     }
 }
