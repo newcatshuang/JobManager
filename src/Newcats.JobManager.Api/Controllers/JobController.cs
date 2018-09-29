@@ -47,7 +47,7 @@ namespace Newcats.JobManager.Api.Controllers
         /// <returns>JobInfo实体集合</returns>
         [HttpPost]
         [SwaggerResponse(200, type: typeof(TableResult))]
-        public async Task<IActionResult> GetJobList(JobListRequest request)
+        public async Task<IActionResult> GetJobList([FromForm] JobListRequest request)
         {
             #region 筛选条件
             List<DbWhere<JobInfoEntity>> dbWheres = new List<DbWhere<JobInfoEntity>>();
