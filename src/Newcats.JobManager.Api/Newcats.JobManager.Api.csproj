@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Newcats.JobManager.Api.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
