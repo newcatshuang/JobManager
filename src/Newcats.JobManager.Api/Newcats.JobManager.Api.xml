@@ -79,6 +79,13 @@
             <param name="id">主键Id</param>
             <returns>JobInfo实体</returns>
         </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.GetJobList(Newcats.JobManager.Api.Models.Requests.JobListRequest)">
+            <summary>
+            根据搜索条件，分页获取JobInfo实体
+            </summary>
+            <param name="request">搜索条件</param>
+            <returns>JobInfo实体集合</returns>
+        </member>
         <member name="T:Newcats.JobManager.Api.Domain.Entity.FireState">
             <summary>
             Job执行结果
@@ -291,7 +298,7 @@
         </member>
         <member name="F:Newcats.JobManager.Api.Domain.Entity.JobState.FireNow">
             <summary>
-            等待立即执行一次
+            等待立即执行
             </summary>
         </member>
         <member name="T:Newcats.JobManager.Api.Infrastructure.DataAccess.DbHelper">
@@ -4190,6 +4197,66 @@
             <param name="code">代码，一般code=0表示成功</param>
             <param name="message">提示消息</param>
             <param name="data">数据</param>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.JobListRequest.Id">
+            <summary>
+            JobId(主键/自增)
+            </summary>				
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.JobListRequest.Name">
+            <summary>
+            Job名称
+            </summary>				
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.JobListRequest.JobLevel">
+            <summary>
+            Job等级(0.业务，1.测试，2.系统)
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.JobListRequest.AssemblyName">
+            <summary>
+            程序集名称(所属程序集)(例:Newcats.JobManager.Host.exe)
+            </summary>				
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.JobListRequest.ClassName">
+            <summary>
+            类名(完整命名空间的类名)(例:Newcats.JobManager.Host.Manager.SystemJob)
+            </summary>				
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.JobListRequest.CronExpression">
+            <summary>
+            Cron表达式
+            </summary>				
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.JobListRequest.LastFireTimeStart">
+            <summary>
+            上次运行时间
+            </summary>				
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.JobListRequest.LastFireTimeEnd">
+            <summary>
+            上次运行时间
+            </summary>				
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.JobListRequest.NextFireTimeStart">
+            <summary>
+            下次运行时间
+            </summary>				
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.JobListRequest.NextFireTimeEnd">
+            <summary>
+            下次运行时间
+            </summary>				
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.JobListRequest.State">
+            <summary>
+            状态(0.停止，1.运行中，3.启动中，5.停止中，7.等待更新，9.等待立即执行一次)
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.JobListRequest.Disabled">
+            <summary>
+            是否禁用
+            </summary>				
         </member>
         <member name="T:Newcats.JobManager.Api.Models.Requests.PageRequest">
             <summary>
