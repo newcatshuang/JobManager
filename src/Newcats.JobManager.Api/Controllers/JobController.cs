@@ -98,25 +98,75 @@ namespace Newcats.JobManager.Api.Controllers
                     List<object> retRow = new List<object>();
                     retRow.Add(item.Id);
                     retRow.Add(item.Name);
-                    retRow.Add(item.JobLevel.GetDescription());
+                    switch (item.JobLevel)
+                    {
+                        case JobLevel.Business:
+                            retRow.Add(item.JobLevel.GetDescription().GetSpanHtml("#00c5dc"));
+                            break;
+                        case JobLevel.Test:
+                            retRow.Add(item.JobLevel.GetDescription().GetSpanHtml("#c4c5d6"));
+                            break;
+                        case JobLevel.System:
+                            retRow.Add(item.JobLevel.GetDescription().GetSpanHtml("#FF0000"));
+                            break;
+                        default:
+                            retRow.Add(item.JobLevel.GetDescription());
+                            break;
+                    }
                     retRow.Add($"{item.AssemblyName}<br/>{item.ClassName}");
                     retRow.Add(item.CronExpression);
                     retRow.Add(item.LastFireTime);
                     retRow.Add(item.NextFireTime);
                     retRow.Add(item.FireCount);
-                    retRow.Add(item.State.GetDescription());
+                    switch (item.State)
+                    {
+                        case JobState.Stopped:
+                            retRow.Add(item.State.GetDescription().GetSpanHtml(SpanColor.Metal));
+                            break;
+                        case JobState.Running:
+                            retRow.Add(item.State.GetDescription().GetSpanHtml(SpanColor.Success));
+                            break;
+                        case JobState.Starting:
+                            retRow.Add(item.State.GetDescription().GetSpanHtml(SpanColor.Primary));
+                            break;
+                        case JobState.Stopping:
+                            retRow.Add(item.State.GetDescription().GetSpanHtml(SpanColor.Warning));
+                            break;
+                        case JobState.Updating:
+                            retRow.Add(item.State.GetDescription().GetSpanHtml(SpanColor.Info));
+                            break;
+                        case JobState.FireNow:
+                            retRow.Add(item.State.GetDescription().GetSpanHtml(SpanColor.Focus));
+                            break;
+                        default:
+                            retRow.Add(item.State.GetDescription());
+                            break;
+                    }
                     if (item.Disabled)
-                        retRow.Add("<span class='label label-sm label-danger'>禁用</span>");
+                        retRow.Add("禁用".GetSpanHtml("#a94442"));
                     else
-                        retRow.Add("<span class='label label-sm label-success'>启用</span>");
+                        retRow.Add("启用".GetSpanHtml("#3c763d"));
 
                     StringBuilder btnHtml = new StringBuilder();
-                    btnHtml.AppendFormat("<a class='btn btn-xs btn-primary' href='javascript:;' onclick='TableAjax.ShowEditModal({0},this)'><i class='fa fa-edit'></i>编辑</a>", item.Id);
+                    btnHtml.AppendFormat("<a class='btn btn-xs btn-primary' href='javascript:;' onclick='TableAjax.ShowLogTable({0},this)'>日志</a>", item.Id);
+                    btnHtml.AppendFormat("<a class='btn btn-xs btn-primary' href='javascript:;' onclick='TableAjax.ShowEditModal({0},this)'>编辑</a>", item.Id);
                     if (item.Disabled)
-                        btnHtml.AppendFormat("<a class='btn default btn-xs green' href='javascript:;' onclick='TableAjax.EnableAdminUser({0},this)'><i class='fa fa-smile-o'></i>启用</a>", item.Id);
+                        btnHtml.AppendFormat("<a class='btn btn-xs btn-primary' href='javascript:;' onclick='TableAjax.EnableJob({0},this)'>启用</a>", item.Id);
                     else
-                        btnHtml.AppendFormat("<a class='btn default btn-xs red' href='javascript:;' onclick='TableAjax.DisableAdminUser({0},this)'><i class='fa fa-ban'></i>禁用</a>", item.Id);
-                    btnHtml.AppendFormat("<a class='btn default btn-xs purple' href='javascript:;' onclick='TableAjax.ShowRoleModal({0},this)'><i class='fa fa-lock'></i>分配角色</a>", item.Id);
+                        btnHtml.AppendFormat("<a class='btn btn-xs btn-primary' href='javascript:;' onclick='TableAjax.DisableJob({0},this)'></i>禁用</a>", item.Id);
+
+                    if (!item.Disabled)
+                    {
+                        if (item.State == JobState.Stopped)
+                        {
+                            btnHtml.AppendFormat("<a class='btn btn-xs btn-primary' href='javascript:;' onclick='TableAjax.StartJob({0},this)'>启动</a>", item.Id);
+                        }
+                        else if (item.State == JobState.Running)
+                        {
+                            btnHtml.AppendFormat("<a class='btn btn-xs btn-primary' href='javascript:;' onclick='TableAjax.StopJob({0},this)'>停止</a>", item.Id);
+                            btnHtml.AppendFormat("<a class='btn btn-xs btn-primary' href='javascript:;' onclick='TableAjax.FireNowJob({0},this)'>执行一次</a>", item.Id);
+                        }
+                    }
                     retRow.Add(btnHtml.ToString());
                     retTable.Add(retRow.ToArray());
                     #endregion
