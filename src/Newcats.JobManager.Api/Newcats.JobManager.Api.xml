@@ -86,6 +86,20 @@
             <param name="request">搜索条件</param>
             <returns>JobInfo实体集合</returns>
         </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.AddJob(Newcats.JobManager.Api.Domain.Entity.JobInfoEntity)">
+            <summary>
+            新增一条JobInfo记录
+            </summary>
+            <param name="jobInfo">JobInfo实体</param>
+            <returns>执行结果</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.ModifyJob(Newcats.JobManager.Api.Domain.Entity.JobInfoEntity)">
+            <summary>
+            更新给定的JobInfo记录
+            </summary>
+            <param name="jobInfo">JobInfo实体</param>
+            <returns>执行结果</returns>
+        </member>
         <member name="T:Newcats.JobManager.Api.Domain.Entity.FireState">
             <summary>
             Job执行结果

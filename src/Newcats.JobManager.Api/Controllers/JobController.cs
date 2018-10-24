@@ -175,5 +175,29 @@ namespace Newcats.JobManager.Api.Controllers
             return Json(new TableResult(retTable, request.Draw, totals));
             #endregion
         }
+
+        /// <summary>
+        /// 新增一条JobInfo记录
+        /// </summary>
+        /// <param name="jobInfo">JobInfo实体</param>
+        /// <returns>执行结果</returns>
+        [HttpPost]
+        [SwaggerResponse(200, type: typeof(BaseResult))]
+        public async Task<IActionResult> AddJob([FromForm] JobInfoEntity jobInfo)
+        {
+            return ToSuccessResult();
+        }
+
+        /// <summary>
+        /// 更新给定的JobInfo记录
+        /// </summary>
+        /// <param name="jobInfo">JobInfo实体</param>
+        /// <returns>执行结果</returns>
+        [HttpPut]
+        [SwaggerResponse(200, type: typeof(BaseResult))]
+        public async Task<IActionResult> ModifyJob([FromForm] JobInfoEntity jobInfo)
+        {
+            return ToSuccessResult();
+        }
     }
 }
