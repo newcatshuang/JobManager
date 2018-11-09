@@ -52,6 +52,11 @@ namespace Newcats.JobManager.Host.Domain.Repository
         /// <returns>数据库连接</returns>
         public IDbConnection CreateDbConnection(string key = "DefaultConnection")
         {
+            if (!key.Equals("DefaultConnection", StringComparison.OrdinalIgnoreCase) && Connection != null)
+            {
+                Connection.Close();
+                Connection.Dispose();
+            }
             //return new SqlConnection("Data Source = .; Initial Catalog =NewcatsDB; User ID = sa; Password = 123456;");
             return new SqlConnection(GetConnectionString(key));
         }
