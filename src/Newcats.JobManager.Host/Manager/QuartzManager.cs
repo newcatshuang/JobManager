@@ -210,6 +210,7 @@ namespace Newcats.JobManager.Host.Manager
             JobInfoEntity job = JobService.GetSystemJob();
             if (job == null)
             {
+                job = new JobInfoEntity();
                 job.JobLevel = JobLevel.System;
                 job.Name = "系统作业";
                 job.Description = "负责调度其他作业的系统作业，不能删除/停止/禁用";
