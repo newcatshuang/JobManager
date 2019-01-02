@@ -363,7 +363,7 @@ namespace Newcats.JobManager.Api.Infrastructure.Helper.CronHelper
             return true;
         }
 
-        public static void ValidateExpression(string cronExpression)
+        private static void ValidateExpression(string cronExpression)
         {
             new CronExpression(cronExpression);
         }

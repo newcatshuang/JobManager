@@ -207,7 +207,7 @@ namespace Newcats.JobManager.Host.Manager
         /// </summary>
         private static async void KeepSystemJobRunning(IScheduler scheduler)
         {
-            JobInfoEntity job = JobService.GetSystemJob();
+            JobInfoEntity job = JobService.GetSystemMainJobAsync();
             if (job == null)
             {
                 job = new JobInfoEntity();

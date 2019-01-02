@@ -100,7 +100,11 @@ namespace Newcats.JobManager.Host.Domain.Service
             return r >= 2;
         }
 
-        public static JobInfoEntity GetSystemJob()
+        /// <summary>
+        /// 获取系统主Job(承载其他Job的系统级Job，唯一)
+        /// </summary>
+        /// <returns>唯一的系统主Job</returns>
+        public static JobInfoEntity GetSystemMainJobAsync()
         {
             List<DbWhere<JobInfoEntity>> dbWheres = new List<DbWhere<JobInfoEntity>>
             {
