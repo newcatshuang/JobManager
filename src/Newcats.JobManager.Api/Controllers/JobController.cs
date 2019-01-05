@@ -81,7 +81,7 @@ namespace Newcats.JobManager.Api.Controllers
             string orderByFields = "Id,Name,JobLevel,AssemblyName,CronExpression,LastFireTime,NextFireTime,FireCount,State,Disabled";//表格排序对应的字段
             string orderByColumn = orderByFields.Split(',')[request.Order[0].Column];
             bool isAsc = request.Order[0].Dir.Equals("asc", StringComparison.OrdinalIgnoreCase);
-            int pageIndex = (request.Start / request.Length);//从第0页开始 
+            int pageIndex = request.Start / request.Length;//从第0页开始 
             #endregion
 
             #region 获取数据
