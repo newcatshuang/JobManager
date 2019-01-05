@@ -85,10 +85,11 @@ namespace Newcats.JobManager.Api.Domain.Service
         /// 获取指定数量的最新的JobLog日志记录
         /// </summary>
         /// <param name="top">需要获取的数量</param>
+        /// <param name="jobId">jobId</param>
         /// <returns>JobLog集合</returns>
-        public async Task<IEnumerable<JobLogEntity>> GetLatestJobLogs(int top)
+        public async Task<IEnumerable<JobLogEntity>> GetLatestJobLogs(int jobId, int top)
         {
-            return await _logRepository.GetTopAsync(top, dbOrderBy: new DbOrderBy<JobLogEntity>(j => j.CreateTime, SortType.DESC));
+            return await _logRepository.GetTopAsync(top, dbWheres: new List<DbWhere<JobLogEntity>>() { new DbWhere<JobLogEntity>(j => j.JobId, jobId) }, dbOrderBy: new DbOrderBy<JobLogEntity>(j => j.CreateTime, SortType.DESC));
         }
     }
 }

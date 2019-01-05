@@ -136,7 +136,7 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'执行时间' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobLog', @level2type=N'COLUMN',@level2name=N'FireTime'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'执行持续时长' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobLog', @level2type=N'COLUMN',@level2name=N'FireDuration'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'执行持续时长（单位：秒）' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobLog', @level2type=N'COLUMN',@level2name=N'FireDuration'
 GO
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'执行结果(0.成功，1.失败，2.异常)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobLog', @level2type=N'COLUMN',@level2name=N'FireState'

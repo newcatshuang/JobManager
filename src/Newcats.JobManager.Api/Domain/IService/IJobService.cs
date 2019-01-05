@@ -34,8 +34,9 @@ namespace Newcats.JobManager.Api.Domain.IService
         /// <summary>
         /// 获取指定数量的最新的JobLog日志记录
         /// </summary>
+        /// <param name="jobId">jobId</param>
         /// <param name="top">需要获取的数量</param>
         /// <returns>JobLog集合</returns>
-        Task<IEnumerable<JobLogEntity>> GetLatestJobLogs(int top);
+        Task<IEnumerable<JobLogEntity>> GetLatestJobLogs(int jobId, int top);
     }
 }
