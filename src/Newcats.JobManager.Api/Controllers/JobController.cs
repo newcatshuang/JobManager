@@ -396,5 +396,84 @@ namespace Newcats.JobManager.Api.Controllers
                 return ToFailResult($"保存失败，异常信息：{ex.Message}");
             }
         }
+
+        /// <summary>
+        /// 根据搜索条件，分页获取JobLog实体
+        /// </summary>
+        /// <param name="request">搜索条件</param>
+        /// <returns>JobLog实体集合</returns>
+        [HttpPost]
+        [SwaggerResponse(200, type: typeof(TableResult))]
+        public async Task<IActionResult> GetLogList([FromForm] LogListRequest request)
+        {
+            #region 筛选条件
+            List<DbWhere<LogInfoEntity>> dbWheres = new List<DbWhere<LogInfoEntity>>();
+            if (request.Id.HasValue && request.Id.Value > 0)
+                dbWheres.Add(new DbWhere<LogInfoEntity>(j => j.Id, request.Id.Value));
+            if (request.JobId.HasValue && request.JobId.Value > 0)
+                dbWheres.Add(new DbWhere<LogInfoEntity>(j => j.JobId, request.JobId.Value));
+            if (!string.IsNullOrWhiteSpace(request.JobName))
+                dbWheres.Add(new DbWhere<LogInfoEntity>(j => j.JobName, request.JobName));
+            if (request.FireTimeStart.HasValue)
+                dbWheres.Add(new DbWhere<LogInfoEntity>(j => j.FireTime, request.FireTimeStart.Value, OperateType.GreaterEqual));
+            if (request.FireTimeEnd.HasValue)
+                dbWheres.Add(new DbWhere<LogInfoEntity>(j => j.FireTime, request.FireTimeEnd, OperateType.LessEqual));
+            if (request.FireState.HasValue)
+                dbWheres.Add(new DbWhere<LogInfoEntity>(j => j.FireState, request.FireState));
+            if (request.CreateTimeStart.HasValue)
+                dbWheres.Add(new DbWhere<LogInfoEntity>(j => j.CreateTime, request.CreateTimeStart, OperateType.GreaterEqual));
+            if (request.CreateTimeEnd.HasValue)
+                dbWheres.Add(new DbWhere<LogInfoEntity>(j => j.CreateTime, request.CreateTimeEnd, OperateType.LessEqual));
+            #endregion
+
+            #region 排序和分页
+            string orderByFields = "a.Id,a.JobId,b.Name,a.FireTime,a.FireDuration,a.FireState,a.Content,a.CreateTime";//表格排序对应的字段
+            string orderByColumn = orderByFields.Split(',')[request.Order[0].Column];
+            bool isAsc = request.Order[0].Dir.Equals("asc", StringComparison.OrdinalIgnoreCase);
+            int pageIndex = request.Start / request.Length;//从第0页开始 
+            #endregion
+
+            #region 获取数据
+            var (list, totals) = await _jobService.GetLogsAsync(pageIndex, request.Length, dbWheres, null, new DbOrderBy<LogInfoEntity>(orderByColumn, isAsc));
+            #endregion
+
+            #region 返回数据
+            List<object[]> retTable = new List<object[]>();
+            if (list != null && list.Any())
+            {
+                foreach (LogInfoEntity item in list)
+                {
+                    #region 填充一行
+                    List<object> retRow = new List<object>();
+                    retRow.Add(item.Id);
+                    retRow.Add(item.JobId);
+                    retRow.Add(item.JobName);
+                    retRow.Add(item.FireTime);
+                    retRow.Add(item.FireDuration);
+                    switch (item.FireState)
+                    {
+                        case FireState.Success:
+                            retRow.Add(item.FireState.GetDescription().GetSpanHtml(SpanColor.Success));
+                            break;
+                        case FireState.Failed:
+                            retRow.Add(item.FireState.GetDescription().GetSpanHtml(SpanColor.Warning));
+                            break;
+                        case FireState.Error:
+                            retRow.Add(item.FireState.GetDescription().GetSpanHtml(SpanColor.Danger));
+                            break;
+                        default:
+                            retRow.Add(item.FireState.GetDescription());
+                            break;
+                    }
+                    retRow.Add(item.Content);
+                    retRow.Add(item.CreateTime);
+                    retRow.Add(string.Empty);
+                    retTable.Add(retRow.ToArray());
+                    #endregion
+                }
+            }
+            return Json(new TableResult(retTable, request.Draw, totals));
+            #endregion
+        }
     }
 }

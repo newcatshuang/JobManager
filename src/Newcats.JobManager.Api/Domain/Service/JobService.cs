@@ -12,11 +12,13 @@ namespace Newcats.JobManager.Api.Domain.Service
     {
         private readonly IRepository<JobInfoEntity, int> _jobRepository;
         private readonly IRepository<JobLogEntity, long> _logRepository;
+        private readonly IRepository<LogInfoEntity, long> _logInfoRepository;
 
-        public JobService(IRepository<JobInfoEntity, int> job, IRepository<JobLogEntity, long> log)
+        public JobService(IRepository<JobInfoEntity, int> job, IRepository<JobLogEntity, long> log, IRepository<LogInfoEntity, long> logInfo)
         {
             _jobRepository = job;
             _logRepository = log;
+            _logInfoRepository = logInfo;
         }
 
         public async Task<bool> InsertJobInfoAsync(JobInfoEntity jobInfoEntity)
@@ -90,6 +92,11 @@ namespace Newcats.JobManager.Api.Domain.Service
         public async Task<IEnumerable<JobLogEntity>> GetLatestJobLogs(int jobId, int top)
         {
             return await _logRepository.GetTopAsync(top, dbWheres: new List<DbWhere<JobLogEntity>>() { new DbWhere<JobLogEntity>(j => j.JobId, jobId) }, dbOrderBy: new DbOrderBy<JobLogEntity>(j => j.CreateTime, SortType.DESC));
+        }
+
+        public async Task<(IEnumerable<LogInfoEntity> list, int totalCount)> GetLogsAsync(int pageIndex, int pageSize, IEnumerable<DbWhere<LogInfoEntity>> dbWheres = null, int? commandTimeout = null, params DbOrderBy<LogInfoEntity>[] dbOrderBy)
+        {
+            return await _logInfoRepository.GetPageAsync(pageIndex, pageSize, dbWheres, commandTimeout, dbOrderBy);
         }
     }
 }

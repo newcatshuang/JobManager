@@ -149,6 +149,13 @@
             <param name="dllFile">文件</param>
             <returns>执行结果</returns>
         </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.GetLogList(Newcats.JobManager.Api.Models.Requests.LogListRequest)">
+            <summary>
+            根据搜索条件，分页获取JobLog实体
+            </summary>
+            <param name="request">搜索条件</param>
+            <returns>JobLog实体集合</returns>
+        </member>
         <member name="T:Newcats.JobManager.Api.Domain.Entity.FireState">
             <summary>
             Job执行结果
@@ -362,6 +369,46 @@
         <member name="F:Newcats.JobManager.Api.Domain.Entity.JobState.FireNow">
             <summary>
             等待立即执行
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Domain.Entity.LogInfoEntity.Id">
+            <summary>
+            LogId(主键/自增)
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Domain.Entity.LogInfoEntity.JobId">
+            <summary>
+            JobId(主键/自增)
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Domain.Entity.LogInfoEntity.JobName">
+            <summary>
+            Job名称
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Domain.Entity.LogInfoEntity.FireTime">
+            <summary>
+            执行时间
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Domain.Entity.LogInfoEntity.FireDuration">
+            <summary>
+            执行耗时
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Domain.Entity.LogInfoEntity.FireState">
+            <summary>
+            执行结果
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Domain.Entity.LogInfoEntity.Content">
+            <summary>
+            日志内容
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Domain.Entity.LogInfoEntity.CreateTime">
+            <summary>
+            创建时间
             </summary>
         </member>
         <member name="M:Newcats.JobManager.Api.Domain.IService.IJobService.GetSystemMainJobAsync">
@@ -3735,6 +3782,46 @@
             <summary>
             是否禁用
             </summary>				
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.LogListRequest.Id">
+            <summary>
+            LogId(主键/自增)
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.LogListRequest.JobId">
+            <summary>
+            JobId(主键/自增)
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.LogListRequest.JobName">
+            <summary>
+            Job名称
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.LogListRequest.FireTimeStart">
+            <summary>
+            执行时间
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.LogListRequest.FireTimeEnd">
+            <summary>
+            执行时间
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.LogListRequest.FireState">
+            <summary>
+            执行结果
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.LogListRequest.CreateTimeStart">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.LogListRequest.CreateTimeEnd">
+            <summary>
+            创建时间
+            </summary>
         </member>
         <member name="T:Newcats.JobManager.Api.Models.Requests.PageRequest">
             <summary>

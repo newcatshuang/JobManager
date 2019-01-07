@@ -38,5 +38,7 @@ namespace Newcats.JobManager.Api.Domain.IService
         /// <param name="top">需要获取的数量</param>
         /// <returns>JobLog集合</returns>
         Task<IEnumerable<JobLogEntity>> GetLatestJobLogs(int jobId, int top);
+
+        Task<(IEnumerable<LogInfoEntity> list, int totalCount)> GetLogsAsync(int pageIndex, int pageSize, IEnumerable<DbWhere<LogInfoEntity>> dbWheres = null, int? commandTimeout = null, params DbOrderBy<LogInfoEntity>[] dbOrderBy);
     }
 }
