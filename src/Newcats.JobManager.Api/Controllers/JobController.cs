@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newcats.JobManager.Api.AppData;
 using Newcats.JobManager.Api.Domain.Entity;
@@ -362,6 +364,35 @@ namespace Newcats.JobManager.Api.Controllers
                 return ToSuccessResult("操作成功，请等待生效！");
             else
                 return ToFailResult(-3, "操作失败，请刷新重试！");
+        }
+
+        /// <summary>
+        /// 上传DLL文件，并保存在JobHost文件夹
+        /// </summary>
+        /// <param name="dllFile">文件</param>
+        /// <returns>执行结果</returns>
+        [HttpPost]
+        [SwaggerResponse(200, type: typeof(BaseResult))]
+        public async Task<IActionResult> UploadFile([FromForm] IFormFile dllFile)
+        {
+            IFormFile file = HttpContext.Request.Form.Files[0];//方法的参数里面取到的dllFile=null，这里可以取到
+            DirectoryInfo baseDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());//当前执行路径
+            string hostPath = Path.Combine(baseDirectory.Parent.FullName, "JobHost");//JobHost文件夹的路径
+            string savedFileName = Path.Combine(hostPath, file.FileName);//保存在JobHost文件夹里的文件名
+            try
+            {
+                if (System.IO.File.Exists(savedFileName))
+                    System.IO.File.Delete(savedFileName);
+                using (FileStream fs = new FileStream(savedFileName, FileMode.CreateNew))
+                {
+                    await file.CopyToAsync(fs);
+                }
+                return ToSuccessResult("保存成功！");
+            }
+            catch (Exception ex)
+            {
+                return ToFailResult($"保存失败，异常信息：{ex.Message}");
+            }
         }
     }
 }
