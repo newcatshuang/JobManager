@@ -32,11 +32,7 @@ namespace Newcats.JobManager.Host.Manager
             Type type = null;
             try
             {
-                string file = GetAbsolutePath(Path.Combine("JobItems", assemblyName));
-                if (!File.Exists(file))
-                {
-                    file = GetAbsolutePath(assemblyName);
-                }
+                string file = GetAbsolutePath(assemblyName);
                 Assembly assembly = Assembly.LoadFrom(file);
                 type = assembly.GetType(className, true, true);
             }
