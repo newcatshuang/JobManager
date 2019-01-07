@@ -100,6 +100,55 @@
             <param name="jobInfo">JobInfo实体</param>
             <returns>执行结果</returns>
         </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.GetLatestJobLogs(System.Int32)">
+            <summary>
+            根据JobId获取最新的20条日志记录
+            </summary>
+            <param name="jobId">主键JobId</param>
+            <returns>JobLogEntity集合</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.EnableJob(System.Int32)">
+            <summary>
+            根据JobId,启用Job
+            </summary>
+            <param name="jobId">JobId</param>
+            <returns>执行结果</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.DisableJob(System.Int32)">
+            <summary>
+            根据JobId,禁用Job
+            </summary>
+            <param name="jobId">JobId</param>
+            <returns>执行结果</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.StartJob(System.Int32)">
+            <summary>
+            根据JobId,启动Job
+            </summary>
+            <param name="jobId">JobId</param>
+            <returns>执行结果</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.StopJob(System.Int32)">
+            <summary>
+            根据JobId,停止Job
+            </summary>
+            <param name="jobId">JobId</param>
+            <returns>执行结果</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.FireNowJob(System.Int32)">
+            <summary>
+            根据JobId,立即执行一次此Job
+            </summary>
+            <param name="jobId">JobId</param>
+            <returns>执行结果</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.UploadFile(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传DLL文件，并保存在JobHost文件夹
+            </summary>
+            <param name="dllFile">文件</param>
+            <returns>执行结果</returns>
+        </member>
         <member name="T:Newcats.JobManager.Api.Domain.Entity.FireState">
             <summary>
             Job执行结果
@@ -314,6 +363,48 @@
             <summary>
             等待立即执行
             </summary>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.IService.IJobService.GetSystemMainJobAsync">
+            <summary>
+            获取系统主Job(承载其他Job的系统级Job，唯一)
+            </summary>
+            <returns>唯一的系统主Job</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.IService.IJobService.ModifyJobAsync(Newcats.JobManager.Api.Domain.Entity.JobInfoEntity)">
+            <summary>
+            更新一个JobInfo记录
+            </summary>
+            <param name="jobInfoEntity">JobInfo记录</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.IService.IJobService.GetLatestJobLogs(System.Int32,System.Int32)">
+            <summary>
+            获取指定数量的最新的JobLog日志记录
+            </summary>
+            <param name="jobId">jobId</param>
+            <param name="top">需要获取的数量</param>
+            <returns>JobLog集合</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.Service.JobService.GetSystemMainJobAsync">
+            <summary>
+            获取系统主Job(承载其他Job的系统级Job，唯一)
+            </summary>
+            <returns>唯一的系统主Job</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.Service.JobService.ModifyJobAsync(Newcats.JobManager.Api.Domain.Entity.JobInfoEntity)">
+            <summary>
+            更新一个JobInfo记录
+            </summary>
+            <param name="jobInfoEntity">JobInfo记录</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.Service.JobService.GetLatestJobLogs(System.Int32,System.Int32)">
+            <summary>
+            获取指定数量的最新的JobLog日志记录
+            </summary>
+            <param name="top">需要获取的数量</param>
+            <param name="jobId">jobId</param>
+            <returns>JobLog集合</returns>
         </member>
         <member name="T:Newcats.JobManager.Api.Infrastructure.DataAccess.DbHelper">
             <summary>
@@ -601,7 +692,7 @@
             所有与数据库交互的类都必须实现此接口
             </summary>
         </member>
-        <!-- 对于成员“T:Newcats.JobManager.Api.Infrastructure.DataAccess.IRepository`2”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:Newcats.JobManager.Api.Infrastructure.DataAccess.IRepository`2" -->
         <member name="P:Newcats.JobManager.Api.Infrastructure.DataAccess.IRepository`2.Connection">
             <summary>
             1.数据库链接,在构造函数初始化(默认链接为"DefaultConnection")。
@@ -1021,7 +1112,7 @@
             <param name="commandType">执行类型，默认为CommandType.Text</param>
             <returns>查询结果</returns>
         </member>
-        <!-- 对于成员“T:Newcats.JobManager.Api.Infrastructure.DataAccess.Repository`2”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:Newcats.JobManager.Api.Infrastructure.DataAccess.Repository`2" -->
         <member name="M:Newcats.JobManager.Api.Infrastructure.DataAccess.Repository`2.#ctor">
             <summary>
             构造函数，初始化Connection/EntityType属性并赋值
@@ -2660,8 +2751,8 @@
             集合类型扩展方法
             </summary>
         </member>
-        <!-- 对于成员“M:Newcats.JobManager.Api.Infrastructure.Text.CollectionExtensions.ToDataTable``1(System.Collections.Generic.IEnumerable{``0})”忽略有格式错误的 XML 注释 -->
-        <!-- 对于成员“M:Newcats.JobManager.Api.Infrastructure.Text.CollectionExtensions.ToList``1(System.Data.DataTable)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:Newcats.JobManager.Api.Infrastructure.Text.CollectionExtensions.ToDataTable``1(System.Collections.Generic.IEnumerable{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:Newcats.JobManager.Api.Infrastructure.Text.CollectionExtensions.ToList``1(System.Data.DataTable)" -->
         <member name="M:Newcats.JobManager.Api.Infrastructure.Text.CollectionExtensions.IsNullable(System.Type)">
             <summary>
             Determine of specified type is nullable
