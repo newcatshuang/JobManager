@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
-using Newcats.JobManager.Host.Util.Encrypt;
+using Newcats.JobManager.Common.Util.Encrypt;
 
-namespace Newcats.JobManager.Host.Domain.Repository
+namespace Newcats.JobManager.Common.DataAccess
 {
     /// <summary>
     /// 1.仓储实现类,提供数据库访问能力,封装了基本的CRUD方法。

@@ -1,5 +1,5 @@
 ﻿using System;
-using Newcats.JobManager.Host.Domain.Repository;
+using Newcats.JobManager.Common.DataAccess;
 
 namespace Newcats.JobManager.Host.Domain.Entity
 {

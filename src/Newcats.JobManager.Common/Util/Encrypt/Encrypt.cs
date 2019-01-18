@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Newcats.JobManager.Host.Util.Encrypt
+namespace Newcats.JobManager.Common.Util.Encrypt
 {
     /// <summary>
     /// 加密操作

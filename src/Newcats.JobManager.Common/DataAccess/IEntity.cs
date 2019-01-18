@@ -1,4 +1,4 @@
-﻿namespace Newcats.JobManager.Host.Domain.Repository
+﻿namespace Newcats.JobManager.Common.DataAccess
 {
     /// <summary>
     /// 标记接口，无实现

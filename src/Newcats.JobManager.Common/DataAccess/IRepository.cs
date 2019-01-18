@@ -3,7 +3,7 @@ using System.Data;
 using System.Threading.Tasks;
 using Dapper;
 
-namespace Newcats.JobManager.Host.Domain.Repository
+namespace Newcats.JobManager.Common.DataAccess
 {
     /// <summary>
     /// 1.仓储接口,提供数据库访问能力,封装了基本的CRUD方法。

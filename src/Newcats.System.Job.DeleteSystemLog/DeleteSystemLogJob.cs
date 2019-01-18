@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newcats.JobManager.Common;
+using Quartz;
 
 namespace Newcats.System.Job.DeleteSystemLog
 {
-    class Program
+    public class DeleteSystemLogJob : IJob
     {
-        static void Main(string[] args)
+        public Task Execute(IJobExecutionContext context)
         {
+            throw new NotImplementedException();
         }
     }
 }
