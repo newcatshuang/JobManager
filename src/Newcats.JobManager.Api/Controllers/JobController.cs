@@ -475,5 +475,58 @@ namespace Newcats.JobManager.Api.Controllers
             return Json(new TableResult(retTable, request.Draw, totals));
             #endregion
         }
+
+        /// <summary>
+        /// 根据搜索条件，分页获取Job可执行文件的文件信息
+        /// </summary>
+        /// <param name="request">搜索条件</param>
+        /// <returns>文件信息集合</returns>
+        [HttpPost]
+        [SwaggerResponse(200, type: typeof(TableResult))]
+        public IActionResult GetFileInfoList()
+        {
+            #region 筛选条件
+
+            #endregion
+
+            #region 排序和分页
+
+            #endregion
+
+            #region 获取数据
+            DirectoryInfo baseDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());//当前执行路径
+            string hostPath = Path.Combine(baseDirectory.Parent.FullName, "JobHost");//JobHost文件夹的路径
+            if (!Directory.Exists(hostPath))
+                Directory.CreateDirectory(hostPath);
+            DirectoryInfo hostDirectory = new DirectoryInfo(hostPath);
+            FileInfo[] list = hostDirectory.GetFiles();
+            #endregion
+
+            #region 返回数据
+            List<object[]> retTable = new List<object[]>();
+            if (list != null && list.Any())
+            {
+                int index = 1;
+                foreach (FileInfo item in list)
+                {
+                    #region 填充一行
+                    List<object> retRow = new List<object>();
+                    retRow.Add(index);
+                    retRow.Add(item.Name);
+                    retRow.Add(item.Length);
+                    retRow.Add(item.CreationTime);
+                    retRow.Add(item.LastAccessTime);
+                    retRow.Add(item.LastWriteTime);
+
+                    StringBuilder btnHtml = new StringBuilder();
+                    btnHtml.AppendFormat("<a class='btn btn-xs btn-primary' href='javascript:;' onclick='TableAjax.ShowLogTable({0},this)'>下载</a>", item.FullName);
+                    retRow.Add(btnHtml.ToString());
+                    retTable.Add(retRow.ToArray());
+                    #endregion
+                }
+            }
+            return Json(new TableResult(retTable, list == null ? 0 : list.Length, list == null ? 0 : list.Length));
+            #endregion
+        }
     }
 }
