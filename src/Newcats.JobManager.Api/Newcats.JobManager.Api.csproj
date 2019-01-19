@@ -9,6 +9,10 @@
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>D:\Projects\JobManager\src\Newcats.JobManager.Api\Newcats.JobManager.Api.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="LogFiles\**" />
     <Content Remove="LogFiles\**" />
