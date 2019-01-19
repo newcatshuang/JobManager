@@ -7,7 +7,7 @@ namespace Newcats.System.Job.DeleteSystemLog
     {
         public Task Execute(IJobExecutionContext context)
         {
-            DeleteService.DeleteSystemLog();
+            new DeleteService().DeleteSystemLog();
             return Task.CompletedTask;
         }
     }

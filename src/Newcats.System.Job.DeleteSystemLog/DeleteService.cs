@@ -7,14 +7,14 @@ namespace Newcats.System.Job.DeleteSystemLog
 {
     public class DeleteService
     {
-        private static readonly Repository<JobLogEntity, long> _repository;
+        private readonly Repository<JobLogEntity, long> _repository;
 
-        static DeleteService()
+        public DeleteService()
         {
             _repository = new Repository<JobLogEntity, long>();
         }
 
-        public static bool DeleteSystemLog()
+        public bool DeleteSystemLog()
         {
             return _repository.Delete(new List<DbWhere<JobLogEntity>>
             {

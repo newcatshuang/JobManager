@@ -46,7 +46,7 @@ namespace Newcats.JobManager.Host.Manager
                     logEntity.Content = "success";
                 }
                 logEntity.CreateTime = DateTime.Now;
-                JobService.UpdateJobFireResult(nextFireTime, logEntity);
+                new JobService().UpdateJobFireResult(nextFireTime, logEntity);
             }
             catch { }
             return Task.CompletedTask;

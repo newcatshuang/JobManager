@@ -9,17 +9,17 @@ namespace Newcats.JobManager.Host.Service
 {
     public class JobService
     {
-        private static readonly Repository<JobInfoEntity, int> _jobRepository;
+        private readonly Repository<JobInfoEntity, int> _jobRepository;
 
-        private static readonly Repository<JobLogEntity, long> _logRepository;
+        private readonly Repository<JobLogEntity, long> _logRepository;
 
-        static JobService()
+        public JobService()
         {
             _jobRepository = new Repository<JobInfoEntity, int>();
             _logRepository = new Repository<JobLogEntity, long>();
         }
 
-        public static IEnumerable<JobInfoEntity> GetAllowScheduleJobs()
+        public IEnumerable<JobInfoEntity> GetAllowScheduleJobs()
         {
             List<DbWhere<JobInfoEntity>> dbWheres = new List<DbWhere<JobInfoEntity>>
             {
@@ -29,17 +29,17 @@ namespace Newcats.JobManager.Host.Service
             return _jobRepository.GetAll(dbWheres, null, new DbOrderBy<JobInfoEntity>(j => j.CreateTime, SortType.ASC));
         }
 
-        public static bool UpdateJobState(int jobId, JobState jobState)
+        public bool UpdateJobState(int jobId, JobState jobState)
         {
             return _jobRepository.Update(jobId, new List<DbUpdate<JobInfoEntity>> { new DbUpdate<JobInfoEntity>(j => j.State, jobState) }) > 0;
         }
 
-        public static bool InsertLog(JobLogEntity logEntity)
+        public bool InsertLog(JobLogEntity logEntity)
         {
             return _logRepository.Insert(logEntity) > 0;
         }
 
-        public static bool UpdateJobFireResult(DateTime nextFireTime, JobLogEntity logEntity)
+        public bool UpdateJobFireResult(DateTime nextFireTime, JobLogEntity logEntity)
         {
             int r = 0;
             using (TransactionScope trans = new TransactionScope())
@@ -62,7 +62,7 @@ namespace Newcats.JobManager.Host.Service
         /// 获取系统主Job(承载其他Job的系统级Job，唯一)
         /// </summary>
         /// <returns>唯一的系统主Job</returns>
-        public static JobInfoEntity GetSystemMainJobAsync()
+        public JobInfoEntity GetSystemMainJobAsync()
         {
             List<DbWhere<JobInfoEntity>> dbWheres = new List<DbWhere<JobInfoEntity>>
             {
@@ -74,12 +74,12 @@ namespace Newcats.JobManager.Host.Service
             return _jobRepository.Get(dbWheres, dbOrderBy: new DbOrderBy<JobInfoEntity>(j => j.Id));
         }
 
-        public static int InsertJob(JobInfoEntity jobInfoEntity)
+        public int InsertJob(JobInfoEntity jobInfoEntity)
         {
             return _jobRepository.Insert(jobInfoEntity);
         }
 
-        public static bool SetSystemJobAvailable(int systemJobId)
+        public bool SetSystemJobAvailable(int systemJobId)
         {
             List<DbUpdate<JobInfoEntity>> dbUpdates = new List<DbUpdate<JobInfoEntity>>
             {
