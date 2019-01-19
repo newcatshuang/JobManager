@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newcats.JobManager.Common;
+﻿using System.Threading.Tasks;
 using Quartz;
 
 namespace Newcats.System.Job.DeleteSystemLog
@@ -12,7 +7,8 @@ namespace Newcats.System.Job.DeleteSystemLog
     {
         public Task Execute(IJobExecutionContext context)
         {
-            throw new NotImplementedException();
+            DeleteService.DeleteSystemLog();
+            return Task.CompletedTask;
         }
     }
 }

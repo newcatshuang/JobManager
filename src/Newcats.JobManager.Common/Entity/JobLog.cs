@@ -1,7 +1,7 @@
 ﻿using System;
 using Newcats.JobManager.Common.DataAccess;
 
-namespace Newcats.JobManager.Host.Domain.Entity
+namespace Newcats.JobManager.Common.Entity
 {
     /// <summary>
     /// Job执行日志

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Newcats.JobManager.Host.Domain.Entity
+namespace Newcats.JobManager.Common.Entity
 {
     public enum JobState
     {

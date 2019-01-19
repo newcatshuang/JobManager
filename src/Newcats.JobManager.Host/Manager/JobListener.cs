@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Newcats.JobManager.Host.Domain.Entity;
-using Newcats.JobManager.Host.Domain.Service;
+using Newcats.JobManager.Common.Entity;
+using Newcats.JobManager.Host.Service;
 using Quartz;
 
 namespace Newcats.JobManager.Host.Manager

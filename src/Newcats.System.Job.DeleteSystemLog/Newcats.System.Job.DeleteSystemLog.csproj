@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeleteService.cs" />
     <Compile Include="DeleteSystemLogJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

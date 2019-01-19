@@ -36,9 +36,6 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Quartz, Version=3.0.6.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Quartz.3.0.6\lib\net452\Quartz.dll</HintPath>
     </Reference>
@@ -58,12 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Entity\FireState.cs" />
-    <Compile Include="Domain\Entity\JobInfo.cs" />
-    <Compile Include="Domain\Entity\JobLog.cs" />
-    <Compile Include="Domain\Entity\JobState.cs" />
-    <Compile Include="Domain\Entity\JobLevel.cs" />
-    <Compile Include="Domain\Service\JobService.cs" />
+    <Compile Include="Service\JobService.cs" />
     <Compile Include="Manager\QuartzManager.cs" />
     <Compile Include="Manager\JobListener.cs" />
     <Compile Include="Manager\ServiceRunner.cs" />

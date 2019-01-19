@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Transactions;
 using Newcats.JobManager.Common.DataAccess;
-using Newcats.JobManager.Host.Domain.Entity;
+using Newcats.JobManager.Common.Entity;
 
-namespace Newcats.JobManager.Host.Domain.Service
+namespace Newcats.JobManager.Host.Service
 {
     public class JobService
     {

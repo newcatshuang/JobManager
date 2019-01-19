@@ -51,6 +51,11 @@
     <Compile Include="DataAccess\IEntity.cs" />
     <Compile Include="DataAccess\IRepository.cs" />
     <Compile Include="DataAccess\Repository.cs" />
+    <Compile Include="Entity\FireState.cs" />
+    <Compile Include="Entity\JobInfo.cs" />
+    <Compile Include="Entity\JobLevel.cs" />
+    <Compile Include="Entity\JobLog.cs" />
+    <Compile Include="Entity\JobState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Encrypt\Encrypt.cs" />
     <Compile Include="Util\Encrypt\RsaHelper.cs" />
