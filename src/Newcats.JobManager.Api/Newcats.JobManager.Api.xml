@@ -72,6 +72,12 @@
             Job管理控制器
             </summary>
         </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.#ctor(Newcats.JobManager.Api.Domain.IService.IJobService)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="job"></param>
+        </member>
         <member name="M:Newcats.JobManager.Api.Controllers.JobController.GetJob(System.Int32)">
             <summary>
             根据主键Id,获取一个JobInfo实体
@@ -155,6 +161,13 @@
             </summary>
             <param name="request">搜索条件</param>
             <returns>JobLog实体集合</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.GetFileInfoList(Newcats.JobManager.Api.Models.Requests.FileListRequest)">
+            <summary>
+            根据搜索条件，获取JobHost目录下的所有文件
+            </summary>
+            <param name="request">搜索条件</param>
+            <returns>文件信息集合</returns>
         </member>
         <member name="T:Newcats.JobManager.Api.Domain.Entity.FireState">
             <summary>
@@ -3722,6 +3735,41 @@
             <param name="code">代码，一般code=0表示成功</param>
             <param name="message">提示消息</param>
             <param name="data">数据</param>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.FileListRequest.Name">
+            <summary>
+            文件名
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.FileListRequest.CreateTimeStart">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.FileListRequest.CreateTimeEnd">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.FileListRequest.AccessTimeStart">
+            <summary>
+            访问时间
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.FileListRequest.AccessTimeEnd">
+            <summary>
+            访问时间
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.FileListRequest.WriteTimeStart">
+            <summary>
+            写入时间
+            </summary>
+        </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.FileListRequest.WriteTimeEnd">
+            <summary>
+            写入时间
+            </summary>
         </member>
         <member name="P:Newcats.JobManager.Api.Models.Requests.JobListRequest.Id">
             <summary>

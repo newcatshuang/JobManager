@@ -24,6 +24,10 @@ namespace Newcats.JobManager.Api.Controllers
     {
         private readonly IJobService _jobService;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="job"></param>
         public JobController(IJobService job)
         {
             _jobService = job;
@@ -477,29 +481,72 @@ namespace Newcats.JobManager.Api.Controllers
         }
 
         /// <summary>
-        /// 根据搜索条件，分页获取Job可执行文件的文件信息
+        /// 根据搜索条件，获取JobHost目录下的所有文件
         /// </summary>
         /// <param name="request">搜索条件</param>
         /// <returns>文件信息集合</returns>
         [HttpPost]
         [SwaggerResponse(200, type: typeof(TableResult))]
-        public IActionResult GetFileInfoList()
+        public IActionResult GetFileInfoList([FromForm] FileListRequest request)
         {
-            #region 筛选条件
-
-            #endregion
-
-            #region 排序和分页
-
-            #endregion
-
             #region 获取数据
-            DirectoryInfo baseDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());//当前执行路径
+            DirectoryInfo baseDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());//当前执行路径 new DirectoryInfo("D:\\JobManager\\JobApi");
             string hostPath = Path.Combine(baseDirectory.Parent.FullName, "JobHost");//JobHost文件夹的路径
             if (!Directory.Exists(hostPath))
                 Directory.CreateDirectory(hostPath);
             DirectoryInfo hostDirectory = new DirectoryInfo(hostPath);
             FileInfo[] list = hostDirectory.GetFiles();
+            #endregion
+
+            #region 搜索、排序、分页
+            if (list != null && list.Any())
+            {
+                if (!string.IsNullOrWhiteSpace(request.Name))
+                    list = list.Where(f => f.Name.Contains(request.Name.Trim(), StringComparison.OrdinalIgnoreCase)).ToArray();
+                if (request.CreateTimeStart.HasValue)
+                    list = list.Where(f => f.CreationTime >= request.CreateTimeStart).ToArray();
+                if (request.CreateTimeEnd.HasValue)
+                    list = list.Where(f => f.CreationTime <= request.CreateTimeEnd).ToArray();
+                if (request.AccessTimeStart.HasValue)
+                    list = list.Where(f => f.LastAccessTime >= request.AccessTimeStart).ToArray();
+                if (request.AccessTimeEnd.HasValue)
+                    list = list.Where(f => f.LastAccessTime <= request.AccessTimeEnd).ToArray();
+                if (request.WriteTimeStart.HasValue)
+                    list = list.Where(f => f.LastWriteTime >= request.WriteTimeStart).ToArray();
+                if (request.WriteTimeEnd.HasValue)
+                    list = list.Where(f => f.LastWriteTime <= request.WriteTimeEnd).ToArray();
+
+                int orderIndex = request.Order[0].Column;
+                bool isAsc = request.Order[0].Dir.Equals("asc", StringComparison.OrdinalIgnoreCase);
+                switch (orderIndex)
+                {
+                    case 1://Name
+                        if (isAsc) list = list.OrderBy(f => f.Name).ToArray();
+                        else list = list.OrderByDescending(f => f.Name).ToArray();
+                        break;
+                    case 2://Length
+                        if (isAsc) list = list.OrderBy(f => f.Length).ToArray();
+                        else list = list.OrderByDescending(f => f.Length).ToArray();
+                        break;
+                    case 3://CreationTime
+                        if (isAsc) list = list.OrderBy(f => f.CreationTime).ToArray();
+                        else list = list.OrderByDescending(f => f.CreationTime).ToArray();
+                        break;
+                    case 4://LastAccessTime
+                        if (isAsc) list = list.OrderBy(f => f.LastAccessTime).ToArray();
+                        else list = list.OrderByDescending(f => f.LastAccessTime).ToArray();
+                        break;
+                    case 5://LastWriteTime
+                        if (isAsc) list = list.OrderBy(f => f.LastWriteTime).ToArray();
+                        else list = list.OrderByDescending(f => f.LastWriteTime).ToArray();
+                        break;
+                    default:
+                        break;
+                }
+
+                int pageIndex = request.Start / request.Length;//从第0页开始 
+                list = list.Skip(pageIndex * request.Length).Take(request.Length).ToArray();
+            }
             #endregion
 
             #region 返回数据
@@ -513,19 +560,20 @@ namespace Newcats.JobManager.Api.Controllers
                     List<object> retRow = new List<object>();
                     retRow.Add(index);
                     retRow.Add(item.Name);
-                    retRow.Add(item.Length);
-                    retRow.Add(item.CreationTime);
-                    retRow.Add(item.LastAccessTime);
-                    retRow.Add(item.LastWriteTime);
+                    retRow.Add(item.Length);//字节
+                    retRow.Add(item.CreationTime);//创建时间
+                    retRow.Add(item.LastAccessTime);//访问时间
+                    retRow.Add(item.LastWriteTime);//写入时间
 
                     StringBuilder btnHtml = new StringBuilder();
                     btnHtml.AppendFormat("<a class='btn btn-xs btn-primary' href='javascript:;' onclick='TableAjax.ShowLogTable({0},this)'>下载</a>", item.FullName);
                     retRow.Add(btnHtml.ToString());
                     retTable.Add(retRow.ToArray());
                     #endregion
+                    index++;
                 }
             }
-            return Json(new TableResult(retTable, list == null ? 0 : list.Length, list == null ? 0 : list.Length));
+            return Json(new TableResult(retTable, request.Draw, list == null ? 0 : list.Length));
             #endregion
         }
     }
