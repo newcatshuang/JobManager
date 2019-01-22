@@ -11,6 +11,7 @@ using Newcats.JobManager.Api.Domain.Entity;
 using Newcats.JobManager.Api.Domain.IService;
 using Newcats.JobManager.Api.Infrastructure.DataAccess;
 using Newcats.JobManager.Api.Infrastructure.Text;
+using Newcats.JobManager.Api.Infrastructure.Text.Encrypt;
 using Newcats.JobManager.Api.Models;
 using Newcats.JobManager.Api.Models.Requests;
 using Swashbuckle.AspNetCore.Annotations;
@@ -566,7 +567,7 @@ namespace Newcats.JobManager.Api.Controllers
                     retRow.Add(item.LastWriteTime);//写入时间
 
                     StringBuilder btnHtml = new StringBuilder();
-                    btnHtml.AppendFormat("<a class='btn btn-xs btn-primary' href='javascript:;' onclick='TableAjax.ShowLogTable({0},this)'>下载</a>", item.FullName);
+                    btnHtml.AppendFormat("<a class='btn btn-xs btn-primary' href='javascript:;' onclick='FileTableAjax.Download(\"{0}\",this)'>下载</a>", Encrypt.MD5By32(item.FullName));
                     retRow.Add(btnHtml.ToString());
                     retTable.Add(retRow.ToArray());
                     #endregion
@@ -575,6 +576,21 @@ namespace Newcats.JobManager.Api.Controllers
             }
             return Json(new TableResult(retTable, request.Draw, list == null ? 0 : list.Length));
             #endregion
+        }
+
+        [HttpPost]
+        [SwaggerResponse(200, type: typeof(FileResult))]
+        public IActionResult Download(string fileName)
+        {
+            DirectoryInfo baseDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());//当前执行路径 new DirectoryInfo("D:\\JobManager\\JobApi");
+            string hostPath = Path.Combine(baseDirectory.Parent.FullName, "JobHost");//JobHost文件夹的路径
+            if (!Directory.Exists(hostPath))
+                Directory.CreateDirectory(hostPath);
+            DirectoryInfo hostDirectory = new DirectoryInfo(hostPath);
+            FileInfo[] list = hostDirectory.GetFiles();
+
+            FileInfo file = list.Where(f => Encrypt.MD5By32(f.FullName).Equals(fileName)).FirstOrDefault();
+            return File();
         }
     }
 }
