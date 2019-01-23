@@ -26,7 +26,7 @@ namespace Newcats.System.Job.DeleteSystemLog
             return _logRepository.Delete(new List<DbWhere<JobLogEntity>>
             {
                 new DbWhere<JobLogEntity>(j => j.CreateTime, DateTime.Now.AddMonths(-1), OperateType.LessEqual),
-                new DbWhere<JobLogEntity>(j=>j.JobId,jobs.Select(s=>s.Id).ToArray())
+                new DbWhere<JobLogEntity>(j=>j.JobId,jobs.Select(s=>s.Id).ToArray(), OperateType.In)
             }, commandTimeout: 600) > 0;
         }
     }
