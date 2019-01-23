@@ -169,6 +169,19 @@
             <param name="request">搜索条件</param>
             <returns>文件信息集合</returns>
         </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.Download(System.String)">
+            <summary>
+            下载指定文件
+            </summary>
+            <param name="fileName">文件全路径MD5</param>
+            <returns>文件流</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.GetHostDirectoryInfo">
+            <summary>
+            获取JobHost的根目录
+            </summary>
+            <returns>JobHost目录</returns>
+        </member>
         <member name="T:Newcats.JobManager.Api.Domain.Entity.FireState">
             <summary>
             Job执行结果

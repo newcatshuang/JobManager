@@ -491,12 +491,7 @@ namespace Newcats.JobManager.Api.Controllers
         public IActionResult GetFileInfoList([FromForm] FileListRequest request)
         {
             #region 获取数据
-            DirectoryInfo baseDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());//当前执行路径 new DirectoryInfo("D:\\JobManager\\JobApi");
-            string hostPath = Path.Combine(baseDirectory.Parent.FullName, "JobHost");//JobHost文件夹的路径
-            if (!Directory.Exists(hostPath))
-                Directory.CreateDirectory(hostPath);
-            DirectoryInfo hostDirectory = new DirectoryInfo(hostPath);
-            FileInfo[] list = hostDirectory.GetFiles();
+            FileInfo[] list = GetHostDirectoryInfo().GetFiles();
             #endregion
 
             #region 搜索、排序、分页
@@ -567,7 +562,7 @@ namespace Newcats.JobManager.Api.Controllers
                     retRow.Add(item.LastWriteTime);//写入时间
 
                     StringBuilder btnHtml = new StringBuilder();
-                    btnHtml.AppendFormat("<a class='btn btn-xs btn-primary' href='javascript:;' onclick='FileTableAjax.Download(\"{0}\",this)'>下载</a>", Encrypt.MD5By32(item.FullName));
+                    btnHtml.AppendFormat("<a class='btn btn-xs btn-primary' traget='_blank' href='http://localhost:5000/api/Job/Download/{0}'>下载</a>", Encrypt.MD5By32(item.FullName));
                     retRow.Add(btnHtml.ToString());
                     retTable.Add(retRow.ToArray());
                     #endregion
@@ -578,19 +573,33 @@ namespace Newcats.JobManager.Api.Controllers
             #endregion
         }
 
-        [HttpPost]
+        /// <summary>
+        /// 下载指定文件
+        /// </summary>
+        /// <param name="fileName">文件全路径MD5</param>
+        /// <returns>文件流</returns>
+        [HttpGet("{fileName}")]
         [SwaggerResponse(200, type: typeof(FileResult))]
         public IActionResult Download(string fileName)
+        {
+            FileInfo[] list = GetHostDirectoryInfo().GetFiles();
+
+            FileInfo file = list.Where(f => Encrypt.MD5By32(f.FullName).Equals(fileName)).FirstOrDefault();
+            FileStream fs = new FileStream(file.FullName, FileMode.Open, FileAccess.ReadWrite);
+            return File(fs, "application/octet-stream", file.Name, false);
+        }
+
+        /// <summary>
+        /// 获取JobHost的根目录
+        /// </summary>
+        /// <returns>JobHost目录</returns>
+        private DirectoryInfo GetHostDirectoryInfo()
         {
             DirectoryInfo baseDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());//当前执行路径 new DirectoryInfo("D:\\JobManager\\JobApi");
             string hostPath = Path.Combine(baseDirectory.Parent.FullName, "JobHost");//JobHost文件夹的路径
             if (!Directory.Exists(hostPath))
                 Directory.CreateDirectory(hostPath);
-            DirectoryInfo hostDirectory = new DirectoryInfo(hostPath);
-            FileInfo[] list = hostDirectory.GetFiles();
-
-            FileInfo file = list.Where(f => Encrypt.MD5By32(f.FullName).Equals(fileName)).FirstOrDefault();
-            return File();
+            return new DirectoryInfo(hostPath);
         }
     }
 }
