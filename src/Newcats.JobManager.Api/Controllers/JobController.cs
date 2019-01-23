@@ -562,7 +562,7 @@ namespace Newcats.JobManager.Api.Controllers
                     retRow.Add(item.LastWriteTime);//写入时间
 
                     StringBuilder btnHtml = new StringBuilder();
-                    btnHtml.AppendFormat("<a class='btn btn-xs btn-primary' traget='_blank' href='http://localhost:5000/api/Job/Download/{0}'>下载</a>", Encrypt.MD5By32(item.FullName));
+                    btnHtml.AppendFormat("<a class='btn btn-xs btn-success' traget='_blank' href='http://localhost:5000/api/Job/Download/{0}'><i class='fa fa-cloud-download'>下载</i></a>", Encrypt.MD5By32(item.FullName));
                     retRow.Add(btnHtml.ToString());
                     retTable.Add(retRow.ToArray());
                     #endregion
