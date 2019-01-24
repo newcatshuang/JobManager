@@ -765,7 +765,7 @@
             所有与数据库交互的类都必须实现此接口
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:Newcats.JobManager.Api.Infrastructure.DataAccess.IRepository`2" -->
+        <!-- 对于成员“T:Newcats.JobManager.Api.Infrastructure.DataAccess.IRepository`2”忽略有格式错误的 XML 注释 -->
         <member name="P:Newcats.JobManager.Api.Infrastructure.DataAccess.IRepository`2.Connection">
             <summary>
             1.数据库链接,在构造函数初始化(默认链接为"DefaultConnection")。
@@ -1185,7 +1185,7 @@
             <param name="commandType">执行类型，默认为CommandType.Text</param>
             <returns>查询结果</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:Newcats.JobManager.Api.Infrastructure.DataAccess.Repository`2" -->
+        <!-- 对于成员“T:Newcats.JobManager.Api.Infrastructure.DataAccess.Repository`2”忽略有格式错误的 XML 注释 -->
         <member name="M:Newcats.JobManager.Api.Infrastructure.DataAccess.Repository`2.#ctor">
             <summary>
             构造函数，初始化Connection/EntityType属性并赋值
@@ -2824,8 +2824,8 @@
             集合类型扩展方法
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Newcats.JobManager.Api.Infrastructure.Text.CollectionExtensions.ToDataTable``1(System.Collections.Generic.IEnumerable{``0})" -->
-        <!-- Badly formed XML comment ignored for member "M:Newcats.JobManager.Api.Infrastructure.Text.CollectionExtensions.ToList``1(System.Data.DataTable)" -->
+        <!-- 对于成员“M:Newcats.JobManager.Api.Infrastructure.Text.CollectionExtensions.ToDataTable``1(System.Collections.Generic.IEnumerable{``0})”忽略有格式错误的 XML 注释 -->
+        <!-- 对于成员“M:Newcats.JobManager.Api.Infrastructure.Text.CollectionExtensions.ToList``1(System.Data.DataTable)”忽略有格式错误的 XML 注释 -->
         <member name="M:Newcats.JobManager.Api.Infrastructure.Text.CollectionExtensions.IsNullable(System.Type)">
             <summary>
             Determine of specified type is nullable

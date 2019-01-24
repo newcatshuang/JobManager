@@ -381,11 +381,7 @@ namespace Newcats.JobManager.Api.Controllers
         public async Task<IActionResult> UploadFile([FromForm] IFormFile dllFile)
         {
             IFormFile file = HttpContext.Request.Form.Files[0];//方法的参数里面取到的dllFile=null，这里可以取到
-            DirectoryInfo baseDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());//当前执行路径
-            string hostPath = Path.Combine(baseDirectory.Parent.FullName, "JobHost");//JobHost文件夹的路径
-            if (!Directory.Exists(hostPath))
-                Directory.CreateDirectory(hostPath);
-            string savedFileName = Path.Combine(hostPath, file.FileName);//保存在JobHost文件夹里的文件名
+            string savedFileName = Path.Combine(GetHostDirectoryInfo().FullName, file.FileName);//保存在JobHost文件夹里的文件名
             try
             {
                 if (System.IO.File.Exists(savedFileName))
