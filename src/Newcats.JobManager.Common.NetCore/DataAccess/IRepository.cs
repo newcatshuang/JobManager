@@ -313,8 +313,7 @@ namespace Newcats.JobManager.Common.NetCore.DataAccess
         /// <param name="commandTimeout">超时时间(单位：秒)</param>
         /// <param name="dbOrderBy">排序</param>
         /// <returns>分页数据集合</returns>
-        //Task<(IEnumerable<TEntity> list, int totalCount)> GetPageAsync(int pageIndex, int pageSize, IEnumerable<DbWhere<TEntity>> dbWheres = null, int? commandTimeout = null, params DbOrderBy<TEntity>[] dbOrderBy);
-        Task<IEnumerable<TEntity>> GetPageAsync(int pageIndex, int pageSize, IEnumerable<DbWhere<TEntity>> dbWheres = null, int? commandTimeout = null, params DbOrderBy<TEntity>[] dbOrderBy);
+        Task<(IEnumerable<TEntity> list, int totalCount)> GetPageAsync(int pageIndex, int pageSize, IEnumerable<DbWhere<TEntity>> dbWheres = null, int? commandTimeout = null, params DbOrderBy<TEntity>[] dbOrderBy);
 
         /// <summary>
         /// 获取所有数据

@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
-using Newcats.JobManager.Common.NetCore.Util.Encrypt;
 
 namespace Newcats.JobManager.Common.NetCore.DataAccess
 {
@@ -76,16 +74,14 @@ namespace Newcats.JobManager.Common.NetCore.DataAccess
                 if (!string.IsNullOrWhiteSpace(connStr))
                     return connStr;
             }
-            string connStrConfig = ConfigurationManager.ConnectionStrings[key].ConnectionString;
+            string connStrConfig = Util.ConfigHelper.AppSettings.GetConnectionString(key);
             if (string.IsNullOrWhiteSpace(connStrConfig))
             {
-                throw new KeyNotFoundException($"The config item ConnectionStrings:{key} do not exists on file App.config");
+                throw new KeyNotFoundException($"The config item ConnectionStrings:{key} do not exists on file appsettings.json");
             }
-            connStr = Encrypt.DESDecrypt(connStrConfig);
+            connStr = Util.Encrypt.Encrypt.DESDecrypt(connStrConfig);
             _connStrDic[dicKey] = connStr;
             return connStr;
-
-            //return "Data Source = .; Initial Catalog =NewcatsDB20170627; User ID = sa; Password = 123456;";
         }
         #endregion
 
@@ -744,7 +740,7 @@ namespace Newcats.JobManager.Common.NetCore.DataAccess
         /// <param name="commandTimeout">超时时间(单位：秒)</param>
         /// <param name="dbOrderBy">排序</param>
         /// <returns>分页数据集合</returns>
-        public async Task<IEnumerable<TEntity>> GetPageAsync(int pageIndex, int pageSize, IEnumerable<DbWhere<TEntity>> dbWheres = null, int? commandTimeout = null, params DbOrderBy<TEntity>[] dbOrderBy)
+        public async Task<(IEnumerable<TEntity> list, int totalCount)> GetPageAsync(int pageIndex, int pageSize, IEnumerable<DbWhere<TEntity>> dbWheres = null, int? commandTimeout = null, params DbOrderBy<TEntity>[] dbOrderBy)
         {
             string tableName = GetTableName(EntityType);
             string fields = GetTableFieldsQuery(EntityType);
@@ -781,10 +777,9 @@ namespace Newcats.JobManager.Common.NetCore.DataAccess
                     sqlText = $" SELECT * FROM(SELECT TOP {((pageIndex + 1) * pageSize)} ROW_NUMBER() OVER({sqlOrderBy}) RowNumber_Index,{fields} FROM {tableName} {sqlWhere}) temTab1 WHERE RowNumber_Index > {(pageIndex * pageSize)} ORDER BY RowNumber_Index ; SELECT @Row_Count=COUNT(1) FROM {tableName} {sqlWhere}; ";
                 }
             }
-            //IEnumerable<TEntity> list = await Connection.QueryAsync<TEntity>(sqlText, pars, null, commandTimeout, CommandType.Text);
-            //totalCount = pars.Get<int?>("@Row_Count") ?? 0;
-            //return (list, totalCount);
-            return await Connection.QueryAsync<TEntity>(sqlText, pars, null, commandTimeout, CommandType.Text);
+            IEnumerable<TEntity> list = await Connection.QueryAsync<TEntity>(sqlText, pars, null, commandTimeout, CommandType.Text);
+            totalCount = pars.Get<int?>("@Row_Count") ?? 0;
+            return (list, totalCount);
         }
 
         /// <summary>
@@ -793,7 +788,8 @@ namespace Newcats.JobManager.Common.NetCore.DataAccess
         /// <returns>数据集合</returns>
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return await GetPageAsync(0, 0, null, null, null);
+            var (list, totals) = await GetPageAsync(0, 0, null, null, null);
+            return list;
         }
 
         /// <summary>
@@ -805,7 +801,8 @@ namespace Newcats.JobManager.Common.NetCore.DataAccess
         /// <returns>数据集合</returns>
         public async Task<IEnumerable<TEntity>> GetAllAsync(IEnumerable<DbWhere<TEntity>> dbWheres = null, int? commandTimeout = null, params DbOrderBy<TEntity>[] dbOrderBy)
         {
-            return await GetPageAsync(0, 0, dbWheres, commandTimeout, dbOrderBy);
+            var (list, totals) = await GetPageAsync(0, 0, dbWheres, commandTimeout, dbOrderBy);
+            return list;
         }
 
         /// <summary>
@@ -815,7 +812,8 @@ namespace Newcats.JobManager.Common.NetCore.DataAccess
         /// <returns>指定数量的数据集合</returns>
         public async Task<IEnumerable<TEntity>> GetTopAsync(int top)
         {
-            return await GetPageAsync(0, top, null, null, null);
+            var (list, totals) = await GetPageAsync(0, top, null, null, null);
+            return list;
         }
 
         /// <summary>
@@ -828,7 +826,8 @@ namespace Newcats.JobManager.Common.NetCore.DataAccess
         /// <returns>指定数量的数据集合</returns>
         public async Task<IEnumerable<TEntity>> GetTopAsync(int top, IEnumerable<DbWhere<TEntity>> dbWheres = null, int? commandTimeout = null, params DbOrderBy<TEntity>[] dbOrderBy)
         {
-            return await GetPageAsync(0, top, dbWheres, commandTimeout, dbOrderBy);
+            var (list, totals) = await GetPageAsync(0, top, dbWheres, commandTimeout, dbOrderBy);
+            return list;
         }
 
         /// <summary>

@@ -7,16 +7,16 @@ using Newcats.JobManager.Common.NetCore.Entity;
 
 namespace Newcats.JobManager.Host.NetCore.Service
 {
-    public class JobService
+    public class JobService : IJobService
     {
-        private readonly Repository<JobInfoEntity, int> _jobRepository;
+        private readonly IRepository<JobInfoEntity, int> _jobRepository;
 
-        private readonly Repository<JobLogEntity, long> _logRepository;
+        private readonly IRepository<JobLogEntity, long> _logRepository;
 
-        public JobService()
+        public JobService(IRepository<JobInfoEntity, int> jobRepository, IRepository<JobLogEntity, long> logRepository)
         {
-            _jobRepository = new Repository<JobInfoEntity, int>();
-            _logRepository = new Repository<JobLogEntity, long>();
+            _jobRepository = jobRepository;
+            _logRepository = logRepository;
         }
 
         public IEnumerable<JobInfoEntity> GetAllowScheduleJobs()

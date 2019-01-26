@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using log4net;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Newcats.JobManager.Common.NetCore.Entity;
 using Newcats.JobManager.Host.NetCore.Service;
 using Quartz;
@@ -12,13 +13,81 @@ using Quartz.Impl.Triggers;
 
 namespace Newcats.JobManager.Host.NetCore.Manager
 {
-    public class QuartzManager
+    public class QuartzManager : IQuartzManager
     {
-        private static readonly ILog _log;
+        private readonly ILogger _log;
+        private readonly IJobService _jobService;
 
-        static QuartzManager()
+        public QuartzManager(ILogger<QuartzManager> log, IJobService jobService)
         {
-            _log = LogManager.GetLogger(nameof(QuartzManager));
+            _log = log;
+            _jobService = jobService;
+        }
+
+        /// <summary>
+        /// Job调度
+        /// </summary>
+        /// <param name="scheduler"></param>
+        public async Task ManagerScheduler(IScheduler scheduler)
+        {
+            KeepSystemJobRunning(scheduler);
+            IEnumerable<JobInfoEntity> list = _jobService.GetAllowScheduleJobs();
+            if (list != null && list.Any())
+            {
+                foreach (JobInfoEntity jobInfo in list)
+                {
+                    JobKey jobKey = new JobKey(jobInfo.Id.ToString(), jobInfo.Id.ToString() + "Group");
+                    if (await scheduler.CheckExists(jobKey) == false)//不存在调度器中，添加
+                    {
+                        if (jobInfo.State == JobState.Starting)
+                        {
+                            ManagerJob(scheduler, jobInfo);//添加job到调度器
+                            if (await scheduler.CheckExists(jobKey) == false)//添加失败
+                                _jobService.UpdateJobState(jobInfo.Id, JobState.Stopped);
+                            else
+                                _jobService.UpdateJobState(jobInfo.Id, JobState.Running);
+                        }
+                        else if (jobInfo.State == JobState.Stopping)
+                        {
+                            _jobService.UpdateJobState(jobInfo.Id, JobState.Stopped);
+                        }
+                        else if (jobInfo.State == JobState.Updating)
+                        {
+                            ManagerJob(scheduler, jobInfo);//添加job到调度器
+                            if (await scheduler.CheckExists(jobKey) == false)//添加失败
+                                _jobService.UpdateJobState(jobInfo.Id, JobState.Stopped);
+                            else
+                                _jobService.UpdateJobState(jobInfo.Id, JobState.Running);
+                        }
+                    }
+                    else//job已存在调度器中，停止或启动调度
+                    {
+                        if (jobInfo.State == JobState.Stopping)
+                        {
+                            await scheduler.DeleteJob(jobKey);
+                            _jobService.UpdateJobState(jobInfo.Id, JobState.Stopped);
+                        }
+                        else if (jobInfo.State == JobState.Starting)
+                        {
+                            _jobService.UpdateJobState(jobInfo.Id, JobState.Running);
+                        }
+                        else if (jobInfo.State == JobState.Updating)
+                        {
+                            await scheduler.DeleteJob(jobKey);
+                            ManagerJob(scheduler, jobInfo);//添加job到调度器
+                            if (await scheduler.CheckExists(jobKey) == false)//添加失败
+                                _jobService.UpdateJobState(jobInfo.Id, JobState.Stopped);
+                            else
+                                _jobService.UpdateJobState(jobInfo.Id, JobState.Running);
+                        }
+                        else if (jobInfo.State == JobState.FireNow)
+                        {
+                            await scheduler.TriggerJob(jobKey);
+                            _jobService.UpdateJobState(jobInfo.Id, JobState.Running);
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -27,7 +96,7 @@ namespace Newcats.JobManager.Host.NetCore.Manager
         /// <param name="assemblyName">含后缀的程序集名</param>
         /// <param name="className">含命名空间完整类名</param>
         /// <returns></returns>
-        private static Type GetClassInfo(string assemblyName, string className)
+        private Type GetClassInfo(string assemblyName, string className)
         {
             Type type = null;
             try
@@ -38,7 +107,7 @@ namespace Newcats.JobManager.Host.NetCore.Manager
             }
             catch (Exception e)
             {
-                _log.Error($"动态加载类型失败。程序集:{assemblyName}|类名:{className}。", e);
+                _log.LogError($"动态加载类型失败。程序集:{assemblyName}|类名:{className}。", e);
             }
             return type;
         }
@@ -48,7 +117,7 @@ namespace Newcats.JobManager.Host.NetCore.Manager
         /// </summary>
         /// <param name="relativePath">相对路径</param>
         /// <returns></returns>
-        private static string GetAbsolutePath(string relativePath)
+        private string GetAbsolutePath(string relativePath)
         {
             if (string.IsNullOrEmpty(relativePath))
             {
@@ -67,7 +136,7 @@ namespace Newcats.JobManager.Host.NetCore.Manager
         /// </summary>
         /// <param name="scheduler">调度器</param>
         /// <param name="jobInfo">Job信息</param>
-        private static async void ManagerJob(IScheduler scheduler, JobInfoEntity jobInfo)
+        private async void ManagerJob(IScheduler scheduler, JobInfoEntity jobInfo)
         {
             if (CronExpression.IsValidExpression(jobInfo.CronExpression))
             {
@@ -93,7 +162,7 @@ namespace Newcats.JobManager.Host.NetCore.Manager
                     }
                     catch (Exception e)
                     {
-                        new JobService().InsertLog(new JobLogEntity
+                        _jobService.InsertLog(new JobLogEntity
                         {
                             JobId = jobInfo.Id,
                             FireTime = DateTime.Now,
@@ -102,12 +171,12 @@ namespace Newcats.JobManager.Host.NetCore.Manager
                             Content = $"{jobInfo.Name}启用失败,异常信息：{e.Message}！",
                             CreateTime = DateTime.Now
                         });
-                        _log.Error($"JobId:{jobInfo.Id}|JobName:{jobInfo.Name}启用失败！", e);
+                        _log.LogError($"JobId:{jobInfo.Id}|JobName:{jobInfo.Name}启用失败！", e);
                     }
                 }
                 else
                 {
-                    new JobService().InsertLog(new JobLogEntity
+                    _jobService.InsertLog(new JobLogEntity
                     {
                         JobId = jobInfo.Id,
                         FireTime = DateTime.Now,
@@ -120,7 +189,7 @@ namespace Newcats.JobManager.Host.NetCore.Manager
             }
             else
             {
-                new JobService().InsertLog(new JobLogEntity
+                _jobService.InsertLog(new JobLogEntity
                 {
                     JobId = jobInfo.Id,
                     FireTime = DateTime.Now,
@@ -133,77 +202,11 @@ namespace Newcats.JobManager.Host.NetCore.Manager
         }
 
         /// <summary>
-        /// Job调度
-        /// </summary>
-        /// <param name="scheduler"></param>
-        public static async void ManagerScheduler(IScheduler scheduler)
-        {
-            KeepSystemJobRunning(scheduler);
-            IEnumerable<JobInfoEntity> list = new JobService().GetAllowScheduleJobs();
-            if (list != null && list.Any())
-            {
-                foreach (JobInfoEntity jobInfo in list)
-                {
-                    JobKey jobKey = new JobKey(jobInfo.Id.ToString(), jobInfo.Id.ToString() + "Group");
-                    if (await scheduler.CheckExists(jobKey) == false)//不存在调度器中，添加
-                    {
-                        if (jobInfo.State == JobState.Starting)
-                        {
-                            ManagerJob(scheduler, jobInfo);//添加job到调度器
-                            if (await scheduler.CheckExists(jobKey) == false)//添加失败
-                                new JobService().UpdateJobState(jobInfo.Id, JobState.Stopped);
-                            else
-                                new JobService().UpdateJobState(jobInfo.Id, JobState.Running);
-                        }
-                        else if (jobInfo.State == JobState.Stopping)
-                        {
-                            new JobService().UpdateJobState(jobInfo.Id, JobState.Stopped);
-                        }
-                        else if (jobInfo.State == JobState.Updating)
-                        {
-                            ManagerJob(scheduler, jobInfo);//添加job到调度器
-                            if (await scheduler.CheckExists(jobKey) == false)//添加失败
-                                new JobService().UpdateJobState(jobInfo.Id, JobState.Stopped);
-                            else
-                                new JobService().UpdateJobState(jobInfo.Id, JobState.Running);
-                        }
-                    }
-                    else//job已存在调度器中，停止或启动调度
-                    {
-                        if (jobInfo.State == JobState.Stopping)
-                        {
-                            await scheduler.DeleteJob(jobKey);
-                            new JobService().UpdateJobState(jobInfo.Id, JobState.Stopped);
-                        }
-                        else if (jobInfo.State == JobState.Starting)
-                        {
-                            new JobService().UpdateJobState(jobInfo.Id, JobState.Running);
-                        }
-                        else if (jobInfo.State == JobState.Updating)
-                        {
-                            await scheduler.DeleteJob(jobKey);
-                            ManagerJob(scheduler, jobInfo);//添加job到调度器
-                            if (await scheduler.CheckExists(jobKey) == false)//添加失败
-                                new JobService().UpdateJobState(jobInfo.Id, JobState.Stopped);
-                            else
-                                new JobService().UpdateJobState(jobInfo.Id, JobState.Running);
-                        }
-                        else if (jobInfo.State == JobState.FireNow)
-                        {
-                            await scheduler.TriggerJob(jobKey);
-                            new JobService().UpdateJobState(jobInfo.Id, JobState.Running);
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// 保证系统作业正常运行
         /// </summary>
-        private static async void KeepSystemJobRunning(IScheduler scheduler)
+        private async void KeepSystemJobRunning(IScheduler scheduler)
         {
-            JobInfoEntity job = new JobService().GetSystemMainJobAsync();
+            JobInfoEntity job = _jobService.GetSystemMainJobAsync();
             if (job == null)
             {
                 job = new JobInfoEntity();
@@ -218,12 +221,12 @@ namespace Newcats.JobManager.Host.NetCore.Manager
                 job.Disabled = false;
                 job.CreateName = "AtFirstRun";
                 job.CreateTime = DateTime.Now;
-                job.Id = new JobService().InsertJob(job);
+                job.Id = _jobService.InsertJob(job);
             }
             JobKey jobKey = new JobKey(job.Id.ToString(), job.Id.ToString() + "Group");
             if (await scheduler.CheckExists(jobKey) == false)
             {
-                new JobService().SetSystemJobAvailable(job.Id);
+                _jobService.SetSystemJobAvailable(job.Id);
             }
         }
     }

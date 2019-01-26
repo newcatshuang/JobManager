@@ -3,8 +3,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newcats.JobManager.Common.NetCore.DataAccess;
+using Newcats.JobManager.Common.NetCore.Entity;
 using Newcats.JobManager.Host.NetCore.Logger;
 using Newcats.JobManager.Host.NetCore.Manager;
+using Newcats.JobManager.Host.NetCore.Service;
+using Quartz;
 using Topshelf;
 
 namespace Newcats.JobManager.Host.NetCore
@@ -28,7 +32,12 @@ namespace Newcats.JobManager.Host.NetCore
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddSingleton<IHostLifetime, TopshelfLifetime>();
+                    services.AddScoped<IRepository<JobInfoEntity, int>, Repository<JobInfoEntity, int>>();
+                    services.AddScoped<IRepository<JobLogEntity, int>, Repository<JobLogEntity, int>>();
                     services.AddHostedService<ServiceRunner>();
+                    services.AddSingleton<IQuartzManager, QuartzManager>();
+                    services.AddScoped<IJobService, JobService>();
+                    services.AddSingleton<IJobListener, JobListener>();
                 });
 
             HostFactory.Run(x =>

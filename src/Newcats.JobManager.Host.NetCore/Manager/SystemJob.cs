@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using log4net;
+using Microsoft.Extensions.Logging;
 using Quartz;
 
 namespace Newcats.JobManager.Host.NetCore.Manager
@@ -11,15 +12,23 @@ namespace Newcats.JobManager.Host.NetCore.Manager
     [DisallowConcurrentExecution]
     public class SystemJob : IJob
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(SystemJob));
+        private readonly ILogger _logger;
+        private readonly IQuartzManager _quartzManager;
+
+        public SystemJob(ILogger<SystemJob> logger, IQuartzManager quartzManager)
+        {
+            _logger = logger;
+            _quartzManager = quartzManager;
+        }
+
         public Task Execute(IJobExecutionContext context)
         {
             Version Ver = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            _logger.InfoFormat("SystemJob Execute begin Ver." + Ver.ToString());
+            _logger.LogInformation("SystemJob Execute begin Ver." + Ver.ToString());
             try
             {
-                QuartzManager.ManagerScheduler(context.Scheduler);
-                _logger.InfoFormat("SystemJob Executing ...");
+                _quartzManager.ManagerScheduler(context.Scheduler);
+                _logger.LogInformation("SystemJob Executing ...");
             }
             catch (Exception ex)
             {
@@ -30,7 +39,7 @@ namespace Newcats.JobManager.Host.NetCore.Manager
             }
             finally
             {
-                _logger.InfoFormat("SystemJob Execute end. ");
+                _logger.LogInformation("SystemJob Execute end. ");
             }
             return Task.CompletedTask;
         }

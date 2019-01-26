@@ -10,9 +10,20 @@ namespace Newcats.JobManager.Host.NetCore.Manager
     /// <summary>
     /// 监听器,写Job运行日志
     /// </summary>
-    class JobListener : IJobListener
+    public class JobListener : IJobListener
     {
         public string Name => "SchedulerJobListener";
+
+        private readonly IJobService _jobService;
+
+        public JobListener(IJobService jobService)
+        {
+            _jobService = jobService;
+        }
+
+        public JobListener()
+        {
+        }
 
         public Task JobExecutionVetoed(IJobExecutionContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -46,7 +57,7 @@ namespace Newcats.JobManager.Host.NetCore.Manager
                     logEntity.Content = "success";
                 }
                 logEntity.CreateTime = DateTime.Now;
-                new JobService().UpdateJobFireResult(nextFireTime, logEntity);
+                _jobService.UpdateJobFireResult(nextFireTime, logEntity);
             }
             catch { }
             return Task.CompletedTask;

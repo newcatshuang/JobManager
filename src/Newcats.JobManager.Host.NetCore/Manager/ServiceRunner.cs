@@ -14,10 +14,14 @@ namespace Newcats.JobManager.Host.NetCore.Manager
         private readonly ILogger _log;
         private ISchedulerFactory _schedulerFactory;
         private IScheduler _scheduler;
+        private readonly IQuartzManager _quartzManager;
+        private readonly IJobListener _jobListener;
 
-        public ServiceRunner(ILogger<ServiceRunner> log)
+        public ServiceRunner(ILogger<ServiceRunner> log, IQuartzManager quartzManager, IJobListener jobListener)
         {
             _log = log;
+            _quartzManager = quartzManager;
+            _jobListener = jobListener;
             Initialize();
         }
 
@@ -41,9 +45,9 @@ namespace Newcats.JobManager.Host.NetCore.Manager
 
             try
             {
-                _scheduler.ListenerManager.AddJobListener(new JobListener(), GroupMatcher<JobKey>.AnyGroup());
+                _scheduler.ListenerManager.AddJobListener(_jobListener, GroupMatcher<JobKey>.AnyGroup());
                 _scheduler.Start();
-                QuartzManager.ManagerScheduler(_scheduler);
+                _quartzManager.ManagerScheduler(_scheduler);
             }
             catch (Exception e)
             {
