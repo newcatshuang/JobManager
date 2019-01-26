@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using log4net;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Matchers;
-using Topshelf;
 
 namespace Newcats.JobManager.Host.NetCore.Manager
 {
-    public class ServiceRunner : IHostedService, IDisposable
+    public class ServiceRunner : IHostedService
     {
-        private readonly ILog _log;
+        private readonly ILogger _log;
         private ISchedulerFactory _schedulerFactory;
         private IScheduler _scheduler;
 
-        public ServiceRunner()
+        public ServiceRunner(ILogger<ServiceRunner> log)
         {
-            _log = LogManager.GetLogger(nameof(ServiceRunner));
+            _log = log;
             Initialize();
         }
 
@@ -31,12 +30,15 @@ namespace Newcats.JobManager.Host.NetCore.Manager
             }
             catch (Exception e)
             {
-                _log.Error($"Server initialization failed: {e.Message}", e);
+                _log.LogError($"Server initialization failed: {e.Message}", e);
             }
         }
 
-        public bool Start(HostControl hostControl)
+        public Task StartAsync(CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+                return Task.FromCanceled(cancellationToken);
+
             try
             {
                 _scheduler.ListenerManager.AddJobListener(new JobListener(), GroupMatcher<JobKey>.AnyGroup());
@@ -45,73 +47,27 @@ namespace Newcats.JobManager.Host.NetCore.Manager
             }
             catch (Exception e)
             {
-                _log.Error($"Scheduler started failed: {e.Message}", e);
+                _log.LogError($"Scheduler started failed: {e.Message}", e);
             }
-            _log.Info("Scheduler started successfully");
-            return true;
+            _log.LogError("Scheduler started successfully");
+            return Task.CompletedTask;
         }
 
-        public bool Stop(HostControl hostControl)
+        public Task StopAsync(CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+                return Task.FromCanceled(cancellationToken);
+
             try
             {
                 _scheduler.Shutdown(true);
             }
             catch (Exception e)
             {
-                _log.Error($"Scheduler stop failed: {e.Message}", e);
+                _log.LogError($"Scheduler stop failed: {e.Message}", e);
             }
-            _log.Info("Scheduler shutdown complete");
-            return true;
-        }
-
-        /// <summary>
-        /// TopShelf's method delegated to <see cref="Pause()"/>.
-        /// </summary>
-        public bool Pause(HostControl hostControl)
-        {
-            try
-            {
-                _scheduler.PauseAll();
-                _log.Info("Scheduler Pause complete");
-            }
-            catch (Exception e)
-            {
-                _log.Info("Scheduler Pause failed", e);
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// TopShelf's method delegated to <see cref="Resume()"/>.
-        /// </summary>
-        public bool Continue(HostControl hostControl)
-        {
-            try
-            {
-                _scheduler.ResumeAll();
-                _log.Info("Scheduler Continue complete");
-            }
-            catch (Exception e)
-            {
-                _log.Info("Scheduler Continue failed", e);
-            }
-            return true;
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
+            _log.LogError("Scheduler shutdown complete");
+            return Task.CompletedTask;
         }
     }
 }
