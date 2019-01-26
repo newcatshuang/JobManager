@@ -21,7 +21,7 @@ namespace Newcats.JobManager.Host.NetCore
                 .ConfigureHostConfiguration(cfg =>
                 {
                     cfg.SetBasePath(Directory.GetCurrentDirectory());
-                    cfg.AddJsonFile("appsettings.json", optional: true);
+                    cfg.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 })
                 .ConfigureLogging((hostContext, logging) =>
                 {
@@ -33,12 +33,14 @@ namespace Newcats.JobManager.Host.NetCore
                 {
                     services.AddSingleton<IHostLifetime, TopshelfLifetime>();
                     services.AddScoped<IRepository<JobInfoEntity, int>, Repository<JobInfoEntity, int>>();
-                    services.AddScoped<IRepository<JobLogEntity, int>, Repository<JobLogEntity, int>>();
+                    services.AddScoped<IRepository<JobLogEntity, long>, Repository<JobLogEntity, long>>();
                     services.AddHostedService<ServiceRunner>();
                     services.AddSingleton<IQuartzManager, QuartzManager>();
                     services.AddScoped<IJobService, JobService>();
                     services.AddSingleton<IJobListener, JobListener>();
                 });
+
+            //builder.Build().Run();
 
             HostFactory.Run(x =>
             {
