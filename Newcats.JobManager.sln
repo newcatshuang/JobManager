@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newcats.JobManager.Common",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newcats.System.Job.DeleteSystemLog", "src\Newcats.System.Job.DeleteSystemLog\Newcats.System.Job.DeleteSystemLog.csproj", "{9258A29F-950D-4403-8D40-47D992A600E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newcats.JobManager.Host.NetCore", "src\Newcats.JobManager.Host.NetCore\Newcats.JobManager.Host.NetCore.csproj", "{E6A41379-A672-4456-AFB9-410842AD6258}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{9258A29F-950D-4403-8D40-47D992A600E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9258A29F-950D-4403-8D40-47D992A600E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9258A29F-950D-4403-8D40-47D992A600E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6A41379-A672-4456-AFB9-410842AD6258}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6A41379-A672-4456-AFB9-410842AD6258}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6A41379-A672-4456-AFB9-410842AD6258}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6A41379-A672-4456-AFB9-410842AD6258}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{13F9AC12-F8B6-408D-8B26-551C98F5A22F} = {CA7FEDF2-A4B9-4E6C-B08D-A50A5FE9981C}
 		{F0922A02-4121-40C1-B704-787DF4DA1970} = {CA7FEDF2-A4B9-4E6C-B08D-A50A5FE9981C}
 		{9258A29F-950D-4403-8D40-47D992A600E1} = {36170CA7-B4B5-4F64-9108-06833A69C9DD}
+		{E6A41379-A672-4456-AFB9-410842AD6258} = {CA7FEDF2-A4B9-4E6C-B08D-A50A5FE9981C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {352728B4-FB83-4298-9081-29661890F991}
