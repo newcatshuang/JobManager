@@ -55,7 +55,7 @@ namespace Newcats.JobManager.Host.NetCore
                     s.ConstructUsing(() => builder.Build());
                     s.WhenStarted(service =>
                     {
-                        service.Start();
+                        service.StartAsync();
                     });
                     s.WhenStopped(service =>
                     {

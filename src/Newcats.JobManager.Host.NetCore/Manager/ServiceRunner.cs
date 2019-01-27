@@ -38,40 +38,40 @@ namespace Newcats.JobManager.Host.NetCore.Manager
             }
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
-                return Task.FromCanceled(cancellationToken);
+                return; //Task.FromCanceled(cancellationToken);
 
             try
             {
                 _scheduler.ListenerManager.AddJobListener(_jobListener, GroupMatcher<JobKey>.AnyGroup());
-                _scheduler.Start();
-                _quartzManager.ManagerScheduler(_scheduler);
+                await _scheduler.Start();
+                await _quartzManager.ManagerScheduler(_scheduler);
             }
             catch (Exception e)
             {
                 _log.LogError($"Scheduler started failed: {e.Message}", e);
             }
             _log.LogError("Scheduler started successfully");
-            return Task.CompletedTask;
+            //return Task.CompletedTask;
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        public async Task StopAsync(CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
-                return Task.FromCanceled(cancellationToken);
+                return;//Task.FromCanceled(cancellationToken);
 
             try
             {
-                _scheduler.Shutdown(true);
+                await _scheduler.Shutdown(true);
             }
             catch (Exception e)
             {
                 _log.LogError($"Scheduler stop failed: {e.Message}", e);
             }
             _log.LogError("Scheduler shutdown complete");
-            return Task.CompletedTask;
+            // return Task.CompletedTask;
         }
     }
 }
