@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using log4net;
 using Microsoft.Extensions.Logging;
 using Quartz;
 
@@ -21,13 +20,13 @@ namespace Newcats.JobManager.Host.NetCore.Manager
             _quartzManager = quartzManager;
         }
 
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
             Version Ver = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             _logger.LogInformation("SystemJob Execute begin Ver." + Ver.ToString());
             try
             {
-                _quartzManager.ManagerScheduler(context.Scheduler);
+                await _quartzManager.ManagerScheduler(context.Scheduler);
                 _logger.LogInformation("SystemJob Executing ...");
             }
             catch (Exception ex)
@@ -41,7 +40,6 @@ namespace Newcats.JobManager.Host.NetCore.Manager
             {
                 _logger.LogInformation("SystemJob Execute end. ");
             }
-            return Task.CompletedTask;
         }
     }
 }

@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newcats.JobManager.Host.Net
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newcats.JobManager.Common.NetCore", "src\Newcats.JobManager.Common.NetCore\Newcats.JobManager.Common.NetCore.csproj", "{6153553C-AEAC-4CD6-B16C-B0409DDDB451}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzJobInGenericHostWithTopshelf", "src\QuartzJobInGenericHostWithTopshelf\QuartzJobInGenericHostWithTopshelf.csproj", "{0CD43BC7-AA4A-45D4-8138-DD722ADB24EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{6153553C-AEAC-4CD6-B16C-B0409DDDB451}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6153553C-AEAC-4CD6-B16C-B0409DDDB451}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6153553C-AEAC-4CD6-B16C-B0409DDDB451}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CD43BC7-AA4A-45D4-8138-DD722ADB24EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CD43BC7-AA4A-45D4-8138-DD722ADB24EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CD43BC7-AA4A-45D4-8138-DD722ADB24EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CD43BC7-AA4A-45D4-8138-DD722ADB24EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{13F9AC12-F8B6-408D-8B26-551C98F5A22F} = {CA7FEDF2-A4B9-4E6C-B08D-A50A5FE9981C}
 		{E6A41379-A672-4456-AFB9-410842AD6258} = {CA7FEDF2-A4B9-4E6C-B08D-A50A5FE9981C}
 		{6153553C-AEAC-4CD6-B16C-B0409DDDB451} = {CA7FEDF2-A4B9-4E6C-B08D-A50A5FE9981C}
+		{0CD43BC7-AA4A-45D4-8138-DD722ADB24EF} = {36170CA7-B4B5-4F64-9108-06833A69C9DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {352728B4-FB83-4298-9081-29661890F991}
