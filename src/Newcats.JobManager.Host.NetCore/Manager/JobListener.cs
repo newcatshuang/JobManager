@@ -14,17 +14,6 @@ namespace Newcats.JobManager.Host.NetCore.Manager
     {
         public string Name => "SchedulerJobListener";
 
-        //private readonly IJobService _jobService;
-
-        //public JobListener(IJobService jobService)
-        //{
-        //    _jobService = jobService;
-        //}
-
-        public JobListener()
-        {
-        }
-
         public Task JobExecutionVetoed(IJobExecutionContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
             return Task.CompletedTask;

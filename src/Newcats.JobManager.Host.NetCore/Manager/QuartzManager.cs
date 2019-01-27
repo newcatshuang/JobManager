@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+using log4net;
+using log4net.Config;
+using log4net.Repository;
 using Newcats.JobManager.Common.NetCore.Entity;
 using Newcats.JobManager.Host.NetCore.Service;
 using Quartz;
@@ -15,13 +17,13 @@ namespace Newcats.JobManager.Host.NetCore.Manager
 {
     public class QuartzManager
     {
-        //private readonly ILogger _log;
-        //private readonly IJobService _jobService;
+        private readonly ILog _log;
 
         public QuartzManager()
         {
-            //_log = log;
-            //_jobService = jobService;
+            ILoggerRepository repository = LogManager.CreateRepository("NETCoreRepository");
+            XmlConfigurator.Configure(repository, new FileInfo("log4net.config"));
+            _log = LogManager.GetLogger(repository.Name, typeof(Program));
         }
 
         /// <summary>
