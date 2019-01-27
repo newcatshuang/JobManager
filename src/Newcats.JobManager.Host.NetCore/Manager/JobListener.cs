@@ -14,12 +14,12 @@ namespace Newcats.JobManager.Host.NetCore.Manager
     {
         public string Name => "SchedulerJobListener";
 
-        private readonly IJobService _jobService;
+        //private readonly IJobService _jobService;
 
-        public JobListener(IJobService jobService)
-        {
-            _jobService = jobService;
-        }
+        //public JobListener(IJobService jobService)
+        //{
+        //    _jobService = jobService;
+        //}
 
         public JobListener()
         {
@@ -57,7 +57,7 @@ namespace Newcats.JobManager.Host.NetCore.Manager
                     logEntity.Content = "success";
                 }
                 logEntity.CreateTime = DateTime.Now;
-                _jobService.UpdateJobFireResult(nextFireTime, logEntity);
+                new JobService().UpdateJobFireResult(nextFireTime, logEntity);
             }
             catch { }
             return Task.CompletedTask;

@@ -11,23 +11,23 @@ namespace Newcats.JobManager.Host.NetCore.Manager
     [DisallowConcurrentExecution]
     public class SystemJob : IJob
     {
-        private readonly ILogger _logger;
-        private readonly IQuartzManager _quartzManager;
+        //private readonly ILogger _logger;
+        //private readonly IQuartzManager _quartzManager;
 
-        public SystemJob(ILogger<SystemJob> logger, IQuartzManager quartzManager)
-        {
-            _logger = logger;
-            _quartzManager = quartzManager;
-        }
+        //public SystemJob(ILogger<SystemJob> logger, IQuartzManager quartzManager)
+        //{
+        //    _logger = logger;
+        //    _quartzManager = quartzManager;
+        //}
 
         public async Task Execute(IJobExecutionContext context)
         {
             Version Ver = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            _logger.LogInformation("SystemJob Execute begin Ver." + Ver.ToString());
+            //_logger.LogInformation("SystemJob Execute begin Ver." + Ver.ToString());
             try
             {
-                await _quartzManager.ManagerScheduler(context.Scheduler);
-                _logger.LogInformation("SystemJob Executing ...");
+                await QuartzManager.ManagerScheduler(context.Scheduler);
+                //_logger.LogInformation("SystemJob Executing ...");
             }
             catch (Exception ex)
             {
@@ -38,7 +38,7 @@ namespace Newcats.JobManager.Host.NetCore.Manager
             }
             finally
             {
-                _logger.LogInformation("SystemJob Execute end. ");
+                //_logger.LogInformation("SystemJob Execute end. ");
             }
         }
     }

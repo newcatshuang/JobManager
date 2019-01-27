@@ -13,10 +13,16 @@ namespace Newcats.JobManager.Host.NetCore.Service
 
         private readonly IRepository<JobLogEntity, long> _logRepository;
 
-        public JobService(IRepository<JobInfoEntity, int> jobRepository, IRepository<JobLogEntity, long> logRepository)
+        //public JobService(IRepository<JobInfoEntity, int> jobRepository, IRepository<JobLogEntity, long> logRepository)
+        //{
+        //    _jobRepository = jobRepository;
+        //    _logRepository = logRepository;
+        //}
+
+        public JobService()
         {
-            _jobRepository = jobRepository;
-            _logRepository = logRepository;
+            _jobRepository = new Repository<JobInfoEntity, int>();
+            _logRepository = new Repository<JobLogEntity, long>();
         }
 
         public IEnumerable<JobInfoEntity> GetAllowScheduleJobs()

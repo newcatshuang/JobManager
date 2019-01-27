@@ -18,26 +18,26 @@ namespace Newcats.JobManager.Host.NetCore
         static void Main(string[] args)
         {
             IHostBuilder builder = new HostBuilder()
-                .ConfigureHostConfiguration(cfg =>
-                {
-                    cfg.SetBasePath(Directory.GetCurrentDirectory());
-                    cfg.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-                })
-                .ConfigureLogging((hostContext, logging) =>
-                {
-                    logging.AddFilter("System", LogLevel.Warning);
-                    logging.AddFilter("Microsoft", LogLevel.Warning);
-                    logging.AddLog4Net();//自动记录全局的异常日志（不需要自己写全局异常过滤器记录）
-                })
+                //.ConfigureHostConfiguration(cfg =>
+                //{
+                //    cfg.SetBasePath(Directory.GetCurrentDirectory());
+                //    cfg.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                //})
+                //.ConfigureLogging((hostContext, logging) =>
+                //{
+                //    logging.AddFilter("System", LogLevel.Warning);
+                //    logging.AddFilter("Microsoft", LogLevel.Warning);
+                //    logging.AddLog4Net();//自动记录全局的异常日志（不需要自己写全局异常过滤器记录）
+                //})
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddSingleton<IHostLifetime, TopshelfLifetime>();
-                    services.AddScoped<IRepository<JobInfoEntity, int>, Repository<JobInfoEntity, int>>();
-                    services.AddScoped<IRepository<JobLogEntity, long>, Repository<JobLogEntity, long>>();
+                    //services.AddScoped<IRepository<JobInfoEntity, int>, Repository<JobInfoEntity, int>>();
+                    //services.AddScoped<IRepository<JobLogEntity, long>, Repository<JobLogEntity, long>>();
                     services.AddHostedService<ServiceRunner>();
-                    services.AddSingleton<IQuartzManager, QuartzManager>();
-                    services.AddScoped<IJobService, JobService>();
-                    services.AddSingleton<IJobListener, JobListener>();
+                    //services.AddSingleton<IQuartzManager, QuartzManager>();
+                    //services.AddScoped<IJobService, JobService>();
+                    //services.AddSingleton<IJobListener, JobListener>();
                 });
 
             //builder.Build().Run();

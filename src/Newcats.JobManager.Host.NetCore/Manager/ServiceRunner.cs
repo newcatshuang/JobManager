@@ -11,17 +11,17 @@ namespace Newcats.JobManager.Host.NetCore.Manager
 {
     public class ServiceRunner : IHostedService
     {
-        private readonly ILogger _log;
+        //private readonly ILogger _log;
         private ISchedulerFactory _schedulerFactory;
         private IScheduler _scheduler;
-        private readonly IQuartzManager _quartzManager;
-        private readonly IJobListener _jobListener;
+        //private readonly IQuartzManager _quartzManager;
+        //private readonly IJobListener _jobListener;
 
-        public ServiceRunner(ILogger<ServiceRunner> log, IQuartzManager quartzManager, IJobListener jobListener)
+        public ServiceRunner()
         {
-            _log = log;
-            _quartzManager = quartzManager;
-            _jobListener = jobListener;
+            //_log = log;
+            //_quartzManager = quartzManager;
+            //_jobListener = jobListener;
             Initialize();
         }
 
@@ -34,7 +34,7 @@ namespace Newcats.JobManager.Host.NetCore.Manager
             }
             catch (Exception e)
             {
-                _log.LogError($"Server initialization failed: {e.Message}", e);
+                //_log.LogError($"Server initialization failed: {e.Message}", e);
             }
         }
 
@@ -45,15 +45,15 @@ namespace Newcats.JobManager.Host.NetCore.Manager
 
             try
             {
-                _scheduler.ListenerManager.AddJobListener(_jobListener, GroupMatcher<JobKey>.AnyGroup());
+                _scheduler.ListenerManager.AddJobListener(new JobListener(), GroupMatcher<JobKey>.AnyGroup());
                 await _scheduler.Start();
-                await _quartzManager.ManagerScheduler(_scheduler);
+                await QuartzManager.ManagerScheduler(_scheduler);
             }
             catch (Exception e)
             {
-                _log.LogError($"Scheduler started failed: {e.Message}", e);
+                //_log.LogError($"Scheduler started failed: {e.Message}", e);
             }
-            _log.LogError("Scheduler started successfully");
+            //_log.LogError("Scheduler started successfully");
             //return Task.CompletedTask;
         }
 
@@ -68,9 +68,9 @@ namespace Newcats.JobManager.Host.NetCore.Manager
             }
             catch (Exception e)
             {
-                _log.LogError($"Scheduler stop failed: {e.Message}", e);
+                //_log.LogError($"Scheduler stop failed: {e.Message}", e);
             }
-            _log.LogError("Scheduler shutdown complete");
+            //_log.LogError("Scheduler shutdown complete");
             // return Task.CompletedTask;
         }
     }
