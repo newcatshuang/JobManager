@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Newcats.JobManager.Api.Infrastructure.Helper.CronHelper
+namespace Newcats.JobManager.Common.NetCore.Util.Helper.CronHelper
 {
     public class TimeZoneUtil
     {

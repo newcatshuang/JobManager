@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Newcats.JobManager.Api.Infrastructure.Text
+namespace Newcats.JobManager.Common.NetCore.Util
 {
     public enum SpanColor
     {

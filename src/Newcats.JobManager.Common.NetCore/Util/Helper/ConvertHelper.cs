@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Newcats.JobManager.Api.Infrastructure.Helper
+namespace Newcats.JobManager.Common.NetCore.Util.Helper
 {
     public class ConvertHelper
     {

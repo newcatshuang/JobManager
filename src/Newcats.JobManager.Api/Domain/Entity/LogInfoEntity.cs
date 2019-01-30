@@ -1,5 +1,6 @@
 ﻿using System;
-using Newcats.JobManager.Api.Infrastructure.DataAccess;
+using Newcats.JobManager.Common.NetCore.DataAccess;
+using Newcats.JobManager.Common.NetCore.Entity;
 
 namespace Newcats.JobManager.Api.Domain.Entity
 {

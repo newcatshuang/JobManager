@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
-namespace Newcats.JobManager.Api.Infrastructure.Helper
+namespace Newcats.JobManager.Common.NetCore.Util.Helper
 {
     public class HttpHelper
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Newcats.JobManager.Api.Infrastructure.DenpendencyInjection
+namespace Newcats.JobManager.Common.NetCore.DenpendencyInjection
 {
     public static class ServiceCollectionExtensions
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using Autofac;
 using Microsoft.Extensions.DependencyInjection;
-using Newcats.JobManager.Api.Infrastructure.Helper.Reflection;
+using Newcats.JobManager.Common.NetCore.Util.Helper.Reflection;
 
-namespace Newcats.JobManager.Api.Infrastructure.DenpendencyInjection
+namespace Newcats.JobManager.Common.NetCore.DenpendencyInjection
 {
     public class DependencyConfiguration
     {

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace Newcats.JobManager.Api.Infrastructure.Helper
+namespace Newcats.JobManager.Common.NetCore.Util.Helper
 {
     public class EnumHelper
     {

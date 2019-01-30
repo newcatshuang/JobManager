@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newcats.JobManager.Api.Infrastructure.DenpendencyInjection;
+using Newcats.JobManager.Common.NetCore.DenpendencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Newcats.JobManager.Api

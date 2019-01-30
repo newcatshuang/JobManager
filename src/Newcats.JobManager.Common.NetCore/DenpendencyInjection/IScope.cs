@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Newcats.JobManager.Api.Infrastructure.DenpendencyInjection
+namespace Newcats.JobManager.Common.NetCore.DenpendencyInjection
 {
     /// <summary>
     /// 作用域

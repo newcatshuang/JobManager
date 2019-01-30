@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Newcats.JobManager.Api.Domain.Entity;
 using Newcats.JobManager.Api.Domain.IService;
-using Newcats.JobManager.Api.Infrastructure.DataAccess;
+using Newcats.JobManager.Common.NetCore.DataAccess;
+using Newcats.JobManager.Common.NetCore.Entity;
 
 namespace Newcats.JobManager.Api.Domain.Service
 {

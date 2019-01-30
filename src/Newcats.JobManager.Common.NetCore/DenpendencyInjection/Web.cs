@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Newcats.JobManager.Api.Infrastructure.DenpendencyInjection
+namespace Newcats.JobManager.Common.NetCore.DenpendencyInjection
 {
     /// <summary>
     /// Web操作

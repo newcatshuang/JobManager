@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Newcats.JobManager.Api.Infrastructure.Helper.CronHelper
+namespace Newcats.JobManager.Common.NetCore.Util.Helper.CronHelper
 {
     public static class SystemTime
     {

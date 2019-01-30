@@ -1,5 +1,5 @@
 ﻿using System;
-using Newcats.JobManager.Api.Domain.Entity;
+using Newcats.JobManager.Common.NetCore.Entity;
 
 namespace Newcats.JobManager.Api.Models.Requests
 {

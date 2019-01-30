@@ -74,7 +74,7 @@ namespace Newcats.JobManager.Common.NetCore.DataAccess
                 if (!string.IsNullOrWhiteSpace(connStr))
                     return connStr;
             }
-            string connStrConfig = Util.ConfigHelper.AppSettings.GetConnectionString(key);
+            string connStrConfig = Util.Helper.ConfigHelper.AppSettings.GetConnectionString(key);
             if (string.IsNullOrWhiteSpace(connStrConfig))
             {
                 throw new KeyNotFoundException($"The config item ConnectionStrings:{key} do not exists on file appsettings.json");

@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Newcats.JobManager.Api.Infrastructure.Helper.CronHelper
+namespace Newcats.JobManager.Common.NetCore.Util.Helper.CronHelper
 {
     [Serializable]
     public class CronExpression : IDeserializationCallback, ISerializable

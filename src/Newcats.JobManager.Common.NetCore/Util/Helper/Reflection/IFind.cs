@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Newcats.JobManager.Api.Infrastructure.Helper.Reflection
+namespace Newcats.JobManager.Common.NetCore.Util.Helper.Reflection
 {
     /// <summary>
     /// 类型查找器
