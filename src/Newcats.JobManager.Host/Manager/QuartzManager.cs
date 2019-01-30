@@ -12,6 +12,9 @@ using Quartz.Impl.Triggers;
 
 namespace Newcats.JobManager.Host.Manager
 {
+    /// <summary>
+    /// QuartzJob的管理类
+    /// </summary>
     public class QuartzManager
     {
         /// <summary>

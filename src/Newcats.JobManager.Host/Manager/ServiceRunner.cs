@@ -8,16 +8,25 @@ using Quartz.Impl.Matchers;
 
 namespace Newcats.JobManager.Host.Manager
 {
+    /// <summary>
+    /// 服务执行者
+    /// </summary>
     public class ServiceRunner : IHostedService
     {
         private ISchedulerFactory _schedulerFactory;
         private IScheduler _scheduler;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public ServiceRunner()
         {
             Initialize();
         }
 
+        /// <summary>
+        /// 初始化
+        /// </summary>
         private async void Initialize()
         {
             try
@@ -31,6 +40,9 @@ namespace Newcats.JobManager.Host.Manager
             }
         }
 
+        /// <summary>
+        /// 服务启动
+        /// </summary>
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -49,6 +61,9 @@ namespace Newcats.JobManager.Host.Manager
             //_log.Info("Scheduler started successfully");
         }
 
+        /// <summary>
+        /// 服务停止
+        /// </summary>
         public async Task StopAsync(CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
