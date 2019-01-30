@@ -1,46 +1,23 @@
-﻿using System.IO;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Newcats.JobManager.Common.NetCore.DataAccess;
-using Newcats.JobManager.Common.NetCore.Entity;
-using Newcats.JobManager.Host.NetCore.Logger;
 using Newcats.JobManager.Host.NetCore.Manager;
-using Newcats.JobManager.Host.NetCore.Service;
-using Quartz;
 using Topshelf;
 
 namespace Newcats.JobManager.Host.NetCore
 {
+    /// <summary>
+    /// 必须使用发布命令：dotnet publish -c Release -r win-x64
+    /// </summary>
     class Program
     {
         static void Main(string[] args)
         {
             IHostBuilder builder = new HostBuilder()
-                .ConfigureHostConfiguration(cfg =>
-                {
-                    cfg.SetBasePath(Directory.GetCurrentDirectory());
-                    cfg.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-                })
-                .ConfigureLogging((hostContext, logging) =>
-                {
-                    logging.AddFilter("System", LogLevel.Warning);
-                    logging.AddFilter("Microsoft", LogLevel.Warning);
-                    logging.AddLog4Net();//自动记录全局的异常日志（不需要自己写全局异常过滤器记录）
-                })
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddSingleton<IHostLifetime, TopshelfLifetime>();
-                    services.AddScoped<IRepository<JobInfoEntity, int>, Repository<JobInfoEntity, int>>();
-                    services.AddScoped<IRepository<JobLogEntity, long>, Repository<JobLogEntity, long>>();
                     services.AddHostedService<ServiceRunner>();
-                    services.AddSingleton<IQuartzManager, QuartzManager>();
-                    services.AddScoped<IJobService, JobService>();
-                    services.AddSingleton<IJobListener, JobListener>();
                 });
-
-            //builder.Build().Run();
 
             HostFactory.Run(x =>
             {
@@ -55,7 +32,7 @@ namespace Newcats.JobManager.Host.NetCore
                     s.ConstructUsing(() => builder.Build());
                     s.WhenStarted(service =>
                     {
-                        service.Start();
+                        service.StartAsync();
                     });
                     s.WhenStopped(service =>
                     {

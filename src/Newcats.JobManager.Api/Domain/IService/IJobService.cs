@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newcats.JobManager.Api.Domain.Entity;
-using Newcats.JobManager.Api.Infrastructure.DataAccess;
-using Newcats.JobManager.Api.Infrastructure.DenpendencyInjection;
+using Newcats.JobManager.Common.NetCore.DataAccess;
+using Newcats.JobManager.Common.NetCore.DenpendencyInjection;
+using Newcats.JobManager.Common.NetCore.Entity;
 
 namespace Newcats.JobManager.Api.Domain.IService
 {
