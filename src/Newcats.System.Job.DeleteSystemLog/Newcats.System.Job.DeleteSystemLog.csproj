@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Newcats.JobManager.Common.NetCore\Newcats.JobManager.Common.NetCore.csproj" />
+    <ProjectReference Include="..\Newcats.JobManager.Common.NetCore\Newcats.JobManager.Common.csproj" />
   </ItemGroup>
 
 </Project>
