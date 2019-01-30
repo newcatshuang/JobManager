@@ -4,9 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using log4net;
-using log4net.Config;
-using log4net.Repository;
 using Newcats.JobManager.Common.NetCore.Entity;
 using Newcats.JobManager.Host.NetCore.Service;
 using Quartz;
@@ -17,15 +14,6 @@ namespace Newcats.JobManager.Host.NetCore.Manager
 {
     public class QuartzManager
     {
-        private readonly ILog _log;
-
-        public QuartzManager()
-        {
-            ILoggerRepository repository = LogManager.CreateRepository("NETCoreRepository");
-            XmlConfigurator.Configure(repository, new FileInfo("log4net.config"));
-            _log = LogManager.GetLogger(repository.Name, typeof(Program));
-        }
-
         /// <summary>
         /// Job调度
         /// </summary>
@@ -109,7 +97,7 @@ namespace Newcats.JobManager.Host.NetCore.Manager
             }
             catch (Exception e)
             {
-                //_log.LogError($"动态加载类型失败。程序集:{assemblyName}|类名:{className}。", e);
+                //_log.Error($"动态加载类型失败。程序集:{assemblyName}|类名:{className}。", e);
             }
             return type;
         }
@@ -173,7 +161,7 @@ namespace Newcats.JobManager.Host.NetCore.Manager
                             Content = $"{jobInfo.Name}启用失败,异常信息：{e.Message}！",
                             CreateTime = DateTime.Now
                         });
-                        //_log.LogError($"JobId:{jobInfo.Id}|JobName:{jobInfo.Name}启用失败！", e);
+                        //_log.Error($"JobId:{jobInfo.Id}|JobName:{jobInfo.Name}启用失败！", e);
                     }
                 }
                 else

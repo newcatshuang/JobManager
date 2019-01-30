@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Matchers;
@@ -11,17 +10,11 @@ namespace Newcats.JobManager.Host.NetCore.Manager
 {
     public class ServiceRunner : IHostedService
     {
-        //private readonly ILogger _log;
         private ISchedulerFactory _schedulerFactory;
         private IScheduler _scheduler;
-        //private readonly IQuartzManager _quartzManager;
-        //private readonly IJobListener _jobListener;
 
         public ServiceRunner()
         {
-            //_log = log;
-            //_quartzManager = quartzManager;
-            //_jobListener = jobListener;
             Initialize();
         }
 
@@ -34,14 +27,14 @@ namespace Newcats.JobManager.Host.NetCore.Manager
             }
             catch (Exception e)
             {
-                //_log.LogError($"Server initialization failed: {e.Message}", e);
+                //_log.Error($"Server initialization failed: {e.Message}", e);
             }
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
-                return; //Task.FromCanceled(cancellationToken);
+                return;
 
             try
             {
@@ -51,16 +44,15 @@ namespace Newcats.JobManager.Host.NetCore.Manager
             }
             catch (Exception e)
             {
-                //_log.LogError($"Scheduler started failed: {e.Message}", e);
+                //_log.Error($"Scheduler started failed: {e.Message}", e);
             }
-            //_log.LogError("Scheduler started successfully");
-            //return Task.CompletedTask;
+            //_log.Info("Scheduler started successfully");
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
-                return;//Task.FromCanceled(cancellationToken);
+                return;
 
             try
             {
@@ -68,10 +60,9 @@ namespace Newcats.JobManager.Host.NetCore.Manager
             }
             catch (Exception e)
             {
-                //_log.LogError($"Scheduler stop failed: {e.Message}", e);
+                //_log.Error($"Scheduler stop failed: {e.Message}", e);
             }
-            //_log.LogError("Scheduler shutdown complete");
-            // return Task.CompletedTask;
+            //_log.Info("Scheduler shutdown complete");
         }
     }
 }
