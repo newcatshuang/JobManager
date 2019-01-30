@@ -38,5 +38,10 @@ namespace Newcats.JobManager.Api.Models.Requests
         /// 写入时间
         /// </summary>
         public DateTime? WriteTimeEnd { get; set; }
+
+        /// <summary>
+        /// 是否显示系统程序集
+        /// </summary>
+        public bool ShowDefaultDLL { get; set; }
     }
 }

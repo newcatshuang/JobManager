@@ -334,6 +334,11 @@
             写入时间
             </summary>
         </member>
+        <member name="P:Newcats.JobManager.Api.Models.Requests.FileListRequest.ShowDefaultDLL">
+            <summary>
+            是否显示系统程序集
+            </summary>
+        </member>
         <member name="P:Newcats.JobManager.Api.Models.Requests.JobListRequest.Id">
             <summary>
             JobId(主键/自增)

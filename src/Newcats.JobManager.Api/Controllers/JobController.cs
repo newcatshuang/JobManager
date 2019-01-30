@@ -13,8 +13,8 @@ using Newcats.JobManager.Api.Models;
 using Newcats.JobManager.Api.Models.Requests;
 using Newcats.JobManager.Common.NetCore.DataAccess;
 using Newcats.JobManager.Common.NetCore.Entity;
-using Swashbuckle.AspNetCore.Annotations;
 using Newcats.JobManager.Common.NetCore.Util;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Newcats.JobManager.Api.Controllers
 {
@@ -507,6 +507,12 @@ namespace Newcats.JobManager.Api.Controllers
                     list = list.Where(f => f.LastWriteTime >= request.WriteTimeStart).ToArray();
                 if (request.WriteTimeEnd.HasValue)
                     list = list.Where(f => f.LastWriteTime <= request.WriteTimeEnd).ToArray();
+                if (!request.ShowDefaultDLL)
+                    list = list.Where(f => (
+                    !f.Name.StartsWith("api-ms", StringComparison.OrdinalIgnoreCase)
+                    && !f.Name.StartsWith("Microsoft", StringComparison.OrdinalIgnoreCase)
+                    && !f.Name.StartsWith("System", StringComparison.OrdinalIgnoreCase)
+                    )).ToArray();
 
                 int orderIndex = request.Order[0].Column;
                 bool isAsc = request.Order[0].Dir.Equals("asc", StringComparison.OrdinalIgnoreCase);
