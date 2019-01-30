@@ -42,7 +42,7 @@ namespace Newcats.JobManager.Api
             {
                 builder.AllowAnyHeader()
                        .AllowAnyMethod()
-                       .WithOrigins("http://localhost:10001")
+                       .WithOrigins(Configuration.GetValue<string>("CorsOrigins"))
                        .AllowCredentials();
             }));
 
