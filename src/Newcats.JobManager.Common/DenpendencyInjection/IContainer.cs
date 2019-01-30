@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Newcats.JobManager.Common.NetCore.DenpendencyInjection
+namespace Newcats.JobManager.Common.DenpendencyInjection
 {
     /// <summary>
     /// 容器

@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Autofac.Builder;
 
-namespace Newcats.JobManager.Common.NetCore.DenpendencyInjection
+namespace Newcats.JobManager.Common.DenpendencyInjection
 {
     /// <summary>
     /// Autofac扩展

@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Newcats.JobManager.Common.NetCore.Util.Json
+namespace Newcats.JobManager.Common.Util.Json
 {
     /// <summary>
     /// Newtonsoft.Json的API封装

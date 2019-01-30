@@ -92,14 +92,14 @@
             <param name="request">搜索条件</param>
             <returns>JobInfo实体集合</returns>
         </member>
-        <member name="M:Newcats.JobManager.Api.Controllers.JobController.AddJob(Newcats.JobManager.Common.NetCore.Entity.JobInfoEntity)">
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.AddJob(Newcats.JobManager.Common.Entity.JobInfoEntity)">
             <summary>
             新增一条JobInfo记录
             </summary>
             <param name="jobInfo">JobInfo实体</param>
             <returns>执行结果</returns>
         </member>
-        <member name="M:Newcats.JobManager.Api.Controllers.JobController.ModifyJob(Newcats.JobManager.Common.NetCore.Entity.JobInfoEntity)">
+        <member name="M:Newcats.JobManager.Api.Controllers.JobController.ModifyJob(Newcats.JobManager.Common.Entity.JobInfoEntity)">
             <summary>
             更新给定的JobInfo记录
             </summary>
@@ -165,6 +165,7 @@
         <member name="M:Newcats.JobManager.Api.Controllers.JobController.GetFileInfoList(Newcats.JobManager.Api.Models.Requests.FileListRequest)">
             <summary>
             根据搜索条件，获取JobHost目录下的所有文件
+            默认不显示api-ms/Microsoft/System开头的文件
             </summary>
             <param name="request">搜索条件</param>
             <returns>文件信息集合</returns>
@@ -222,13 +223,54 @@
             创建时间
             </summary>
         </member>
+        <member name="M:Newcats.JobManager.Api.Domain.IService.IJobService.InsertJobInfoAsync(Newcats.JobManager.Common.Entity.JobInfoEntity)">
+            <summary>
+            插入一条JonInfo记录
+            </summary>
+            <param name="jobInfoEntity">JonInfo记录</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.IService.IJobService.UpdateJobStateAsync(System.Int32,Newcats.JobManager.Common.Entity.JobState)">
+            <summary>
+            根据主键，更新Job状态
+            </summary>
+            <param name="jobId">主键Id</param>
+            <param name="jobState">状态</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.IService.IJobService.UpdateJobAsync(System.Int32,System.Collections.Generic.IEnumerable{Newcats.JobManager.Common.DataAccess.DbUpdate{Newcats.JobManager.Common.Entity.JobInfoEntity}})">
+            <summary>
+            根据主键，更新一条JonInfo记录
+            </summary>
+            <param name="jobId">主键</param>
+            <param name="dbUpdates">要更新的数据</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.IService.IJobService.GetJobsAsync(System.Int32,System.Int32,System.Collections.Generic.IEnumerable{Newcats.JobManager.Common.DataAccess.DbWhere{Newcats.JobManager.Common.Entity.JobInfoEntity}},System.Nullable{System.Int32},Newcats.JobManager.Common.DataAccess.DbOrderBy{Newcats.JobManager.Common.Entity.JobInfoEntity}[])">
+            <summary>
+            分页获取JobInfo实体集合
+            </summary>
+            <param name="pageIndex">页索引</param>
+            <param name="pageSize">页大小</param>
+            <param name="dbWheres">筛选条件</param>
+            <param name="commandTimeout">超时时间</param>
+            <param name="dbOrderBy">排序条件</param>
+            <returns>JobInfo实体集合</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.IService.IJobService.GetJobAsync(System.Int32)">
+            <summary>
+            根据主键Id,获取一个JobInfo实体
+            </summary>
+            <param name="jobId">主键</param>
+            <returns>JobInfo实体</returns>
+        </member>
         <member name="M:Newcats.JobManager.Api.Domain.IService.IJobService.GetSystemMainJobAsync">
             <summary>
             获取系统主Job(承载其他Job的系统级Job，唯一)
             </summary>
             <returns>唯一的系统主Job</returns>
         </member>
-        <member name="M:Newcats.JobManager.Api.Domain.IService.IJobService.ModifyJobAsync(Newcats.JobManager.Common.NetCore.Entity.JobInfoEntity)">
+        <member name="M:Newcats.JobManager.Api.Domain.IService.IJobService.ModifyJobAsync(Newcats.JobManager.Common.Entity.JobInfoEntity)">
             <summary>
             更新一个JobInfo记录
             </summary>
@@ -243,13 +285,65 @@
             <param name="top">需要获取的数量</param>
             <returns>JobLog集合</returns>
         </member>
+        <member name="M:Newcats.JobManager.Api.Domain.IService.IJobService.GetLogsAsync(System.Int32,System.Int32,System.Collections.Generic.IEnumerable{Newcats.JobManager.Common.DataAccess.DbWhere{Newcats.JobManager.Api.Domain.Entity.LogInfoEntity}},System.Nullable{System.Int32},Newcats.JobManager.Common.DataAccess.DbOrderBy{Newcats.JobManager.Api.Domain.Entity.LogInfoEntity}[])">
+            <summary>
+            分页获取JobLog实体集合
+            </summary>
+            <param name="pageIndex">页索引</param>
+            <param name="pageSize">页大小</param>
+            <param name="dbWheres">筛选条件</param>
+            <param name="commandTimeout">超时时间</param>
+            <param name="dbOrderBy">排序条件</param>
+            <returns>JobLog实体集合</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.Service.JobService.InsertJobInfoAsync(Newcats.JobManager.Common.Entity.JobInfoEntity)">
+            <summary>
+            插入一条JonInfo记录
+            </summary>
+            <param name="jobInfoEntity">JonInfo记录</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.Service.JobService.UpdateJobStateAsync(System.Int32,Newcats.JobManager.Common.Entity.JobState)">
+            <summary>
+            根据主键，更新Job状态
+            </summary>
+            <param name="jobId">主键Id</param>
+            <param name="jobState">状态</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.Service.JobService.UpdateJobAsync(System.Int32,System.Collections.Generic.IEnumerable{Newcats.JobManager.Common.DataAccess.DbUpdate{Newcats.JobManager.Common.Entity.JobInfoEntity}})">
+            <summary>
+            根据主键，更新一条JonInfo记录
+            </summary>
+            <param name="jobId">主键</param>
+            <param name="dbUpdates">要更新的数据</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.Service.JobService.GetJobsAsync(System.Int32,System.Int32,System.Collections.Generic.IEnumerable{Newcats.JobManager.Common.DataAccess.DbWhere{Newcats.JobManager.Common.Entity.JobInfoEntity}},System.Nullable{System.Int32},Newcats.JobManager.Common.DataAccess.DbOrderBy{Newcats.JobManager.Common.Entity.JobInfoEntity}[])">
+            <summary>
+            分页获取JobInfo实体集合
+            </summary>
+            <param name="pageIndex">页索引</param>
+            <param name="pageSize">页大小</param>
+            <param name="dbWheres">筛选条件</param>
+            <param name="commandTimeout">超时时间</param>
+            <param name="dbOrderBy">排序条件</param>
+            <returns>JobInfo实体集合</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.Service.JobService.GetJobAsync(System.Int32)">
+            <summary>
+            根据主键Id,获取一个JobInfo实体
+            </summary>
+            <param name="jobId">主键</param>
+            <returns>JobInfo实体</returns>
+        </member>
         <member name="M:Newcats.JobManager.Api.Domain.Service.JobService.GetSystemMainJobAsync">
             <summary>
             获取系统主Job(承载其他Job的系统级Job，唯一)
             </summary>
             <returns>唯一的系统主Job</returns>
         </member>
-        <member name="M:Newcats.JobManager.Api.Domain.Service.JobService.ModifyJobAsync(Newcats.JobManager.Common.NetCore.Entity.JobInfoEntity)">
+        <member name="M:Newcats.JobManager.Api.Domain.Service.JobService.ModifyJobAsync(Newcats.JobManager.Common.Entity.JobInfoEntity)">
             <summary>
             更新一个JobInfo记录
             </summary>
@@ -263,6 +357,17 @@
             <param name="top">需要获取的数量</param>
             <param name="jobId">jobId</param>
             <returns>JobLog集合</returns>
+        </member>
+        <member name="M:Newcats.JobManager.Api.Domain.Service.JobService.GetLogsAsync(System.Int32,System.Int32,System.Collections.Generic.IEnumerable{Newcats.JobManager.Common.DataAccess.DbWhere{Newcats.JobManager.Api.Domain.Entity.LogInfoEntity}},System.Nullable{System.Int32},Newcats.JobManager.Common.DataAccess.DbOrderBy{Newcats.JobManager.Api.Domain.Entity.LogInfoEntity}[])">
+            <summary>
+            分页获取JobLog实体集合
+            </summary>
+            <param name="pageIndex">页索引</param>
+            <param name="pageSize">页大小</param>
+            <param name="dbWheres">筛选条件</param>
+            <param name="commandTimeout">超时时间</param>
+            <param name="dbOrderBy">排序条件</param>
+            <returns>JobLog实体集合</returns>
         </member>
         <member name="T:Newcats.JobManager.Api.Models.BaseResult">
             <summary>
@@ -298,6 +403,11 @@
             <param name="code">代码，一般code=0表示成功</param>
             <param name="message">提示消息</param>
             <param name="data">数据</param>
+        </member>
+        <member name="T:Newcats.JobManager.Api.Models.Requests.FileListRequest">
+            <summary>
+            文件选项卡请求参数
+            </summary>
         </member>
         <member name="P:Newcats.JobManager.Api.Models.Requests.FileListRequest.Name">
             <summary>
@@ -337,6 +447,11 @@
         <member name="P:Newcats.JobManager.Api.Models.Requests.FileListRequest.ShowDefaultDLL">
             <summary>
             是否显示系统程序集
+            </summary>
+        </member>
+        <member name="T:Newcats.JobManager.Api.Models.Requests.JobListRequest">
+            <summary>
+            Job选项卡请求参数
             </summary>
         </member>
         <member name="P:Newcats.JobManager.Api.Models.Requests.JobListRequest.Id">
@@ -398,6 +513,11 @@
             <summary>
             是否禁用
             </summary>				
+        </member>
+        <member name="T:Newcats.JobManager.Api.Models.Requests.LogListRequest">
+            <summary>
+            Log选项卡请求参数
+            </summary>
         </member>
         <member name="P:Newcats.JobManager.Api.Models.Requests.LogListRequest.Id">
             <summary>

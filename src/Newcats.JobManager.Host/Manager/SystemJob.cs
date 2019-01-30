@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Quartz;
 
-namespace Newcats.JobManager.Host.NetCore.Manager
+namespace Newcats.JobManager.Host.Manager
 {
     /// <summary>
     /// 系统Job，负责管理所有其他Job，不能停止/禁用/删除

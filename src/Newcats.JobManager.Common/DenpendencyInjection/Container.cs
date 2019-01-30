@@ -5,7 +5,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Newcats.JobManager.Common.NetCore.DenpendencyInjection
+namespace Newcats.JobManager.Common.DenpendencyInjection
 {
     /// <summary>
     /// Autofac对象容器

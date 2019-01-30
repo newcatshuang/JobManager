@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Newcats.JobManager.Common.NetCore.Util.Json
+namespace Newcats.JobManager.Common.Util.Json
 {
     public static class JsonExtensions
     {

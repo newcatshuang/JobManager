@@ -1,8 +1,11 @@
 ﻿using System;
-using Newcats.JobManager.Common.NetCore.Entity;
+using Newcats.JobManager.Common.Entity;
 
 namespace Newcats.JobManager.Api.Models.Requests
 {
+    /// <summary>
+    /// Log选项卡请求参数
+    /// </summary>
     public class LogListRequest : PageRequest
     {
         /// <summary>

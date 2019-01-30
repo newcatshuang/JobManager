@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 
-namespace Newcats.JobManager.Common.NetCore.Util
+namespace Newcats.JobManager.Common.Util
 {
     /// <summary>
     /// 集合类型扩展方法

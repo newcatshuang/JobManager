@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Newcats.JobManager.Common.NetCore.Entity
+namespace Newcats.JobManager.Common.Entity
 {
     /// <summary>
     /// Job等级

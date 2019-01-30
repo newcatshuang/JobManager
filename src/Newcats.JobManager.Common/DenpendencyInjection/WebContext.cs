@@ -1,6 +1,6 @@
-﻿using Newcats.JobManager.Common.NetCore.Util.Helper;
+﻿using Newcats.JobManager.Common.Util.Helper;
 
-namespace Newcats.JobManager.Common.NetCore.DenpendencyInjection
+namespace Newcats.JobManager.Common.DenpendencyInjection
 {
     public class WebContext : IContext
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newcats.JobManager.Host.NetCore.Manager;
+using Newcats.JobManager.Host.Manager;
 using Topshelf;
 
-namespace Newcats.JobManager.Host.NetCore
+namespace Newcats.JobManager.Host
 {
     /// <summary>
     /// 必须使用发布命令：dotnet publish -c Release -r win-x64

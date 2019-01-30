@@ -1,6 +1,6 @@
 ﻿using Autofac.Core;
 
-namespace Newcats.JobManager.Common.NetCore.DenpendencyInjection
+namespace Newcats.JobManager.Common.DenpendencyInjection
 {
     /// <summary>
     /// 依赖配置

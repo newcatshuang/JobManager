@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Newcats.JobManager.Common.NetCore.DataAccess
+namespace Newcats.JobManager.Common.DataAccess
 {
     #region 参数
     /// <summary>

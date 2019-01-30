@@ -1,7 +1,7 @@
 ﻿using System;
-using Newcats.JobManager.Common.NetCore.DataAccess;
+using Newcats.JobManager.Common.DataAccess;
 
-namespace Newcats.JobManager.Common.NetCore.Entity
+namespace Newcats.JobManager.Common.Entity
 {
     /// <summary>
     /// Job信息

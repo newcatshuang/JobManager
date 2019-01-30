@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Newcats.JobManager.Common.NetCore.Entity;
-using Newcats.JobManager.Host.NetCore.Service;
+using Newcats.JobManager.Common.Entity;
+using Newcats.JobManager.Host.Service;
 using Quartz;
 
-namespace Newcats.JobManager.Host.NetCore.Manager
+namespace Newcats.JobManager.Host.Manager
 {
     /// <summary>
     /// 监听器,写Job运行日志

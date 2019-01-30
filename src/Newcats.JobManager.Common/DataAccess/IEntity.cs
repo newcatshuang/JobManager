@@ -1,4 +1,4 @@
-﻿namespace Newcats.JobManager.Common.NetCore.DataAccess
+﻿namespace Newcats.JobManager.Common.DataAccess
 {
     /// <summary>
     /// 标记接口，无实现

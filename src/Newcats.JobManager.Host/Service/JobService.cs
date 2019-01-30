@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Transactions;
-using Newcats.JobManager.Common.NetCore.DataAccess;
-using Newcats.JobManager.Common.NetCore.Entity;
+using Newcats.JobManager.Common.DataAccess;
+using Newcats.JobManager.Common.Entity;
 
-namespace Newcats.JobManager.Host.NetCore.Service
+namespace Newcats.JobManager.Host.Service
 {
     public class JobService
     {

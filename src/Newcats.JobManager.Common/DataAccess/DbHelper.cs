@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Dapper;
 
-namespace Newcats.JobManager.Common.NetCore.DataAccess
+namespace Newcats.JobManager.Common.DataAccess
 {
     /// <summary>
     /// DbParameter帮助类

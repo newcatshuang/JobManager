@@ -2,6 +2,9 @@
 
 namespace Newcats.JobManager.Api.Models.Requests
 {
+    /// <summary>
+    /// 文件选项卡请求参数
+    /// </summary>
     public class FileListRequest : PageRequest
     {
         /// <summary>

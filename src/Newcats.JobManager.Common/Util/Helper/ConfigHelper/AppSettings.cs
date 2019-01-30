@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.Extensions.Configuration;
 
-namespace Newcats.JobManager.Common.NetCore.Util.Helper.ConfigHelper
+namespace Newcats.JobManager.Common.Util.Helper.ConfigHelper
 {
     /// <summary>
     /// 应用程序执行目录下的appsettings.json配置文件

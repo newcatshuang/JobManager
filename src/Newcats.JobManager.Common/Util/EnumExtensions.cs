@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace Newcats.JobManager.Common.NetCore.Util
+namespace Newcats.JobManager.Common.Util
 {
     public static class EnumExtensions
     {

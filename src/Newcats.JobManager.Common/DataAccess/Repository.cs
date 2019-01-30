@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 
-namespace Newcats.JobManager.Common.NetCore.DataAccess
+namespace Newcats.JobManager.Common.DataAccess
 {
     /// <summary>
     /// 1.仓储实现类,提供数据库访问能力,封装了基本的CRUD方法。

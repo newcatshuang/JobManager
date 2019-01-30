@@ -1,4 +1,4 @@
-﻿namespace Newcats.JobManager.Common.NetCore.DenpendencyInjection
+﻿namespace Newcats.JobManager.Common.DenpendencyInjection
 {
     /// <summary>
     /// 上下文

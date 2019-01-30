@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newcats.JobManager.Api.Domain.Entity;
 using Newcats.JobManager.Api.Domain.IService;
-using Newcats.JobManager.Common.NetCore.DataAccess;
-using Newcats.JobManager.Common.NetCore.Entity;
+using Newcats.JobManager.Common.DataAccess;
+using Newcats.JobManager.Common.Entity;
 
 namespace Newcats.JobManager.Api.Domain.Service
 {
@@ -21,26 +21,57 @@ namespace Newcats.JobManager.Api.Domain.Service
             _logInfoRepository = logInfo;
         }
 
+        /// <summary>
+        /// 插入一条JonInfo记录
+        /// </summary>
+        /// <param name="jobInfoEntity">JonInfo记录</param>
+        /// <returns>是否成功</returns>
         public async Task<bool> InsertJobInfoAsync(JobInfoEntity jobInfoEntity)
         {
             return await _jobRepository.InsertAsync(jobInfoEntity) > 0;
         }
 
+        /// <summary>
+        /// 根据主键，更新Job状态
+        /// </summary>
+        /// <param name="jobId">主键Id</param>
+        /// <param name="jobState">状态</param>
+        /// <returns>是否成功</returns>
         public async Task<bool> UpdateJobStateAsync(int jobId, JobState jobState)
         {
             return await _jobRepository.UpdateAsync(jobId, new List<DbUpdate<JobInfoEntity>> { new DbUpdate<JobInfoEntity>(j => j.State, jobState) }) > 0;
         }
 
+        /// <summary>
+        /// 根据主键，更新一条JonInfo记录
+        /// </summary>
+        /// <param name="jobId">主键</param>
+        /// <param name="dbUpdates">要更新的数据</param>
+        /// <returns>是否成功</returns>
         public async Task<bool> UpdateJobAsync(int jobId, IEnumerable<DbUpdate<JobInfoEntity>> dbUpdates)
         {
             return await _jobRepository.UpdateAsync(jobId, dbUpdates) > 0;
         }
 
+        /// <summary>
+        /// 分页获取JobInfo实体集合
+        /// </summary>
+        /// <param name="pageIndex">页索引</param>
+        /// <param name="pageSize">页大小</param>
+        /// <param name="dbWheres">筛选条件</param>
+        /// <param name="commandTimeout">超时时间</param>
+        /// <param name="dbOrderBy">排序条件</param>
+        /// <returns>JobInfo实体集合</returns>
         public async Task<(IEnumerable<JobInfoEntity> list, int totalCount)> GetJobsAsync(int pageIndex, int pageSize, IEnumerable<DbWhere<JobInfoEntity>> dbWheres = null, int? commandTimeout = null, params DbOrderBy<JobInfoEntity>[] dbOrderBy)
         {
             return await _jobRepository.GetPageAsync(pageIndex, pageSize, dbWheres, commandTimeout, dbOrderBy);
         }
 
+        /// <summary>
+        /// 根据主键Id,获取一个JobInfo实体
+        /// </summary>
+        /// <param name="jobId">主键</param>
+        /// <returns>JobInfo实体</returns>
         public async Task<JobInfoEntity> GetJobAsync(int jobId)
         {
             return await _jobRepository.GetAsync(jobId);
@@ -94,6 +125,15 @@ namespace Newcats.JobManager.Api.Domain.Service
             return await _logRepository.GetTopAsync(top, dbWheres: new List<DbWhere<JobLogEntity>>() { new DbWhere<JobLogEntity>(j => j.JobId, jobId) }, dbOrderBy: new DbOrderBy<JobLogEntity>(j => j.CreateTime, SortType.DESC));
         }
 
+        /// <summary>
+        /// 分页获取JobLog实体集合
+        /// </summary>
+        /// <param name="pageIndex">页索引</param>
+        /// <param name="pageSize">页大小</param>
+        /// <param name="dbWheres">筛选条件</param>
+        /// <param name="commandTimeout">超时时间</param>
+        /// <param name="dbOrderBy">排序条件</param>
+        /// <returns>JobLog实体集合</returns>
         public async Task<(IEnumerable<LogInfoEntity> list, int totalCount)> GetLogsAsync(int pageIndex, int pageSize, IEnumerable<DbWhere<LogInfoEntity>> dbWheres = null, int? commandTimeout = null, params DbOrderBy<LogInfoEntity>[] dbOrderBy)
         {
             return await _logInfoRepository.GetPageAsync(pageIndex, pageSize, dbWheres, commandTimeout, dbOrderBy);

@@ -6,7 +6,7 @@ using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Matchers;
 
-namespace Newcats.JobManager.Host.NetCore.Manager
+namespace Newcats.JobManager.Host.Manager
 {
     public class ServiceRunner : IHostedService
     {

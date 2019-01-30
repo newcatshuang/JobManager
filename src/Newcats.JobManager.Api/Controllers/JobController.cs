@@ -11,9 +11,9 @@ using Newcats.JobManager.Api.Domain.Entity;
 using Newcats.JobManager.Api.Domain.IService;
 using Newcats.JobManager.Api.Models;
 using Newcats.JobManager.Api.Models.Requests;
-using Newcats.JobManager.Common.NetCore.DataAccess;
-using Newcats.JobManager.Common.NetCore.Entity;
-using Newcats.JobManager.Common.NetCore.Util;
+using Newcats.JobManager.Common.DataAccess;
+using Newcats.JobManager.Common.Entity;
+using Newcats.JobManager.Common.Util;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Newcats.JobManager.Api.Controllers
@@ -206,7 +206,7 @@ namespace Newcats.JobManager.Api.Controllers
                 return ToFailResult(-5, $"特定的程序集名称和类名不允许重复！(程序集名称={jobInfo.AssemblyName})（类名={jobInfo.ClassName}）");
             if (string.IsNullOrWhiteSpace(jobInfo.CronExpression))
                 return ToFailResult(-6, "Cron表达式不能为空！");
-            if (!Common.NetCore.Util.Helper.CronHelper.CronExpression.IsValidExpression(jobInfo.CronExpression))
+            if (!Common.Util.Helper.CronHelper.CronExpression.IsValidExpression(jobInfo.CronExpression))
                 return ToFailResult(-7, "Cron表达式非法！");
             bool success = await _jobService.InsertJobInfoAsync(jobInfo);
             if (success)
@@ -238,7 +238,7 @@ namespace Newcats.JobManager.Api.Controllers
                 return ToFailResult(-5, $"特定的程序集名称和类名不允许修改！(程序集名称={jobInfo.AssemblyName})（类名={jobInfo.ClassName}）");
             if (string.IsNullOrWhiteSpace(jobInfo.CronExpression))
                 return ToFailResult(-6, "Cron表达式不能为空！");
-            if (!Common.NetCore.Util.Helper.CronHelper.CronExpression.IsValidExpression(jobInfo.CronExpression))
+            if (!Common.Util.Helper.CronHelper.CronExpression.IsValidExpression(jobInfo.CronExpression))
                 return ToFailResult(-7, "Cron表达式非法！");
             bool success = await _jobService.ModifyJobAsync(jobInfo);
             if (success)
@@ -479,6 +479,7 @@ namespace Newcats.JobManager.Api.Controllers
 
         /// <summary>
         /// 根据搜索条件，获取JobHost目录下的所有文件
+        /// 默认不显示api-ms/Microsoft/System开头的文件
         /// </summary>
         /// <param name="request">搜索条件</param>
         /// <returns>文件信息集合</returns>
@@ -564,7 +565,7 @@ namespace Newcats.JobManager.Api.Controllers
                     retRow.Add(item.LastWriteTime);//写入时间
 
                     StringBuilder btnHtml = new StringBuilder();
-                    btnHtml.AppendFormat("<a class='btn btn-xs btn-success' traget='_blank' href='{0}/api/Job/Download/{1}'><i class='fa fa-cloud-download'>下载</i></a>", url, Common.NetCore.Util.Encrypt.Encrypt.MD5By32(item.FullName));
+                    btnHtml.AppendFormat("<a class='btn btn-xs btn-success' traget='_blank' href='{0}/api/Job/Download/{1}'><i class='fa fa-cloud-download'>下载</i></a>", url, Common.Util.Encrypt.Encrypt.MD5By32(item.FullName));
                     retRow.Add(btnHtml.ToString());
                     retTable.Add(retRow.ToArray());
                     #endregion
@@ -586,7 +587,7 @@ namespace Newcats.JobManager.Api.Controllers
         {
             FileInfo[] list = GetHostDirectoryInfo().GetFiles();
 
-            FileInfo file = list.Where(f => Common.NetCore.Util.Encrypt.Encrypt.MD5By32(f.FullName).Equals(fileName)).FirstOrDefault();
+            FileInfo file = list.Where(f => Common.Util.Encrypt.Encrypt.MD5By32(f.FullName).Equals(fileName)).FirstOrDefault();
             FileStream fs = new FileStream(file.FullName, FileMode.Open, FileAccess.ReadWrite);
             return File(fs, "application/octet-stream", file.Name, false);
         }

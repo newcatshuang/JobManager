@@ -4,13 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Newcats.JobManager.Common.NetCore.Entity;
-using Newcats.JobManager.Host.NetCore.Service;
+using Newcats.JobManager.Common.Entity;
+using Newcats.JobManager.Host.Service;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Triggers;
 
-namespace Newcats.JobManager.Host.NetCore.Manager
+namespace Newcats.JobManager.Host.Manager
 {
     public class QuartzManager
     {
