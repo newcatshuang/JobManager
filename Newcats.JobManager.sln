@@ -9,9 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Application
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newcats.JobManager.Api", "src\Newcats.JobManager.Api\Newcats.JobManager.Api.csproj", "{13F9AC12-F8B6-408D-8B26-551C98F5A22F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newcats.JobManager.Host", "src\Newcats.JobManager.Host.NetCore\Newcats.JobManager.Host.csproj", "{E6A41379-A672-4456-AFB9-410842AD6258}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newcats.JobManager.Host", "src\Newcats.JobManager.Host\Newcats.JobManager.Host.csproj", "{E6A41379-A672-4456-AFB9-410842AD6258}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newcats.JobManager.Common", "src\Newcats.JobManager.Common.NetCore\Newcats.JobManager.Common.csproj", "{6153553C-AEAC-4CD6-B16C-B0409DDDB451}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newcats.JobManager.Common", "src\Newcats.JobManager.Common\Newcats.JobManager.Common.csproj", "{6153553C-AEAC-4CD6-B16C-B0409DDDB451}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newcats.System.Job.DeleteSystemLog", "src\Newcats.System.Job.DeleteSystemLog\Newcats.System.Job.DeleteSystemLog.csproj", "{18F571BC-F4F9-403F-B272-B7AE0CA76F49}"
 EndProject
