@@ -5,6 +5,9 @@ using Topshelf;
 
 namespace Newcats.JobManager.Host.NetCore
 {
+    /// <summary>
+    /// 必须使用发布命令：dotnet publish -c Release -r win-x64
+    /// </summary>
     class Program
     {
         static void Main(string[] args)
