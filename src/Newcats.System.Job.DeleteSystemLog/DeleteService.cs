@@ -17,6 +17,10 @@ namespace Newcats.System.Job.DeleteSystemLog
             _jobRepository = new Repository<JobInfoEntity, int>();
         }
 
+        /// <summary>
+        /// 删除一个月前的JobLevel.System级的JobLog
+        /// </summary>
+        /// <returns>是否成功</returns>
         public bool DeleteSystemLog()
         {
             IEnumerable<JobInfoEntity> jobs = _jobRepository.GetAll(new List<DbWhere<JobInfoEntity>>()

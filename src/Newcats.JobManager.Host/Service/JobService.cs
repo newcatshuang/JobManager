@@ -19,6 +19,11 @@ namespace Newcats.JobManager.Host.Service
             _logRepository = new Repository<JobLogEntity, long>();
         }
 
+        /// <summary>
+        /// 获取允许进行调度的JobInfo
+        /// Disabled=false&&JobState=Starting/Stopping/Updating/FireNow
+        /// </summary>
+        /// <returns>JobInfo集合</returns>
         public IEnumerable<JobInfoEntity> GetAllowScheduleJobs()
         {
             List<DbWhere<JobInfoEntity>> dbWheres = new List<DbWhere<JobInfoEntity>>
@@ -29,16 +34,33 @@ namespace Newcats.JobManager.Host.Service
             return _jobRepository.GetAll(dbWheres, null, new DbOrderBy<JobInfoEntity>(j => j.CreateTime, SortType.ASC));
         }
 
+        /// <summary>
+        /// 更新Job状态
+        /// </summary>
+        /// <param name="jobId">主键</param>
+        /// <param name="jobState">JobState</param>
+        /// <returns>是否成功</returns>
         public bool UpdateJobState(int jobId, JobState jobState)
         {
             return _jobRepository.Update(jobId, new List<DbUpdate<JobInfoEntity>> { new DbUpdate<JobInfoEntity>(j => j.State, jobState) }) > 0;
         }
 
+        /// <summary>
+        /// 插入一条JobLog
+        /// </summary>
+        /// <param name="logEntity">JobLog实体</param>
+        /// <returns>是否成功</returns>
         public bool InsertLog(JobLogEntity logEntity)
         {
             return _logRepository.Insert(logEntity) > 0;
         }
 
+        /// <summary>
+        /// 更新Job执行结果（插入日志，更新上次/下次执行时间，执行次数）（事务）
+        /// </summary>
+        /// <param name="nextFireTime">下次执行时间</param>
+        /// <param name="logEntity">JobLog实体</param>
+        /// <returns>是否成功</returns>
         public bool UpdateJobFireResult(DateTime nextFireTime, JobLogEntity logEntity)
         {
             int r = 0;
@@ -74,11 +96,21 @@ namespace Newcats.JobManager.Host.Service
             return _jobRepository.Get(dbWheres, dbOrderBy: new DbOrderBy<JobInfoEntity>(j => j.Id));
         }
 
+        /// <summary>
+        /// 插入一条JobInfo记录
+        /// </summary>
+        /// <param name="jobInfoEntity">JobInfo实体</param>
+        /// <returns>主键Id</returns>
         public int InsertJob(JobInfoEntity jobInfoEntity)
         {
             return _jobRepository.Insert(jobInfoEntity);
         }
 
+        /// <summary>
+        /// 启动系统主Job
+        /// </summary>
+        /// <param name="systemJobId">主键</param>
+        /// <returns>是否成功</returns>
         public bool SetSystemJobAvailable(int systemJobId)
         {
             List<DbUpdate<JobInfoEntity>> dbUpdates = new List<DbUpdate<JobInfoEntity>>
