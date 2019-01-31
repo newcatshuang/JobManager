@@ -86,7 +86,7 @@ namespace Newcats.JobManager.Api.Domain.Service
             List<DbWhere<JobInfoEntity>> dbWheres = new List<DbWhere<JobInfoEntity>>
             {
                 new DbWhere<JobInfoEntity>(j => j.JobLevel, JobLevel.System),
-                new DbWhere<JobInfoEntity>(j => j.AssemblyName, "Newcats.JobManager.Host.exe"),
+                new DbWhere<JobInfoEntity>(j => j.AssemblyName, "Newcats.JobManager.Host.dll"),
                 new DbWhere<JobInfoEntity>(j => j.ClassName, "Newcats.JobManager.Host.Manager.SystemJob")
             };
             return await _jobRepository.GetAsync(dbWheres, dbOrderBy: new DbOrderBy<JobInfoEntity>(o => o.Id));

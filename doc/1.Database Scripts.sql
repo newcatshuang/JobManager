@@ -49,7 +49,7 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'描述' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobInfo', @level2type=N'COLUMN',@level2name=N'Description'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'程序集名称(所属程序集)(例:Newcats.JobManager.Host.exe)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobInfo', @level2type=N'COLUMN',@level2name=N'AssemblyName'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'程序集名称(所属程序集)(例:Newcats.JobManager.Host.dll)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobInfo', @level2type=N'COLUMN',@level2name=N'AssemblyName'
 GO
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'类名(完整命名空间的类名)(例:Newcats.JobManager.Host.Manager.SystemJob)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'JobInfo', @level2type=N'COLUMN',@level2name=N'ClassName'
