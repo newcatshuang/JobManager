@@ -81,6 +81,7 @@ namespace Newcats.JobManager.Host.Manager
                     }
                 }
             }
+            //CheckRunningJobs(scheduler);//数据量大了之后，可能会加重数据库的负担，先尝试关闭的时候把running的状态改为starting
         }
 
         /// <summary>
@@ -221,6 +222,33 @@ namespace Newcats.JobManager.Host.Manager
             {
                 new JobService().SetSystemJobAvailable(job.Id);
             }
+        }
+
+        /// <summary>
+        /// 操作系统重启之后，正在运行的job状态不会改变，导致其不会加入到调度管理器
+        /// </summary>
+        /// <param name="scheduler"></param>
+        private static async void CheckRunningJobs(IScheduler scheduler)
+        {
+            IEnumerable<JobInfoEntity> list = new JobService().GetAllRunningJobs();
+            if (list == null || !list.Any())
+                return;
+            foreach (JobInfoEntity jobInfo in list)
+            {
+                JobKey jobKey = new JobKey(jobInfo.Id.ToString(), jobInfo.Id.ToString() + "Group");
+                if (await scheduler.CheckExists(jobKey))//已存在调度器中
+                    continue;
+
+                ManagerJob(scheduler, jobInfo);//添加job到调度器
+            }
+        }
+
+        /// <summary>
+        /// windows服务停止或意外关闭时，需要把正在运行的Job状态改为Starting，以便重启后重新加入调度器
+        /// </summary>
+        public static void SchedulerStopping()
+        {
+            new JobService().SetRunningJobStarting();
         }
     }
 }

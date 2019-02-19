@@ -121,5 +121,37 @@ namespace Newcats.JobManager.Host.Service
 
             return _jobRepository.Update(systemJobId, dbUpdates) > 0;
         }
+
+        /// <summary>
+        /// 获取所有正在运行的未禁用Job
+        /// </summary>
+        /// <returns>JobInfo集合</returns>
+        public IEnumerable<JobInfoEntity> GetAllRunningJobs()
+        {
+            List<DbWhere<JobInfoEntity>> dbWheres = new List<DbWhere<JobInfoEntity>>
+            {
+                new DbWhere<JobInfoEntity>(j => j.Disabled, false),
+                new DbWhere<JobInfoEntity>(j=>j.State,JobState.Running)
+            };
+            return _jobRepository.GetAll(dbWheres, null, new DbOrderBy<JobInfoEntity>(j => j.CreateTime, SortType.ASC));
+        }
+
+        /// <summary>
+        /// 把正在运行的Job状态改为Starting
+        /// </summary>
+        public void SetRunningJobStarting()
+        {
+            List<DbWhere<JobInfoEntity>> dbWheres = new List<DbWhere<JobInfoEntity>>
+            {
+                new DbWhere<JobInfoEntity>(j => j.Disabled, false),
+                new DbWhere<JobInfoEntity>(j=>j.State,JobState.Running)
+            };
+            List<DbUpdate<JobInfoEntity>> dbUpdates = new List<DbUpdate<JobInfoEntity>>
+            {
+                new DbUpdate<JobInfoEntity>(j=>j.State,JobState.Starting)
+            };
+
+            _jobRepository.Update(dbWheres, dbUpdates);
+        }
     }
 }

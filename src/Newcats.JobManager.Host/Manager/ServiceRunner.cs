@@ -71,6 +71,7 @@ namespace Newcats.JobManager.Host.Manager
 
             try
             {
+                QuartzManager.SchedulerStopping();
                 await _scheduler.Shutdown(true);
             }
             catch (Exception e)
