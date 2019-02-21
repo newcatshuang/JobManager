@@ -43,6 +43,7 @@ namespace Newcats.JobManager.Api
                 builder.AllowAnyHeader()
                        .AllowAnyMethod()
                        .WithOrigins(Configuration.GetValue<string>("CorsOrigins"))
+                       //.AllowAnyOrigin()//Origin和Credential不能同时为any
                        .AllowCredentials();
             }));
 
