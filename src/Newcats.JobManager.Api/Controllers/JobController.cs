@@ -378,17 +378,17 @@ namespace Newcats.JobManager.Api.Controllers
         /// <returns>执行结果</returns>
         [HttpPost]
         [SwaggerResponse(200, type: typeof(BaseResult))]
-        public async Task<IActionResult> UploadFile([FromForm] IFormFile dllFile)
+        public async Task<IActionResult> UploadFile(IFormFile dllFile)
         {
-            IFormFile file = HttpContext.Request.Form.Files[0];//方法的参数里面取到的dllFile=null，这里可以取到
-            string savedFileName = Path.Combine(GetHostDirectoryInfo().FullName, file.FileName);//保存在JobHost文件夹里的文件名
+            //IFormFile file = HttpContext.Request.Form.Files[0];//方法的参数里面取到的dllFile=null，这里可以取到
+            string savedFileName = Path.Combine(GetHostDirectoryInfo().FullName, dllFile.FileName);//保存在JobHost文件夹里的文件名
             try
             {
                 if (System.IO.File.Exists(savedFileName))
                     System.IO.File.Delete(savedFileName);
                 using (FileStream fs = new FileStream(savedFileName, FileMode.CreateNew))
                 {
-                    await file.CopyToAsync(fs);
+                    await dllFile.CopyToAsync(fs);
                 }
                 return ToSuccessResult("保存成功！");
             }
@@ -485,7 +485,7 @@ namespace Newcats.JobManager.Api.Controllers
         /// <returns>文件信息集合</returns>
         [HttpPost]
         [SwaggerResponse(200, type: typeof(TableResult))]
-        public IActionResult GetFileInfoList([FromForm] FileListRequest request)
+        public IActionResult GetFileInfoList([FromBody] FileListRequest request)
         {
             #region 获取数据
             FileInfo[] list = GetHostDirectoryInfo().GetFiles();
@@ -582,6 +582,7 @@ namespace Newcats.JobManager.Api.Controllers
         /// <param name="fileName">文件全路径MD5</param>
         /// <returns>文件流</returns>
         [HttpGet("{fileName}")]
+        [HttpPost("{fileName}")]
         [SwaggerResponse(200, type: typeof(FileResult))]
         public IActionResult Download(string fileName)
         {
