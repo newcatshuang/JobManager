@@ -64,7 +64,7 @@ namespace Newcats.JobManager.Host.Service
         public bool UpdateJobFireResult(DateTime nextFireTime, JobLogEntity logEntity)
         {
             int r = 0;
-            using (TransactionScope trans = new TransactionScope())
+            using (TransactionScope trans = TransactionScopeBuilder.CreateReadCommitted(false))
             {
                 JobInfoEntity job = _jobRepository.Get(logEntity.JobId);
                 r = _jobRepository.Update(logEntity.JobId, new List<DbUpdate<JobInfoEntity>>
