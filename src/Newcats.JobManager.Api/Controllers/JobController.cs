@@ -376,6 +376,7 @@ namespace Newcats.JobManager.Api.Controllers
         /// </summary>
         /// <param name="dllFile">文件</param>
         /// <returns>执行结果</returns>
+        [DisableRequestSizeLimit]
         [HttpPost]
         [SwaggerResponse(200, type: typeof(BaseResult))]
         public async Task<IActionResult> UploadFile(IFormFile dllFile)
