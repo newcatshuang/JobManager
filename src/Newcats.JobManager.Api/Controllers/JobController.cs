@@ -259,7 +259,7 @@ namespace Newcats.JobManager.Api.Controllers
         {
             IEnumerable<JobLogEntity> list = await _jobService.GetLatestJobLogs(jobId, 20);
             //if (list != null)
-                //return Json(list.Select(p => new { FireTime = p.FireTime, FireDuration = p.FireDuration, FireState = p.FireState.GetDescription(), Content = p.Content }));
+            //return Json(list.Select(p => new { FireTime = p.FireTime, FireDuration = p.FireDuration, FireState = p.FireState.GetDescription(), Content = p.Content }));
             return Json(list);
         }
 
@@ -549,7 +549,7 @@ namespace Newcats.JobManager.Api.Controllers
                 list = list.Skip(pageIndex * request.Length).Take(request.Length).ToArray();
             }
             #endregion
-            string url = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToString()}";
+            //string url = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToString()}";
             #region 返回数据
             List<object[]> retTable = new List<object[]>();
             if (list != null && list.Any())
@@ -567,7 +567,8 @@ namespace Newcats.JobManager.Api.Controllers
                     retRow.Add(item.LastWriteTime);//写入时间
 
                     StringBuilder btnHtml = new StringBuilder();
-                    btnHtml.AppendFormat("<a class='btn btn-xs btn-success' traget='_blank' href='{0}/api/Job/Download/{1}'><i class='fa fa-cloud-download'>下载</i></a>", url, Common.Util.Encrypt.Encrypt.MD5By32(item.FullName));
+                    //btnHtml.AppendFormat("<a class='btn btn-xs btn-success' traget='_blank' href='{0}/api/Job/Download/{1}'><i class='fa fa-cloud-download'>下载</i></a>", url, Common.Util.Encrypt.Encrypt.MD5By32(item.FullName));
+                    btnHtml.AppendFormat("<a class='btn btn-xs btn-success' traget='_blank' href='/JobManager/Download/{0}'><i class='fa fa-cloud-download'>下载</i></a>", Common.Util.Encrypt.Encrypt.MD5By32(item.FullName));
                     retRow.Add(btnHtml.ToString());
                     retTable.Add(retRow.ToArray());
                     #endregion
