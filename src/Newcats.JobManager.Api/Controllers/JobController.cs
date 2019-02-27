@@ -40,9 +40,9 @@ namespace Newcats.JobManager.Api.Controllers
         /// <param name="id">主键Id</param>
         /// <returns>JobInfo实体</returns>
         [HttpGet("{id}")]
-        [HttpPost("{id}")]
+        [HttpPost]
         [SwaggerResponse(200, type: typeof(BaseResult))]
-        public async Task<IActionResult> GetJob(int id)
+        public async Task<IActionResult> GetJob([FromBody] int id)
         {
             JobInfoEntity job = await _jobService.GetJobAsync(id);
             return ToSuccessResult(job);
