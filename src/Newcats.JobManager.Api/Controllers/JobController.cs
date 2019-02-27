@@ -40,6 +40,7 @@ namespace Newcats.JobManager.Api.Controllers
         /// <param name="id">主键Id</param>
         /// <returns>JobInfo实体</returns>
         [HttpGet("{id}")]
+        [HttpPost("{id}")]
         [SwaggerResponse(200, type: typeof(BaseResult))]
         public async Task<IActionResult> GetJob(int id)
         {
@@ -54,7 +55,7 @@ namespace Newcats.JobManager.Api.Controllers
         /// <returns>JobInfo实体集合</returns>
         [HttpPost]
         [SwaggerResponse(200, type: typeof(TableResult))]
-        public async Task<IActionResult> GetJobList([FromForm] JobListRequest request)
+        public async Task<IActionResult> GetJobList([FromBody] JobListRequest request)
         {
             #region 筛选条件
             List<DbWhere<JobInfoEntity>> dbWheres = new List<DbWhere<JobInfoEntity>>();
@@ -190,7 +191,7 @@ namespace Newcats.JobManager.Api.Controllers
         /// <returns>执行结果</returns>
         [HttpPost]
         [SwaggerResponse(200, type: typeof(BaseResult))]
-        public async Task<IActionResult> AddJob([FromForm] JobInfoEntity jobInfo)
+        public async Task<IActionResult> AddJob([FromBody] JobInfoEntity jobInfo)
         {
             JobInfoEntity job = await _jobService.GetJobAsync(jobInfo.Id);
             if (job != null)
@@ -222,7 +223,7 @@ namespace Newcats.JobManager.Api.Controllers
         /// <returns>执行结果</returns>
         [HttpPost]
         [SwaggerResponse(200, type: typeof(BaseResult))]
-        public async Task<IActionResult> ModifyJob([FromForm] JobInfoEntity jobInfo)
+        public async Task<IActionResult> ModifyJob([FromBody] JobInfoEntity jobInfo)
         {
             JobInfoEntity job = await _jobService.GetJobAsync(jobInfo.Id);
             if (job == null)
@@ -254,11 +255,11 @@ namespace Newcats.JobManager.Api.Controllers
         /// <returns>JobLogEntity集合</returns>
         [HttpPost]
         [SwaggerResponse(200, type: typeof(JobLogEntity))]
-        public async Task<IActionResult> GetLatestJobLogs([FromForm] int jobId)
+        public async Task<IActionResult> GetLatestJobLogs([FromBody] int jobId)
         {
             IEnumerable<JobLogEntity> list = await _jobService.GetLatestJobLogs(jobId, 20);
-            if (list != null)
-                return Json(list.Select(p => new { FireTime = p.FireTime, FireDuration = p.FireDuration, FireState = p.FireState.GetDescription(), Content = p.Content }));
+            //if (list != null)
+                //return Json(list.Select(p => new { FireTime = p.FireTime, FireDuration = p.FireDuration, FireState = p.FireState.GetDescription(), Content = p.Content }));
             return Json(list);
         }
 
@@ -269,7 +270,7 @@ namespace Newcats.JobManager.Api.Controllers
         /// <returns>执行结果</returns>
         [HttpPost]
         [SwaggerResponse(200, type: typeof(BaseResult))]
-        public async Task<IActionResult> EnableJob([FromForm] int jobId)
+        public async Task<IActionResult> EnableJob([FromBody] int jobId)
         {
             JobInfoEntity job = await _jobService.GetJobAsync(jobId);
             if (job == null)
@@ -290,7 +291,7 @@ namespace Newcats.JobManager.Api.Controllers
         /// <returns>执行结果</returns>
         [HttpPost]
         [SwaggerResponse(200, type: typeof(BaseResult))]
-        public async Task<IActionResult> DisableJob([FromForm] int jobId)
+        public async Task<IActionResult> DisableJob([FromBody] int jobId)
         {
             JobInfoEntity job = await _jobService.GetJobAsync(jobId);
             if (job == null)
@@ -313,7 +314,7 @@ namespace Newcats.JobManager.Api.Controllers
         /// <returns>执行结果</returns>
         [HttpPost]
         [SwaggerResponse(200, type: typeof(BaseResult))]
-        public async Task<IActionResult> StartJob([FromForm] int jobId)
+        public async Task<IActionResult> StartJob([FromBody] int jobId)
         {
             JobInfoEntity job = await _jobService.GetJobAsync(jobId);
             if (job == null)
@@ -334,7 +335,7 @@ namespace Newcats.JobManager.Api.Controllers
         /// <returns>执行结果</returns>
         [HttpPost]
         [SwaggerResponse(200, type: typeof(BaseResult))]
-        public async Task<IActionResult> StopJob([FromForm] int jobId)
+        public async Task<IActionResult> StopJob([FromBody] int jobId)
         {
             JobInfoEntity job = await _jobService.GetJobAsync(jobId);
             if (job == null)
@@ -357,7 +358,7 @@ namespace Newcats.JobManager.Api.Controllers
         /// <returns>执行结果</returns>
         [HttpPost]
         [SwaggerResponse(200, type: typeof(BaseResult))]
-        public async Task<IActionResult> FireNowJob([FromForm] int jobId)
+        public async Task<IActionResult> FireNowJob([FromBody] int jobId)
         {
             JobInfoEntity job = await _jobService.GetJobAsync(jobId);
             if (job == null)
@@ -406,7 +407,7 @@ namespace Newcats.JobManager.Api.Controllers
         /// <returns>JobLog实体集合</returns>
         [HttpPost]
         [SwaggerResponse(200, type: typeof(TableResult))]
-        public async Task<IActionResult> GetLogList([FromForm] LogListRequest request)
+        public async Task<IActionResult> GetLogList([FromBody] LogListRequest request)
         {
             #region 筛选条件
             List<DbWhere<LogInfoEntity>> dbWheres = new List<DbWhere<LogInfoEntity>>();
