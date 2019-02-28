@@ -37,15 +37,17 @@ namespace Newcats.JobManager.Api
                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
                 });
 
+            #region 此时通过HttpClient内网访问，可以不开启跨域
             //添加跨域
-            services.AddCors(opt => opt.AddPolicy("CorsPolicy", builder =>
-            {
-                builder.AllowAnyHeader()
-                       .AllowAnyMethod()
-                       .WithOrigins(Configuration.GetValue<string>("CorsOrigins"))
-                       //.AllowAnyOrigin()//Origin和Credential不能同时为any
-                       .AllowCredentials();
-            }));
+            //services.AddCors(opt => opt.AddPolicy("CorsPolicy", builder =>
+            //{
+            //    builder.AllowAnyHeader()
+            //           .AllowAnyMethod()
+            //           .WithOrigins(Configuration.GetValue<string>("CorsOrigins"))
+            //           //.AllowAnyOrigin()//Origin和Credential不能同时为any
+            //           .AllowCredentials();
+            //})); 
+            #endregion
 
             //注册Swagger生成器，定义一个和多个Swagger文档
             //注意：使用Swagger，必须为每个Controller的Action方法显示指定Route/HttpVerb
@@ -87,8 +89,10 @@ namespace Newcats.JobManager.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            #region 此时通过HttpClient内网访问，可以不开启跨域
             //启用跨域
-            app.UseCors("CorsPolicy");
+            //app.UseCors("CorsPolicy"); 
+            #endregion
 
             //启用中间件服务生成Swagger作为JSON终结点
             app.UseSwagger();
