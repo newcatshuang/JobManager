@@ -594,7 +594,7 @@ namespace Newcats.JobManager.Api.Controllers
             FileInfo[] list = GetHostDirectoryInfo().GetFiles();
 
             FileInfo file = list.Where(f => Common.Util.Encrypt.Encrypt.MD5By32(f.FullName).Equals(fileName)).FirstOrDefault();
-            FileStream fs = new FileStream(file.FullName, FileMode.Open, FileAccess.ReadWrite);
+            FileStream fs = new FileStream(file.FullName, FileMode.Open, FileAccess.ReadWrite);//此处不能使用using自动释放对象
             return File(fs, "application/octet-stream", file.Name, false);
         }
 
