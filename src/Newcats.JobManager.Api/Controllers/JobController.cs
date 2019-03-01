@@ -300,11 +300,13 @@ namespace Newcats.JobManager.Api.Controllers
                 return ToFailResult(-2, "系统级Job不允许禁用！");
             if (job.Disabled)
                 return ToFailResult(-3, "只有处于启用状态的Job才能禁用！");
+            if (job.State != JobState.Stopped)
+                return ToFailResult(-4, "禁用之前必须先停止Job!");
             bool success = await _jobService.UpdateJobAsync(jobId, new List<DbUpdate<JobInfoEntity>> { new DbUpdate<JobInfoEntity>(j => j.Disabled, true) });
             if (success)
                 return ToSuccessResult("禁用成功！");
             else
-                return ToFailResult(-4, "禁用失败，请刷新重试！");
+                return ToFailResult(-5, "禁用失败，请刷新重试！");
         }
 
         /// <summary>
