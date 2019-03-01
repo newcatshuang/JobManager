@@ -568,7 +568,8 @@ namespace Newcats.JobManager.Api.Controllers
 
                     StringBuilder btnHtml = new StringBuilder();
                     //btnHtml.AppendFormat("<a class='btn btn-xs btn-success' traget='_blank' href='{0}/api/Job/Download/{1}'><i class='fa fa-cloud-download'>下载</i></a>", url, Common.Util.Encrypt.Encrypt.MD5By32(item.FullName));
-                    btnHtml.AppendFormat("<a class='btn btn-xs btn-success' traget='_blank' href='/JobManager/Download/{0}'><i class='fa fa-cloud-download'>下载</i></a>", Common.Util.Encrypt.Encrypt.MD5By32(item.FullName));
+                    //btnHtml.AppendFormat("<a class='btn btn-xs btn-success' traget='_blank' href='/JobManager/Download/{0}'><i class='fa fa-cloud-download'>下载</i></a>", Common.Util.Encrypt.Encrypt.MD5By32(item.FullName));
+                    btnHtml.AppendFormat("<a class='btn btn-xs btn-success' href='javascript:;' onclick='downloadFile(\"{0}\",this)'><i class='fa fa-cloud-download'>下载</i></a>", Common.Util.Encrypt.Encrypt.MD5By32(item.FullName));
                     retRow.Add(btnHtml.ToString());
                     retTable.Add(retRow.ToArray());
                     #endregion
@@ -584,10 +585,9 @@ namespace Newcats.JobManager.Api.Controllers
         /// </summary>
         /// <param name="fileName">文件全路径MD5</param>
         /// <returns>文件流</returns>
-        [HttpGet("{fileName}")]
-        [HttpPost("{fileName}")]
+        [HttpPost]
         [SwaggerResponse(200, type: typeof(FileResult))]
-        public IActionResult Download(string fileName)
+        public IActionResult Download([FromBody] string fileName)
         {
             FileInfo[] list = GetHostDirectoryInfo().GetFiles();
 
