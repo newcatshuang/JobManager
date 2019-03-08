@@ -165,7 +165,7 @@ namespace Newcats.JobManager.Common.DataAccess
 
             string tableName = GetTableName(EntityType);
             string pkName = GetTablePrimaryKey(EntityType);
-            string sqlText = $" DELETE FROM {tableName} WHERE {pkName}=@p_1 ";
+            string sqlText = $" DELETE FROM {tableName} WHERE {pkName}=@p_1 ;";
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@p_1", primaryKeyValue);
             return Connection.Execute(sqlText, parameters, null, commandTimeout, CommandType.Text);
@@ -184,7 +184,7 @@ namespace Newcats.JobManager.Common.DataAccess
             DynamicParameters pars = DbHelper.GetWhereDynamicParameter(dbWheres, ref sqlWhere);
             if (!string.IsNullOrWhiteSpace(sqlWhere))
                 sqlWhere = $" WHERE 1=1 {sqlWhere} ";
-            string sqlText = $" DELETE FROM {tableName} {sqlWhere} ";
+            string sqlText = $" DELETE FROM {tableName} {sqlWhere} ;";
             return Connection.Execute(sqlText, pars, null, commandTimeout, CommandType.Text);
         }
 
@@ -207,7 +207,7 @@ namespace Newcats.JobManager.Common.DataAccess
             string sqlUpdate = "";
             DynamicParameters parameters = DbHelper.GetUpdateDynamicParameter(dbUpdates, ref sqlUpdate);
             parameters.Add("@" + pkName, primaryKeyValue);
-            string sqlText = $" UPDATE {tableName} SET {sqlUpdate} WHERE {pkName}=@{pkName} ";
+            string sqlText = $" UPDATE {tableName} SET {sqlUpdate} WHERE {pkName}=@{pkName} ;";
             return Connection.Execute(sqlText, parameters, null, commandTimeout, CommandType.Text);
         }
 
@@ -230,7 +230,7 @@ namespace Newcats.JobManager.Common.DataAccess
             string sqlUpdate = "";
             DynamicParameters updatePars = DbHelper.GetUpdateDynamicParameter(dbUpdates, ref sqlUpdate);
             wherePars.AddDynamicParams(updatePars);
-            string sqlText = $" UPDATE {tableName} SET {sqlUpdate} {sqlWhere} ";
+            string sqlText = $" UPDATE {tableName} SET {sqlUpdate} {sqlWhere} ;";
             return Connection.Execute(sqlText, wherePars, null, commandTimeout, CommandType.Text);
         }
 
@@ -248,7 +248,7 @@ namespace Newcats.JobManager.Common.DataAccess
             string tableName = GetTableName(EntityType);
             string pkName = GetTablePrimaryKey(EntityType);
             string fields = GetTableFieldsQuery(EntityType);
-            string sqlText = $" SELECT TOP 1 {fields} FROM {tableName} WHERE {pkName}=@p_1 ";
+            string sqlText = $" SELECT TOP 1 {fields} FROM {tableName} WHERE {pkName}=@p_1 ;";
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@p_1", primaryKeyValue);
             return Connection.QueryFirstOrDefault<TEntity>(sqlText, parameters, null, commandTimeout, CommandType.Text);
@@ -272,7 +272,7 @@ namespace Newcats.JobManager.Common.DataAccess
             string sqlOrderBy = DbHelper.GetOrderBySql(dbOrderBy);
             if (!string.IsNullOrWhiteSpace(sqlOrderBy))
                 sqlOrderBy = $" ORDER BY {sqlOrderBy} ";
-            string sqlText = $" SELECT TOP 1 {fields} FROM {tableName} {sqlWhere} {sqlOrderBy} ";
+            string sqlText = $" SELECT TOP 1 {fields} FROM {tableName} {sqlWhere} {sqlOrderBy} ;";
             return Connection.QueryFirstOrDefault<TEntity>(sqlText, parameters, null, commandTimeout, CommandType.Text);
         }
 
@@ -310,7 +310,7 @@ namespace Newcats.JobManager.Common.DataAccess
             {
                 if (pageIndex <= 0)
                 {
-                    sqlText = $" SELECT TOP {pageSize} {fields} FROM {tableName} {sqlWhere} {sqlOrderBy} ; SELECT @Row_Count=COUNT(1) FROM {tableName} {sqlWhere} ";
+                    sqlText = $" SELECT TOP {pageSize} {fields} FROM {tableName} {sqlWhere} {sqlOrderBy} ; SELECT @Row_Count=COUNT(1) FROM {tableName} {sqlWhere} ;";
                 }
                 else
                 {
@@ -397,12 +397,12 @@ namespace Newcats.JobManager.Common.DataAccess
             {
                 string sqlWhere = "";
                 DynamicParameters pars = DbHelper.GetWhereDynamicParameter(dbWheres, ref sqlWhere);
-                string sqlText = $" SELECT COUNT(1) FROM {tableName} WHERE 1=1 {sqlWhere} ";
+                string sqlText = $" SELECT COUNT(1) FROM {tableName} WHERE 1=1 {sqlWhere} ;";
                 return Connection.ExecuteScalar<int>(sqlText, pars, null, commandTimeout, CommandType.Text);
             }
             else
             {
-                string sqlText = $" SELECT COUNT(1) FROM {tableName} ";
+                string sqlText = $" SELECT COUNT(1) FROM {tableName} ;";
                 return Connection.ExecuteScalar<int>(sqlText, null, null, commandTimeout, CommandType.Text);
             }
         }
@@ -418,7 +418,7 @@ namespace Newcats.JobManager.Common.DataAccess
                 throw new ArgumentNullException(nameof(primaryKeyValue));
             string tableName = GetTableName(EntityType);
             string pkName = GetTablePrimaryKey(EntityType);
-            string sqlText = $" SELECT TOP 1 1 FROM {tableName} WHERE {pkName}=@p_1 ";
+            string sqlText = $" SELECT TOP 1 1 FROM {tableName} WHERE {pkName}=@p_1 ;";
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@p_1", primaryKeyValue);
             object o = Connection.ExecuteScalar(sqlText, parameters, null, null, CommandType.Text);
@@ -438,7 +438,7 @@ namespace Newcats.JobManager.Common.DataAccess
             string tableName = GetTableName(EntityType);
             string sqlWhere = "";
             DynamicParameters pars = DbHelper.GetWhereDynamicParameter(dbWheres, ref sqlWhere);
-            string sqlText = $" SELECT TOP 1 1 FROM {tableName} WHERE 1=1 {sqlWhere} ";
+            string sqlText = $" SELECT TOP 1 1 FROM {tableName} WHERE 1=1 {sqlWhere} ;";
             object o = Connection.ExecuteScalar(sqlText, pars, null, commandTimeout, CommandType.Text);
             if (o != null && o != DBNull.Value && Convert.ToInt32(o) == 1)
                 return true;
@@ -619,7 +619,7 @@ namespace Newcats.JobManager.Common.DataAccess
 
             string tableName = GetTableName(EntityType);
             string pkName = GetTablePrimaryKey(EntityType);
-            string sqlText = $" DELETE FROM {tableName} WHERE {pkName}=@p_1 ";
+            string sqlText = $" DELETE FROM {tableName} WHERE {pkName}=@p_1 ;";
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@p_1", primaryKeyValue);
             return await Connection.ExecuteAsync(sqlText, parameters, null, commandTimeout, CommandType.Text);
@@ -638,7 +638,7 @@ namespace Newcats.JobManager.Common.DataAccess
             DynamicParameters pars = DbHelper.GetWhereDynamicParameter(dbWheres, ref sqlWhere);
             if (!string.IsNullOrWhiteSpace(sqlWhere))
                 sqlWhere = $" WHERE 1=1 {sqlWhere} ";
-            string sqlText = $" DELETE FROM {tableName} {sqlWhere} ";
+            string sqlText = $" DELETE FROM {tableName} {sqlWhere} ;";
             return await Connection.ExecuteAsync(sqlText, pars, null, commandTimeout, CommandType.Text);
         }
 
@@ -661,7 +661,7 @@ namespace Newcats.JobManager.Common.DataAccess
             string sqlUpdate = "";
             DynamicParameters parameters = DbHelper.GetUpdateDynamicParameter(dbUpdates, ref sqlUpdate);
             parameters.Add("@" + pkName, primaryKeyValue);
-            string sqlText = $" UPDATE {tableName} SET {sqlUpdate} WHERE {pkName}=@{pkName} ";
+            string sqlText = $" UPDATE {tableName} SET {sqlUpdate} WHERE {pkName}=@{pkName} ;";
             return await Connection.ExecuteAsync(sqlText, parameters, null, commandTimeout, CommandType.Text);
         }
 
@@ -684,7 +684,7 @@ namespace Newcats.JobManager.Common.DataAccess
             string sqlUpdate = "";
             DynamicParameters updatePars = DbHelper.GetUpdateDynamicParameter(dbUpdates, ref sqlUpdate);
             wherePars.AddDynamicParams(updatePars);
-            string sqlText = $" UPDATE {tableName} SET {sqlUpdate} {sqlWhere} ";
+            string sqlText = $" UPDATE {tableName} SET {sqlUpdate} {sqlWhere} ;";
             return await Connection.ExecuteAsync(sqlText, wherePars, null, commandTimeout, CommandType.Text);
         }
 
@@ -702,7 +702,7 @@ namespace Newcats.JobManager.Common.DataAccess
             string tableName = GetTableName(EntityType);
             string pkName = GetTablePrimaryKey(EntityType);
             string fields = GetTableFieldsQuery(EntityType);
-            string sqlText = $" SELECT TOP 1 {fields} FROM {tableName} WHERE {pkName}=@p_1 ";
+            string sqlText = $" SELECT TOP 1 {fields} FROM {tableName} WHERE {pkName}=@p_1 ;";
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@p_1", primaryKeyValue);
             return await Connection.QueryFirstOrDefaultAsync<TEntity>(sqlText, parameters, null, commandTimeout, CommandType.Text);
@@ -726,7 +726,7 @@ namespace Newcats.JobManager.Common.DataAccess
             string sqlOrderBy = DbHelper.GetOrderBySql(dbOrderBy);
             if (!string.IsNullOrWhiteSpace(sqlOrderBy))
                 sqlOrderBy = $" ORDER BY {sqlOrderBy} ";
-            string sqlText = $" SELECT TOP 1 {fields} FROM {tableName} {sqlWhere} {sqlOrderBy} ";
+            string sqlText = $" SELECT TOP 1 {fields} FROM {tableName} {sqlWhere} {sqlOrderBy} ;";
             return await Connection.QueryFirstOrDefaultAsync<TEntity>(sqlText, parameters, null, commandTimeout, CommandType.Text);
         }
 
@@ -765,7 +765,7 @@ namespace Newcats.JobManager.Common.DataAccess
             {
                 if (pageIndex <= 0)
                 {
-                    sqlText = $" SELECT TOP {pageSize} {fields} FROM {tableName} {sqlWhere} {sqlOrderBy} ; SELECT @Row_Count=COUNT(1) FROM {tableName} {sqlWhere} ";
+                    sqlText = $" SELECT TOP {pageSize} {fields} FROM {tableName} {sqlWhere} {sqlOrderBy} ; SELECT @Row_Count=COUNT(1) FROM {tableName} {sqlWhere} ;";
                 }
                 else
                 {
@@ -852,12 +852,12 @@ namespace Newcats.JobManager.Common.DataAccess
             {
                 string sqlWhere = "";
                 DynamicParameters pars = DbHelper.GetWhereDynamicParameter(dbWheres, ref sqlWhere);
-                string sqlText = $" SELECT COUNT(1) FROM {tableName} WHERE 1=1 {sqlWhere} ";
+                string sqlText = $" SELECT COUNT(1) FROM {tableName} WHERE 1=1 {sqlWhere} ;";
                 return await Connection.ExecuteScalarAsync<int>(sqlText, pars, null, commandTimeout, CommandType.Text);
             }
             else
             {
-                string sqlText = $" SELECT COUNT(1) FROM {tableName} ";
+                string sqlText = $" SELECT COUNT(1) FROM {tableName} ;";
                 return await Connection.ExecuteScalarAsync<int>(sqlText, null, null, commandTimeout, CommandType.Text);
             }
         }
@@ -873,7 +873,7 @@ namespace Newcats.JobManager.Common.DataAccess
                 throw new ArgumentNullException(nameof(primaryKeyValue));
             string tableName = GetTableName(EntityType);
             string pkName = GetTablePrimaryKey(EntityType);
-            string sqlText = $" SELECT TOP 1 1 FROM {tableName} WHERE {pkName}=@p_1 ";
+            string sqlText = $" SELECT TOP 1 1 FROM {tableName} WHERE {pkName}=@p_1 ;";
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@p_1", primaryKeyValue);
             object o = await Connection.ExecuteScalarAsync(sqlText, parameters, null, null, CommandType.Text);
@@ -893,7 +893,7 @@ namespace Newcats.JobManager.Common.DataAccess
             string tableName = GetTableName(EntityType);
             string sqlWhere = "";
             DynamicParameters pars = DbHelper.GetWhereDynamicParameter(dbWheres, ref sqlWhere);
-            string sqlText = $" SELECT TOP 1 1 FROM {tableName} WHERE 1=1 {sqlWhere} ";
+            string sqlText = $" SELECT TOP 1 1 FROM {tableName} WHERE 1=1 {sqlWhere} ;";
             object o = await Connection.ExecuteScalarAsync(sqlText, pars, null, commandTimeout, CommandType.Text);
             if (o != null && o != DBNull.Value && Convert.ToInt32(o) == 1)
                 return true;
