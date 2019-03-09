@@ -149,7 +149,7 @@ namespace Newcats.JobManager.Host.Manager
                             Name = jobInfo.Id.ToString(),
                             Group = $"{jobInfo.Id}TriggerGroup",
                             Description = jobInfo.Description,
-                            TimeZone = TimeZoneInfo.Local,
+                            TimeZone = TimeZoneInfo.Local
                         };
 
                         await scheduler.ScheduleJob(job, trigger);
