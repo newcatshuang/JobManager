@@ -43,9 +43,9 @@ Newcats.JobManager是一个基于QuartzNet3.0构建的简易任务调度平台�
 
 ## 发布部署
 
-* <font color=yellow>Newcats.JobManager.Api</font> VS右键->发布->配置:Release/目标框架:netcoreapp2.2/部署模式:框架依赖/目标运行时:可移植
-* <font color=yellow>Newcats.JobManager.Host</font> 使用dotnet命令发布 ```dotnet publish -c Release -r win-x64```
-* <font color=yellow>Newcats.System.Job.DeleteSystemLog</font> 直接Release模式编译,生成类库dll即可
+* **`Newcats.JobManager.Api`** VS右键->发布->配置:Release/目标框架:netcoreapp2.2/部署模式:框架依赖/目标运行时:可移植
+* **`Newcats.JobManager.Host`** 使用dotnet命令发布 ```dotnet publish -c Release -r win-x64```
+* **`Newcats.System.Job.DeleteSystemLog`** 直接Release模式编译,生成类库dll即可
 
 1. 修改并执行`/doc/1.Database Scripts.sql`SQL脚本
 2. 新建JobManager文件夹,里面包含2个子文件夹JobApi,JobHost
@@ -113,7 +113,9 @@ The Install phase completed successfully, and the Commit phase is beginning.
 The Commit phase completed successfully.
 
 The transacted install has completed.
+```
 
+```cmd
 C:\>D:\JobManager\JobHost\Newcats.JobManager.Host.exe start
 Configuration Result:
 [Success] Name JobManagerHostServer
@@ -122,7 +124,9 @@ Configuration Result:
 [Success] ServiceName JobManagerHostServer
 Topshelf v4.2.0.194, .NET Framework v4.0.30319.42000
 The JobManagerHostServer service was started.
+```
 
+```cmd
 C:\>D:\JobManager\JobHost\Newcats.JobManager.Host.exe stop
 Configuration Result:
 [Success] Name JobManagerHostServer
@@ -131,7 +135,9 @@ Configuration Result:
 [Success] ServiceName JobManagerHostServer
 Topshelf v4.2.0.194, .NET Framework v4.0.30319.42000
 The JobManagerHostServer service was stopped.
+```
 
+```cmd
 C:\>D:\JobManager\JobHost\Newcats.JobManager.Host.exe uninstall
 Configuration Result:
 [Success] Name JobManagerHostServer
@@ -159,7 +165,7 @@ C:\>JobHost\
 ## 使用说明
 
 1. 在JobItems目录下面,新建NetStandard 2.0的类库项目
-2. 引用QuartzNet包, <font color=red>注意,版本号一定要和Host里面的版本一致(即和服务器版本一致)</font>  
+2. 引用QuartzNet包, **`注意,版本号一定要和Host里面的版本一致(即和服务器版本一致)`**  
 `Install-Package Quartz -Version 3.0.7`
 3. 新建类,实现`IJob`接口,业务逻辑写在`Execute`方法里面
 
@@ -192,21 +198,21 @@ C:\>JobHost\
 
 ## 操作说明
 
-* <font color=yellow>日志</font> 查看最近的20条运行日志
-* <font color=yellow>编辑</font> 修改Job信息,如果改了类名/程序集名/Cron表达式,需要先停止再启动,才能生效
-* <font color=yellow>启用</font> 把处于禁止状态的Job改为启用
-* <font color=yellow>禁用</font> 需要先停止,再禁用,禁用的Job不会再加入调度器
-* <font color=yellow>启动</font> 启动Job,如果不存在,会重新加入调度器
-* <font color=yellow>停止</font> 停止Job,会从调度器删除
-* <font color=yellow>执行一次</font> 不管调度计划如何,立即执行一次Job
+* **`日志`** 查看最近的20条运行日志
+* **`编辑`** 修改Job信息,如果改了类名/程序集名/Cron表达式,需要先停止再启动,才能生效
+* **`启用`** 把处于禁止状态的Job改为启用
+* **`禁用`** 需要先停止,再禁用,禁用的Job不会再加入调度器
+* **`启动`** 启动Job,如果不存在,会重新加入调度器
+* **`停止`** 停止Job,会从调度器删除
+* **`执行一次`** 不管调度计划如何,立即执行一次Job
 
 ---
 
 ## 注意事项
 
-* <font color=red>各个项目里面引用的包,一定要使用相同的版本号,必需和服务器使用的版本号一致</font>
-* <font color=red>升级项目的包版本一定要统一进行,更新服务器的所有包</font>
-* <font color=red>上传文件时,如果遇到同名文件,会先删除然后替换,一定注意</font>
+* **`各个项目里面引用的包,一定要使用相同的版本号,必需和服务器使用的版本号一致`**
+* **`升级项目的包版本一定要统一进行,更新服务器的所有包`**
+* **`上传文件时,如果遇到同名文件,会先删除然后替换,一定注意`**
 
 ---
 
