@@ -124,7 +124,11 @@ namespace Newcats.JobManager.Api.Controllers
                     retRow.Add($"{item.AssemblyName}<br/>{item.ClassName}");
                     retRow.Add(item.CronExpression);
                     retRow.Add(item.LastFireTime);
-                    retRow.Add(item.NextFireTime);
+                    //retRow.Add(item.NextFireTime);
+                    if (item.NextFireTime.HasValue && item.NextFireTime.Value < DateTime.Now)
+                        retRow.Add(item.NextFireTime.Value.ToString().GetSpanHtml(SpanColor.Warning));
+                    else
+                        retRow.Add(item.NextFireTime);
                     retRow.Add(item.FireCount);
                     switch (item.State)
                     {

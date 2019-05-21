@@ -81,7 +81,7 @@ namespace Newcats.JobManager.Host.Manager
                     }
                 }
             }
-            //CheckRunningJobs(scheduler);//数据量大了之后，可能会加重数据库的负担，先尝试关闭的时候把running的状态改为starting
+            CheckRunningJobs(scheduler);//数据量大了之后，可能会加重数据库的负担，先尝试关闭的时候把running的状态改为starting
         }
 
         /// <summary>
@@ -225,11 +225,15 @@ namespace Newcats.JobManager.Host.Manager
         }
 
         /// <summary>
+        /// 每半小时检查一次正在允许的Job是否存在调度器中
         /// 操作系统重启之后，正在运行的job状态不会改变，导致其不会加入到调度管理器
         /// </summary>
         /// <param name="scheduler"></param>
         private static async void CheckRunningJobs(IScheduler scheduler)
         {
+            if (DateTime.Now.Minute != 0 && DateTime.Now.Minute != 30)
+                return;
+
             IEnumerable<JobInfoEntity> list = new JobService().GetAllRunningJobs();
             if (list == null || !list.Any())
                 return;
