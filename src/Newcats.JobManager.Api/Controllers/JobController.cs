@@ -499,6 +499,10 @@ namespace Newcats.JobManager.Api.Controllers
             FileInfo[] list = GetHostDirectoryInfo().GetFiles();
             #endregion
 
+            string[] exceptFiles = new string[] { "clrcompression.dll", "clretwrc.dll", "clrjit.dll", "coreclr.dll", "dbgshim.dll", "hostfxr.dll", "hostpolicy.dll"
+            ,"mscordaccore.dll","mscordaccore_amd64_amd64_4.6.27414.05.dll","mscordbi.dll","mscorlib.dll","mscorrc.debug.dll","mscorrc.dll","netstandard.dll"
+            ,"sni.dll","sos.dll","SOS.NETCore.dll","sos_amd64_amd64_4.6.27414.05.dll","ucrtbase.dll","WindowsBase.dll"};//默认不显示的文件
+
             #region 搜索、排序、分页
             if (list != null && list.Any())
             {
@@ -517,11 +521,18 @@ namespace Newcats.JobManager.Api.Controllers
                 if (request.WriteTimeEnd.HasValue)
                     list = list.Where(f => f.LastWriteTime <= request.WriteTimeEnd).ToArray();
                 if (!request.ShowDefaultDLL)
+                {
                     list = list.Where(f => (
                     !f.Name.StartsWith("api-ms", StringComparison.OrdinalIgnoreCase)
                     && !f.Name.StartsWith("Microsoft", StringComparison.OrdinalIgnoreCase)
                     && !f.Name.StartsWith("System", StringComparison.OrdinalIgnoreCase)
                     )).ToArray();
+
+                    foreach (string item in exceptFiles)
+                    {
+                        list = list.Where(f => !f.Name.Equals(item, StringComparison.OrdinalIgnoreCase)).ToArray();
+                    }
+                }
 
                 int orderIndex = request.Order[0].Column;
                 bool isAsc = request.Order[0].Dir.Equals("asc", StringComparison.OrdinalIgnoreCase);
