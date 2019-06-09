@@ -526,6 +526,8 @@ namespace Newcats.JobManager.Api.Controllers
                     !f.Name.StartsWith("api-ms", StringComparison.OrdinalIgnoreCase)
                     && !f.Name.StartsWith("Microsoft", StringComparison.OrdinalIgnoreCase)
                     && !f.Name.StartsWith("System", StringComparison.OrdinalIgnoreCase)
+                    && !f.Name.StartsWith("mscordaccore_amd64_amd64", StringComparison.OrdinalIgnoreCase)
+                    && !f.Name.StartsWith("sos_amd64_amd64", StringComparison.OrdinalIgnoreCase)
                     )).ToArray();
 
                     foreach (string item in exceptFiles)
